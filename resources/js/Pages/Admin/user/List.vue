@@ -97,7 +97,7 @@
                             <div class="kt-badge kt-badge--xl kt-badge--success" getRandomVal>
                                 <span>{{ user.full_name.substr(0,1) }}</span>
                             </div>
-                        </div>
+                        </div> 
                         <div class="kt-user-card-v2__details">
                             <span class="kt-user-card-v2__name">{{user.full_name}}</span>
                             <a href="#" class="kt-user-card-v2__email kt-link">Member since
