@@ -41,7 +41,9 @@ class HandleInertiaRequests extends Middleware
                 'user'=> [
                     'full_name'=>auth()->user()->full_name ?? null,
                   ]
-                ]
+                ],
+            'baseUrl'=>url(),
+            'isLogin'=>auth()->user() ? true : false,
         ]);
     }
 }

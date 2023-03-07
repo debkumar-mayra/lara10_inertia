@@ -50,6 +50,18 @@
     </div> -->
 </template>
 <script setup>
+// import '/public/admin_assets/vendors/general/popper.js/dist/umd/popper.min.js';
+import '/public/admin_assets/vendors/general/bootstrap/dist/js/bootstrap.min.js';
+// import '/public/admin_assets/vendors/general/tooltip.js/dist/umd/tooltip.min.js';
+// import '/public/admin_assets/vendors/general/perfect-scrollbar/dist/perfect-scrollbar.min.js';
+// import '/public/admin_assets/vendors/general/sticky-js/dist/sticky.min.js';
+// import '/public/admin_assets/demo/default/base/scripts.bundle.min.js';
+// import '/public/admin_assets/app/bundle/app.bundle.min.js';
+// import '/public/admin_assets/custom/js/custom.js';
+
+
+
+
 import Nav from './Nav.vue';
 import Footer from './Footer.vue';
 import Header from './Header.vue';
@@ -59,11 +71,25 @@ import MobileNav from './MobileNav.vue';
 
 <style>
 
-@import '../../assets/admin_asset/css/style.css';
+/* @import '../../assets/admin_asset/css/style.css';
 @import '../../assets/admin_asset/css/skins/header/base/light.css';
 @import '../../assets/admin_asset/css/skins/header/menu/light.css';
-@import '../../assets/admin_asset/css/skins/brand/dark.css';
-@import '../../assets/admin_asset/css/skins/aside/dark.css';
+@import '../../assets/admin_asset/css/skins/brand/dark.css'; */
+@import '/public/admin_assets/vendors/general/perfect-scrollbar/css/perfect-scrollbar.min.rtl.css';
+@import '/public/admin_assets/vendors/general/bootstrap-select/dist/css/bootstrap-select.min.css';
+ @import '/public/admin_assets/vendors/general/socicon/css/socicon.css';
+@import '/public/admin_assets/vendors/custom/vendors/line-awesome/css/line-awesome.css';
+@import '/public/admin_assets/vendors/custom/vendors/flaticon/flaticon.css';
+@import '/public/admin_assets/vendors/custom/vendors/flaticon2/flaticon.css';
+@import '/public/admin_assets/vendors/custom/vendors/fontawesome5/css/all.min.css';
+@import '/public/admin_assets/demo/default/base/style.bundle.min.css';
+@import '/public/admin_assets/demo/default/skins/header/base/light.css';
+@import '/public/admin_assets/demo/default/skins/header/menu/light.css';
+@import '/public/admin_assets/demo/default/skins/brand/dark.css';
+@import '/public/admin_assets/demo/default/skins/aside/dark.css';
+@import '/public/admin_assets/vendors/custom/datatables/datatables.bundle.css';
+@import '/public/admin_assets/custom.css';
+
 /* @import '../../assets/admin_asset/js/bundle/app.bundle.js'; */
 /* @import './css/style.css'; */
 

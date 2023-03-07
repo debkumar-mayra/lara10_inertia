@@ -57,12 +57,12 @@
         <div id="kt_aside_menu" class="kt-aside-menu " data-ktmenu-vertical="1" data-ktmenu-scroll="1"
             data-ktmenu-dropdown-timeout="500">
             <ul class="kt-menu__nav ">
-                <li class="kt-menu__item  kt-menu__item--active"
+                <li class="kt-menu__item  " :class="{ 'kt-menu__item--active': $page.url === '/admin/dashboard' }"
                     aria-haspopup="true">
-                    <a href="{{ route('admin.dashboard') }}" class="kt-menu__link ">
+                        <Link href="/admin/dashboard" class="kt-menu__link ">
                         <i class="kt-menu__link-icon flaticon-home"></i>
                         <span class="kt-menu__link-text">Dashboard</span>
-                    </a>
+                        </Link>
                 </li>
 
                 <li class="kt-menu__section ">
@@ -72,12 +72,12 @@
                     </i>
                 </li>
 
-                <li class="kt-menu__item "
+                <li class="kt-menu__item " :class="{ 'kt-menu__item--active': $page.url === '/admin/users' }"
                     aria-haspopup="true">
-                    <a href="#" class="kt-menu__link ">
+                    <Link href="/admin/users" class="kt-menu__link " >
                         <i class="kt-menu__link-icon fa fa-users"></i>
                         <span class="kt-menu__link-text">Users</span>
-                    </a>
+                    </Link>
                 </li>
             </ul>
         </div>

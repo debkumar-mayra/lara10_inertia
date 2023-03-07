@@ -21,6 +21,7 @@
         <Link class="nav-link" href="/login">Login</Link>
       </li>
 
+<template v-if="$page.props.isLogin">
       <li class="nav-item">
         <Link class="nav-link" href="/dashboard">Dashboard</Link>
       </li>
@@ -32,7 +33,7 @@
       <li class="nav-item">
         <Link href="/logout" class="nav-link" method="post" as="button">Logout</Link>
       </li>
-
+</template>
 
      
     </ul>
