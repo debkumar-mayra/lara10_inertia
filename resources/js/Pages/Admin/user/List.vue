@@ -6,7 +6,16 @@
             <div class="row">
                 <div class="col-sm-12 col-md-6">
                     <div class="dataTables_length" id="kt_table_1_length">
-                        <!-- {{ $perPage }} -->
+                        <label>Show
+            <select class="form-control border-gray-200 custom-select custom-select-sm form-control form-control-sm" v-model="perPage" @change="setPage">
+    
+            <option value="5"> 5</option>  
+            <option value="10"> 10</option> 
+            <option value="20"> 20</option>  
+            <option value="50"> 50</option>
+            <option value="100"> 100</option>
+        </select> entries
+    </label>
                         
                     </div>
                 </div>
@@ -27,14 +36,14 @@
 
                             <tr role="row">
                             <th tabindex="0" aria-controls="kt_table_1" rowspan="1" colspan="1" style="width: 20%;" aria-sort="ascending" aria-label="Agent: activate to sort column descending">Name <i
-                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" wire:click="sortBy('first_name')"></i>
+                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="sortBy('first_name')"></i>
                             </th>
                             <th tabindex="0" aria-controls="kt_table_1" rowspan="1" colspan="1" style="width: 20%;"
                             aria-label="Company Email: activate to sort column ascending">Email <i
-                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" wire:click="sortBy('email')"></i></th>
+                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="sortBy('email')"></i></th>
                             <th tabindex="0" aria-controls="kt_table_1" rowspan="1" colspan="1" style="width: 20%;"
                             aria-label="Company Agent: activate to sort column ascending">Phone <i
-                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" wire:click="sortBy('phone')"></i></th>
+                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="sortBy('phone')"></i></th>
                             <th class="align-center" tabindex="0" aria-controls="kt_table_1" rowspan="1" colspan="1"
                             style="width: 15%;" aria-label="Status: activate to sort column ascending">Status</th>
                             <th class="align-center" rowspan="1" colspan="1" style="width: 25%;" aria-label="Actions">Actions</th>
@@ -42,21 +51,22 @@
 
 
 
+         
             <tr class="filter">
             <th>
-                <x-admin.input type="search" wire:model.defer="searchName" placeholder="" autocomplete="off"
+                <input type="search" v-model="form.searchName" placeholder="" autocomplete="off"
                     class="form-control-sm form-filter" />
             </th>
             <th>
-                <x-admin.input type="search" wire:model.defer="searchEmail" placeholder="" autocomplete="off"
+                <input type="search" v-model="form.searchEmail" placeholder="" autocomplete="off"
                     class="form-control-sm form-filter" />
             </th>
             <th>
-                <x-admin.input type="search" wire:model.defer="searchPhone" placeholder="" autocomplete="off"
+                <input type="search" v-model="form.searchPhone" placeholder="" autocomplete="off"
                     class="form-control-sm form-filter" />
             </th>
             <th>
-                <select class="form-control form-control-sm form-filter kt-input" wire:model.defer="searchStatus"
+                <select class="form-control form-control-sm form-filter kt-input" v-model="form.searchStatus"
                     title="Select" data-col-index="2">
                     <option value="-1">Select One</option>
                     <option value="1">Active</option>
@@ -66,7 +76,7 @@
             <th>
                 <div class="row justify-content-center align-items-center">
                     <div class="col-md-6">
-                    <button class="btn btn-brand kt-btn btn-sm kt-btn--icon button-fx" wire:click="search">
+                    <button class="btn btn-brand kt-btn btn-sm kt-btn--icon button-fx" @click="search">
                         <span>
                             <i class="la la-search"></i>
                             <span>Search</span>
@@ -74,7 +84,7 @@
                     </button>
                     </div>
                     <div class="col-md-6">
-                    <button class="btn btn-secondary kt-btn btn-sm kt-btn--icon button-fx" wire:click="resetSearch">
+                    <button class="btn btn-secondary kt-btn btn-sm kt-btn--icon button-fx" @click="resetSearch">
                         <span>
                             <i class="la la-close"></i>
                             <span>Reset</span>
@@ -84,13 +94,14 @@
                 </div>
             </th>
         </tr>
+  
 
 
                         </thead>
                         <tbody>
 
            
-                <tr role="row" class="odd" v-for="user in users.data" :key=user.id>
+                <tr role="row" class="odd" v-for="user in listData.data" :key=user.id>
                 <td class="sorting_1" tabindex="0">
                     <div class="kt-user-card-v2">
                         <div class="kt-user-card-v2__pic">
@@ -148,7 +159,8 @@
             </div>
             <div class="col-sm-12 col-md-7">
 
-                <Paginate :data=users />
+
+                <Paginate v-if="listData.last_page > 1" :data=listData />
 
                
             </div>
@@ -164,7 +176,13 @@
 
 <script setup>
 import Paginate from '../../../components/Paginate.vue'
-defineProps({ users: Object });
+import { router } from '@inertiajs/vue3'
+import { useForm } from '@inertiajs/vue3'
+import {ref,watch,reactive,onMounted} from 'vue';
+
+const props = defineProps({ users: Object, shortBy:String });
+const listData = ref({});
+listData.value = props.users;
 
 const getRandomVal = () => {
     let colors = ["success", "info", "warning", "dark", "primary"];
@@ -173,6 +191,87 @@ const getRandomVal = () => {
      return random;
 }
 
+const form = useForm({
+    searchName: null,
+    searchEmail: null,
+    searchPhone: null,
+    searchStatus: null
+})
+
+
+onMounted(() => {
+    form.searchName = params.get('name') || null;
+    form.searchEmail = params.get('email') || null;
+    form.searchPhone = params.get('phone') || null;
+    form.searchStatus = params.get('active') || null;
+    perPage.value = params.get('perPage') || 5;
+});
+
+let params = new URLSearchParams(window.location.search)
+
+const fieldName = ref('');
+
+const sortBy = (column) => {
+    let shortBy = params.get('shortBy') === 'asc' ? 'desc':'asc';
+    // console.log(shortBy);
+    router.reload({
+    method: 'get',
+    data: {fieldName:column ,shortBy: shortBy},
+    replace: true,
+    });
+}
+
+
+const resetSearch = () => {
+    router.visit('/admin/users', {
+    method: 'get'
+    });
+}
+
+const search = () => {
+    // console.log('search');
+    let data = {
+      name : form.searchName,
+      email : form.searchEmail,
+      phone : form.searchPhone,
+      active : form.searchStatus,
+    };
+   if(form.searchName == '' || form.searchName == null){
+     delete data.name
+   }
+
+   if(form.searchEmail == '' || form.searchEmail == null){
+     delete data.email
+   }
+   if(form.searchPhone == '' || form.searchPhone == null){
+     delete data.phone
+   }
+   if(form.searchStatus == '' || form.searchStatus == null){
+     delete data.active
+   }
+ 
+    router.visit('/admin/users', {
+    method: 'get',
+    data: data,
+    replace: false,
+    });
+}
+
+const perPage = ref(5);
+
+const setPage = () => {
+    router.reload({
+    method: 'get',
+    data: {perPage:perPage.value},
+    });
+}
+
+// watch(perPage, () => {
+//     router.reload({
+//     method: 'get',
+//     data: {perPage:perPage.value},
+//     });
+// });
 
 </script>
 <style lang="">

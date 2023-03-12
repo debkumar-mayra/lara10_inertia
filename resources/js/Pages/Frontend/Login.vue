@@ -17,7 +17,7 @@
                       <span class="text-danger" v-if="form.errors.password">{{ form.errors.password }}</span>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="submit" class="btn btn-primary"  :disabled="form.processing"> Login</button>
 
                 </form>
                 

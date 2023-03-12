@@ -1,5 +1,5 @@
 <template lang="">
-
+<loading v-model:active="isLoading" :can-cancel="true" :is-full-page="true" />
 <div class="kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--minimize">
 
 <!-- begin:: Page -->
@@ -67,6 +67,15 @@ import Footer from './Footer.vue';
 import Header from './Header.vue';
 import SubHeader from './SubHeader.vue';
 import MobileNav from './MobileNav.vue';
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
+import { onMounted,ref } from 'vue';
+
+const isLoading = ref(true);
+onMounted(() => {
+    isLoading.value = false;
+})
+
 </script>
 
 <style>

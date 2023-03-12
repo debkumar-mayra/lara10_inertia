@@ -16,6 +16,15 @@ window.service = Service;
 
 
 createInertiaApp({
+
+  progress: {
+    delay: 5,
+    color: '#29d',
+    includeCSS: true,
+    showSpinner: false,
+  },
+
+
   title: title => `${title} - My App`,
   resolve: async name => {
 
