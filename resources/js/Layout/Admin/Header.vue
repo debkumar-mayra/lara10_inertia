@@ -44,12 +44,12 @@
                 <span class="kt-header__topbar-welcome kt-hidden-mobile">Hi,</span>
                 <span
                     class="kt-header__topbar-username kt-hidden-mobile">{{$page.props.auth.user.full_name}}</span>
-                <img class="@if (!Auth::user()->profile_photo_url) kt-hidden @endif" alt="Pic"
-                    src="profile_photo_url" />
+                <img class="kt-hidden" alt="Pic"
+                    src="" />
 
                 <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
                 <span
-                    class="@if (Auth::user()->profile_photo_url) kt-hidden @endif kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold">AA</span>
+                    class=" kt-hidden kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold">AA</span>
             </div>
         </div>
         <div
@@ -59,12 +59,12 @@
             <div class="kt-user-card kt-user-card--skin-dark kt-notification-item-padding-x"
                 style="background-image:admin_assets/media/misc/bg-1.jpg">
                 <div class="kt-user-card__avatar">
-                    <img class="@if (!Auth::user()->profile_photo_url) kt-hidden @endif" alt="Pic"
-                        src="profile_photo_url" />
+                    <img class="kt-hidden" alt="Pic"
+                        src="" />
 
                     <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
                     <span
-                        class="@if (Auth::user()->profile_photo_url) kt-hidden @endif kt-badge kt-badge--lg kt-badge--rounded kt-badge--bold kt-font-success ">AA</span>
+                        class="kt-hidden kt-badge kt-badge--lg kt-badge--rounded kt-badge--bold kt-font-success ">AA</span>
                 </div>
                 <div class="kt-user-card__name">
                     {{$page.props.auth.user.full_name}}
@@ -78,7 +78,7 @@
 
             <!--begin: Navigation -->
             <div class="kt-notification">
-                <a href="{{ route('admin.profile') }}" class="kt-notification__item">
+                <a href="#" class="kt-notification__item">
                     <div class="kt-notification__item-icon">
                         <i class="flaticon2-calendar-3 kt-font-success"></i>
                     </div>
@@ -111,7 +111,7 @@ import { computed } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 
 const user = computed(() => usePage().props.auth.user)
-console.log(user.value.email);
+// console.log(user.value.email);
 </script>
 <style lang="">
     

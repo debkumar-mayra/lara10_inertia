@@ -4,7 +4,7 @@
                    <div>
                         <nav>
                           <ul class="pagination">
-                              <li v-for="link in data.links" class="page-item" :class="{active : link.active}" aria-current="page">
+                              <li v-for="link,key in props.data.links" class="page-item" :class="{active : link.active}" aria-current="page" :key="link.label">
                                <template v-if="link.url">
                                    <Link :href="link.url">
                                    <span class="page-link" v-html="link.label"></span>
@@ -22,7 +22,7 @@
     </div>
 </template>
 <script setup>
-defineProps({ data: Object })
+const props = defineProps({ data: Object })
 </script>
 <style lang="">
     

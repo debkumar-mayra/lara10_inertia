@@ -9,7 +9,7 @@
         <div class="kt-aside__brand-logo">
             <a href="admin/dashboard" class="logo_text_custom">
                  <!-- <span>Laravel</span> -->
-                <img src="admin_assets/logo/logo.png" alt="" width="75%"
+                <img src="/admin_assets/logo/logo.png" alt="" width="75%"
                     style="padding: 10px">
             </a>
         </div>
@@ -74,6 +74,7 @@
 
                 <li class="kt-menu__item " :class="{ 'kt-menu__item--active': $page.url === '/admin/users' }"
                     aria-haspopup="true">
+                    <!-- <Link href="/admin/users" class="kt-menu__link " > -->
                     <Link href="/admin/users" class="kt-menu__link " >
                         <i class="kt-menu__link-icon fa fa-users"></i>
                         <span class="kt-menu__link-text">Users</span>

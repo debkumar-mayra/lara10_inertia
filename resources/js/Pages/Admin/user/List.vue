@@ -21,7 +21,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <div id="kt_table_1_filter" class="dataTables_filter">
-                       
+                       <Link href="/admin/create-user" class="btn btn-primary">+ Add New</Link>
                         <!-- {{ $search }} -->
                     </div>
                 </div>
@@ -101,7 +101,7 @@
                         <tbody>
 
            
-                <tr role="row" class="odd" v-for="user in listData.data" :key=user.id>
+                <tr role="row" class="odd" v-for="user in props.users.data" :key=user.id>
                 <td class="sorting_1" tabindex="0">
                     <div class="kt-user-card-v2">
                         <div class="kt-user-card-v2__pic">
@@ -118,9 +118,11 @@
                 </td>
                 <td><a class="kt-link" href="mailto:adingate15@furl.net">{{user.email}}</a></td>
                 <td>{{user.phone}}</td>
-                <td class="align-center"><span
-                        class="kt-badge  kt-badge--success kt-badge--inline kt-badge--pill cursor-pointer"
-                        >Active</span>
+                <td class="align-center">
+                    <Link href="change-user-status" method="post" :data="{'id':user.id}">
+                    <span class="kt-badge kt-badge--inline kt-badge--pill cursor-pointer"
+                    :class="(user.active == 1) ? 'kt-badge--success':'kt-badge--warning'"
+                        >{{(user.active == 1) ? 'Active':'Inactive'}}</span></Link>
                 </td>
 
                 <td nowrap="" class="align-center">
@@ -129,15 +131,13 @@
     <i class="la la-ellipsis-h"></i>
     </a>
     <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="#"><i class="la la-edit"></i> Edit</a>
+        <!-- <a class="dropdown-item" href="edit-user/"><i class="la la-edit"></i> Edit</a> -->
+        <Link class="dropdown-item" :href="`edit-user/${user.id}`"><i class="la la-edit"></i> Edit</Link>
 
                   <a class="dropdown-item" href="#"><i class="la la-eye"></i> View</a>
 
-                    <a class="dropdown-item" href="#"> Following users</a>
-
-                   <a class="dropdown-item" href="#"> Follower users</a>
-                   <a class="dropdown-item" href="#"> Life goals</a>
-                <button href="#" class="dropdown-item" wire:click="deleteAttempt(104)"><i class="fa fa-trash"></i> Delete</button>
+                    
+                <button href="#" class="dropdown-item" @click="deleteRecode(user.id)"><i class="fa fa-trash"></i> Delete</button>
     </div>
     </span>
     </td>
@@ -160,7 +160,7 @@
             <div class="col-sm-12 col-md-7">
 
 
-                <Paginate v-if="listData.last_page > 1" :data=listData />
+                <Paginate v-if="listData.last_page > 1" :data=props.users />
 
                
             </div>
@@ -179,6 +179,7 @@ import Paginate from '../../../components/Paginate.vue'
 import { router } from '@inertiajs/vue3'
 import { useForm } from '@inertiajs/vue3'
 import {ref,watch,reactive,onMounted} from 'vue';
+import emitter from 'tiny-emitter/instance';
 
 const props = defineProps({ users: Object, shortBy:String });
 const listData = ref({});
@@ -205,6 +206,13 @@ onMounted(() => {
     form.searchPhone = params.get('phone') || null;
     form.searchStatus = params.get('active') || null;
     perPage.value = params.get('perPage') || 5;
+
+    emitter.on('deleteConfirm', function (arg1) {
+        deleteConfirm(arg1);
+    });
+
+
+
 });
 
 let params = new URLSearchParams(window.location.search)
@@ -227,6 +235,8 @@ const resetSearch = () => {
     method: 'get'
     });
 }
+
+
 
 const search = () => {
     // console.log('search');
@@ -263,15 +273,24 @@ const setPage = () => {
     router.reload({
     method: 'get',
     data: {perPage:perPage.value},
+    replace: false,
     });
 }
 
-// watch(perPage, () => {
-//     router.reload({
-//     method: 'get',
-//     data: {perPage:perPage.value},
-//     });
-// });
+
+const deleteRecode = (id) => {
+ sw.confirm('deleteConfirm',id);
+}
+
+
+
+
+const deleteConfirm = (id) => {
+    let data = {
+        id: id
+    }
+    router.delete(`/admin/delete-user/${id}`);
+} 
 
 </script>
 <style lang="">

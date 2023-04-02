@@ -1,16 +1,74 @@
-<template lang="">
-    
-    <div class="jumbotron">
-    <h1 class="display-4 abc">Admin Dashboard {{$page.props.auth.user.full_name}}</h1>
-    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-    <hr class="my-4">
-    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+<template>
+    <div class="row">
+    <div class="col-md-6">
+        <Pie :data="data" :options="options" />
     </div>
-</template>
-<script setup>
-// console.log($page.props.auth.user.full_name);
-</script>
-<style lang="">
 
-</style>
+    <div class="col-md-6">
+        <Line :data="lineData" :options="options" />
+    </div>
+
+    </div>
+  </template>
+  <!-- Documentation: https://vue-chartjs.org/examples/#vue-3-charts -->
+  <script setup>
+  import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+  } from 'chart.js'
+
+
+  import { Line } from 'vue-chartjs'
+
+  import { ArcElement } from 'chart.js'
+  import { Pie } from 'vue-chartjs'
+
+  
+  ChartJS.register(ArcElement, Tooltip, Legend)
+
+  
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+  )
+  
+
+  
+  const data = {
+    labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
+    datasets: [
+      {
+        backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
+        data: [40, 20, 80, 10]
+      }
+    ]
+  }
+  
+  const lineData = {
+  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  datasets: [
+    {
+      label: 'Data One',
+      backgroundColor: '#f87979',
+      data: [40, 39, 10, 40, 39, 80, 40]
+    }
+  ]
+}
+
+const options = {
+  responsive: true,
+  maintainAspectRatio: false
+}
+  </script>
+  

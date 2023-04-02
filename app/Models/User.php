@@ -45,7 +45,7 @@ class User extends Authenticatable
 
 
     protected $appends = [
-        'full_name', 'role_name'
+        'full_name', 'role_name','profile_photo_url'
     ];
 
 
@@ -65,5 +65,15 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    public function getDobAttribute($val)
+    {
+        return $val ? date('m-d-Y', strtotime($val)) : null;
+    }
+
+    public function getProfilePhotoUrlAttribute()
+    {
+       return ("{$this->profile_photo_path}") ? url()->to('storage/profile_photo/'."{$this->profile_photo_path}") : '';
     }
 }
