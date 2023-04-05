@@ -28,6 +28,13 @@
 
   import { ArcElement } from 'chart.js'
   import { Pie } from 'vue-chartjs'
+  import { onMounted } from 'vue' 
+
+
+onMounted(()=>{
+     emit.emit('pageName', 'Dashboard','Dashboard');
+})
+
 
   
   ChartJS.register(ArcElement, Tooltip, Legend)

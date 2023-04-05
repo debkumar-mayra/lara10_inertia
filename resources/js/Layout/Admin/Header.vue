@@ -9,7 +9,7 @@
             <li class="kt-menu__item  kt-menu__item--submenu kt-menu__item--rel kt-menu__item--active"
                 data-ktmenu-submenu-toggle="click" aria-haspopup="true"><a href="javascript:;"
                     class="kt-menu__link kt-menu__toggle"><span
-                        class="kt-menu__link-text">Title</span></a>
+                        class="kt-menu__link-text">{{title}}</span></a>
             </li>
         </ul>
     </div>
@@ -44,8 +44,8 @@
                 <span class="kt-header__topbar-welcome kt-hidden-mobile">Hi,</span>
                 <span
                     class="kt-header__topbar-username kt-hidden-mobile">{{$page.props.auth.user.full_name}}</span>
-                <img class="kt-hidden" alt="Pic"
-                    src="" />
+                <img class="" alt="Pic"
+                    :src="$page.props.auth.user?.profile_photo_url" />
 
                 <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
                 <span
@@ -59,8 +59,7 @@
             <div class="kt-user-card kt-user-card--skin-dark kt-notification-item-padding-x"
                 style="background-image:admin_assets/media/misc/bg-1.jpg">
                 <div class="kt-user-card__avatar">
-                    <img class="kt-hidden" alt="Pic"
-                        src="" />
+                    <img class="" alt="Pic" :src="$page.props.auth.user?.profile_photo_url" />
 
                     <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
                     <span
@@ -78,7 +77,8 @@
 
             <!--begin: Navigation -->
             <div class="kt-notification">
-                <a href="#" class="kt-notification__item">
+                <!-- <a href="#" class="kt-notification__item"> -->
+                    <Link href="admin-profile" class="kt-notification__item">
                     <div class="kt-notification__item-icon">
                         <i class="flaticon2-calendar-3 kt-font-success"></i>
                     </div>
@@ -90,7 +90,8 @@
                             Change Password
                         </div>
                     </div>
-                </a>
+                    </Link>
+                <!-- </a> -->
                 <div class="kt-notification__custom">
                     
                     <Link href="/admin/logout" class="btn btn-label-brand btn-sm btn-bold" method="post" as="button" type="button">Sign Out</Link>
@@ -107,8 +108,17 @@
 
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { usePage } from '@inertiajs/vue3'
+import { onMounted } from "vue";
+
+const title = ref('');
+onMounted( ()=>{
+       emit.on('pageName', function (arg1) {
+            title.value = arg1;
+        });
+} )
+
 
 const user = computed(() => usePage().props.auth.user)
 // console.log(user.value.email);

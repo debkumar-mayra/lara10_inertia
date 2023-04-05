@@ -1,7 +1,8 @@
-<template lang="">
-    
+<template>
+   
 <div class="kt-portlet kt-portlet--mobile">
     <div class="kt-portlet__body">
+    <h2>Profile</h2>
         <form @submit.prevent="submit">
             <div class="form-group validated row">
                 <!-- {{ $form }} -->
@@ -25,24 +26,7 @@
                     <span class="text-danger" v-if="form.errors.email">{{ form.errors.email }}</span>
                </div>
 
-               <div class="form-group col-lg-6">
-                    <label for="phone">Phone</label>
-                    <input type="number" id="phone" v-model="form.phone" class="form-control border-gray-200" placeholder="Phone">
-                    <span class="text-danger" v-if="form.errors.phone">{{ form.errors.phone }}</span>
-               </div>
-
-               <div class="form-group col-lg-6" v-if="!props.user">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" v-model="form.password" class="form-control border-gray-200" placeholder="Password">
-                    <span class="text-danger" v-if="form.errors.password">{{ form.errors.password }}</span>
-               </div>
-
-               <div class="form-group col-lg-6">
-                    <label for="dob">DOB</label>
-                    <datepicker v-model="form.dob" />
-                    <!-- <input type="date" id="dob" v-model="form.dob" class="form-control border-gray-200" placeholder="DOB"> -->
-                    <span class="text-danger" v-if="form.errors.dob">{{ form.errors.dob }}</span>
-               </div>
+              
 
                <div class="form-group col-lg-6">                   
                    <label for="profile_photo">Profile Photo</label>
@@ -50,16 +34,6 @@
     
                     <span class="text-danger" v-if="form.errors.profile_photo">{{ form.errors.profile_photo }}</span>
                     <output><img :src="previewUrl" v-if="previewUrl" height="100" width="100"></output>
-               </div>
-
-               <div class="form-group col-lg-6">
-                    <label for="status">Status</label>
-                    <select id="status" class="form-control border-gray-200" v-model="form.status">
-                        <option value="">Select Status</option>
-                        <option value="1">Active</option>
-                        <option value="0">Inactive</option>
-                    </select>
-                    <span class="text-danger" v-if="form.errors.status">{{ form.errors.status }}</span>
                </div>
 
 
@@ -83,23 +57,23 @@
     </div>
 </div>
 
+<admin-change-password/>
+
 </template>
+
 <script setup>
+
 import { onMounted, reactive,ref } from 'vue'
 import { useForm,router } from '@inertiajs/vue3'
-import FileUpload from '../../../components/FileUpload.vue'
-import Datepicker from '../../../components/Datepicker.vue'
-import SubmitButton from '../../../components/SubmitButton.vue'
+import FileUpload from '../../components/FileUpload.vue'
+import SubmitButton from '../../components/SubmitButton.vue'
+import AdminChangePassword from './AdminChangePassword.vue'
 
 
 const form = useForm({
   first_name: props.user?.first_name || null,
   last_name: props.user?.last_name || null,
   email: props.user?.email || null,
-  password: null,
-  phone:props.user?.phone || null,
-  dob: props.user?.dob ? new Date(props.user?.dob) : null,
-  status:props.user?.active || '',
   profile_photo: null,
 })
 
@@ -108,23 +82,18 @@ const props = defineProps({
    user:Object
 })
  const imageUrl = ref('');
+
 onMounted(()=>{
   imageUrl.value = props.user?.profile_photo_url || '';
   // console.log(imageUrl.value);
 })
 
 function submit() {
-  if(props.user){
-    form.post("/admin/edit-user/"+props.user.id);
-  }else{
-    form.post('/admin/create-user');
-  }
+    form.post('/admin/admin-profile');
 }
 
-
-
-
 </script>
-<style lang="">
-    
+
+<style>
+
 </style>

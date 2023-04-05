@@ -40,6 +40,8 @@ class HandleInertiaRequests extends Middleware
             'auth'=>[
                 'user'=> [
                     'full_name'=>auth()->user()->full_name ?? null,
+                    'profile_photo_url'=>auth()->user()->profile_photo_url ?? null,
+                    
                   ]
                 ],
             'baseUrl'=>url(),

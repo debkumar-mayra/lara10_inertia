@@ -179,7 +179,6 @@ import Paginate from '../../../components/Paginate.vue'
 import { router } from '@inertiajs/vue3'
 import { useForm } from '@inertiajs/vue3'
 import {ref,watch,reactive,onMounted} from 'vue';
-import emitter from 'tiny-emitter/instance';
 
 const props = defineProps({ users: Object, shortBy:String });
 const listData = ref({});
@@ -207,7 +206,9 @@ onMounted(() => {
     form.searchStatus = params.get('active') || null;
     perPage.value = params.get('perPage') || 5;
 
-    emitter.on('deleteConfirm', function (arg1) {
+     emit.emit('pageName', 'User Management','User List');
+
+    emit.on('deleteConfirm', function (arg1) {
         deleteConfirm(arg1);
     });
 
@@ -219,12 +220,14 @@ let params = new URLSearchParams(window.location.search)
 
 const fieldName = ref('');
 
+ const shortBy = ref(false);
 const sortBy = (column) => {
-    let shortBy = params.get('shortBy') === 'asc' ? 'desc':'asc';
+     shortBy.value = !shortBy.value;
+    let shortByy = shortBy.value ? 'asc':'desc';
     // console.log(shortBy);
     router.reload({
     method: 'get',
-    data: {fieldName:column ,shortBy: shortBy},
+    data: {fieldName:column ,shortBy: shortByy},
     replace: true,
     });
 }

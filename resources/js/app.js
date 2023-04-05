@@ -17,8 +17,8 @@ window.service = Service;
 import SweetAlert from './helpers/SweetAlert';  //--for 'globally' use
 window.sw = SweetAlert;
 
-// import VueSweetalert2 from 'vue-sweetalert2';
-// import 'sweetalert2/dist/sweetalert2.min.css';
+import emitter from 'tiny-emitter/instance';
+window.emit = emitter;
 
 
 

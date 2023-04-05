@@ -6,6 +6,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 
 class HomeController extends Controller
@@ -36,6 +37,60 @@ class HomeController extends Controller
     public function dashboard(Request $request)
     {
         return Inertia::render('Admin/Dashboard');
+    }
+
+    
+    function adminProfile(Request $request)
+    {
+        $user = auth()->user();
+
+        if(request()->isMethod('post')){
+
+            $credentials = $request->validate([
+              'first_name' => 'required',
+              'last_name' => 'required',
+              'email' =>  'required|email|unique:users,email,'.$user->id,
+              // 'profile_photo' => 'required',
+            ]);
+    
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
+            $user->email = $request->email;
+
+            if ($request->hasFile('profile_photo')) {
+                   $filename = time() . '-' . rand(1000, 9999) . '.' . $request->profile_photo->extension();
+                   $request->file('profile_photo')->storeAs('public/profile_photo/', $filename);
+                   $user->profile_photo_path = $filename;
+               }
+            $user->save();
+    
+            session()->flash('success', 'Profile successfully updated');
+            return redirect('admin/admin-profile');
+          }
+
+        return Inertia::render('Admin/AdminProfile',compact('user'));
+    }
+
+
+    public function adminChangePassword(Request $request)
+    {
+         $credentials = $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|min:6',
+            'new_password_confirm' => 'required|same:new_password',
+          ]);
+  
+
+          $user = auth()->user();
+           if (Hash::check($request->new_password, $user->password)) {          
+              $user->password = $request->new_password;
+              $user->save();
+              session()->flash('success', 'Password changed');
+            }else{
+                session()->flash('success', "The old Password doesn't match");
+            }
+  
+          return redirect('admin/admin-profile');
     }
 
 

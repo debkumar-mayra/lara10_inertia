@@ -12,6 +12,9 @@ Route::post('login', [HomeController::class,'authenticate'])->name('login');
 
 Route::group(['middleware' => ['auth', 'isAdmin']], function () {
     Route::get('dashboard', [HomeController::class,'dashboard']);
+    Route::any('admin-profile', [HomeController::class,'adminProfile']);
+    Route::post('admin-change-password', [HomeController::class,'adminChangePassword']);
+    
     Route::post('logout', [HomeController::class,'logout']);
     Route::get('users', [UserController::class,'userlist'])->name('admin.users');
     Route::any('create-user', [UserController::class,'createUser'])->name('admin.createUser');
