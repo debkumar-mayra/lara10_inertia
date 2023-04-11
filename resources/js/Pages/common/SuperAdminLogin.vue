@@ -1,7 +1,12 @@
 <template lang="">
-    <div class="col-md-6 offset-md-3 mt-5">
+    <div class="col-md-4 offset-md-4" style="margin-top:90px;">
+      <div  class="d-flex justify-content-center">
+               <img src="/admin_assets/logo/logo.png" alt="" style="height: 100px; width:100px; content">
+      </div>
              <div class="card">
                 <div class="card-body">
+
+
                 <h4 class="card-title">Admin Login</h4>
 
                 <form @submit.prevent="submit">

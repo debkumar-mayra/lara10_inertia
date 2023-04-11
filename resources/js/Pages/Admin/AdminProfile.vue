@@ -1,4 +1,5 @@
 <template>
+  <Head title="My profile"/>
    
 <div class="kt-portlet kt-portlet--mobile">
     <div class="kt-portlet__body">
@@ -85,8 +86,10 @@ const props = defineProps({
 
 onMounted(()=>{
   imageUrl.value = props.user?.profile_photo_url || '';
-  // console.log(imageUrl.value);
+      emit.emit('pageName', 'Profile','Profile');
 })
+
+
 
 function submit() {
     form.post('/admin/admin-profile');

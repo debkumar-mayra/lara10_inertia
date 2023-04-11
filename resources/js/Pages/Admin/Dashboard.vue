@@ -1,4 +1,6 @@
 <template>
+  <Head title="Dashboard"/>
+
     <div class="row">
     <div class="col-md-6">
         <Pie :data="data" :options="options" />

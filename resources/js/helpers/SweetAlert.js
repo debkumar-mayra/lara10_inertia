@@ -27,24 +27,25 @@
 // var Emitter = require('tiny-emitter');
 // var emitter = new Emitter();
 // import eventBus from '../eventBus';
-import emitter from 'tiny-emitter/instance';
+// import emitter from 'tiny-emitter/instance';
 
 class SweetAlert{
 
 
-    confirm(funName,argument, title= 'Are you sure?', text= "You won't be able to revert this!",icon='warning',confirmButtonText= 'Yes, delete it!'){
+    confirm(funName,argument, title= 'Are you sure?', text= "You won't be able to revert this!",confirmButtonText= 'Yes, delete it!',icon='warning'){
         // false;
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
-            icon: 'warning',
+            title: title,
+            text: text,
+            icon: icon,
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: confirmButtonText
           }).then((result) => {
             if (result.isConfirmed) {
-              emitter.emit(funName, argument);
+            //  alert(funName);
+            emit.emit(funName, argument);
               // eventBus.$emit('custom-event');
                 // yesDelete()
                 // returnResult = true;
@@ -70,8 +71,8 @@ class SweetAlert{
     toast(icon='success',title='Your message'){
 
         Swal.fire({
-              icon: 'success',
-              title: 'Signed in successfully',
+              icon: icon,
+              title: title,
               toast: true,
               position: 'top-end',
               showConfirmButton: false,

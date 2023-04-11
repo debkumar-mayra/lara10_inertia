@@ -32,7 +32,7 @@ class UserController extends Controller
       if($request->phone){
         $users = $users->where('phone',$request->phone);
       }
-      if($request->active){
+      if(isset($request->active)){
         $users = $users->where('active',$request->active);
       }
 
@@ -42,10 +42,9 @@ class UserController extends Controller
 
        $perPage = 5;
        if($request->perPage){
-        // dd($request->perPage);
         $perPage = $request->perPage;
        }
-        $users = $users->role('USER')->paginate($perPage)->withQueryString();
+        $users = $users->latest()->role('USER')->paginate($perPage)->withQueryString();
         
         return Inertia::render('Admin/user/List',['users'=>$users]);
     }

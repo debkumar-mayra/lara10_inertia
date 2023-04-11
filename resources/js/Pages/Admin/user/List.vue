@@ -1,4 +1,5 @@
 <template lang="">
+  <Head title="User List"/>
     
 <div class="kt-portlet kt-portlet--mobile">
     <div class="kt-portlet__body">
@@ -9,9 +10,9 @@
                         <label>Show
             <select class="form-control border-gray-200 custom-select custom-select-sm form-control form-control-sm" v-model="perPage" @change="setPage">
     
-            <option value="5"> 5</option>  
-            <option value="10"> 10</option> 
-            <option value="20"> 20</option>  
+            <option value="5"> 5</option>
+            <option value="10"> 10</option>
+            <option value="20"> 20</option>
             <option value="50"> 50</option>
             <option value="100"> 100</option>
         </select> entries
@@ -119,10 +120,11 @@
                 <td><a class="kt-link" href="mailto:adingate15@furl.net">{{user.email}}</a></td>
                 <td>{{user.phone}}</td>
                 <td class="align-center">
-                    <Link href="change-user-status" method="post" :data="{'id':user.id}">
-                    <span class="kt-badge kt-badge--inline kt-badge--pill cursor-pointer"
+                    <!-- <Link href="change-user-status" method="post" :data="{'id':user.id}"> -->
+                    <span @click="changeStatus(user.id)" style="cursor: pointer;" class="kt-badge kt-badge--inline kt-badge--pill cursor-pointer"
                     :class="(user.active == 1) ? 'kt-badge--success':'kt-badge--warning'"
-                        >{{(user.active == 1) ? 'Active':'Inactive'}}</span></Link>
+                        >{{(user.active == 1) ? 'Active':'Inactive'}}</span>
+                        <!-- </Link> -->
                 </td>
 
                 <td nowrap="" class="align-center">
@@ -134,7 +136,7 @@
         <!-- <a class="dropdown-item" href="edit-user/"><i class="la la-edit"></i> Edit</a> -->
         <Link class="dropdown-item" :href="`edit-user/${user.id}`"><i class="la la-edit"></i> Edit</Link>
 
-                  <a class="dropdown-item" href="#"><i class="la la-eye"></i> View</a>
+                  <!-- <a class="dropdown-item" href="#"><i class="la la-eye"></i> View</a> -->
 
                     
                 <button href="#" class="dropdown-item" @click="deleteRecode(user.id)"><i class="fa fa-trash"></i> Delete</button>
@@ -180,7 +182,7 @@ import { router } from '@inertiajs/vue3'
 import { useForm } from '@inertiajs/vue3'
 import {ref,watch,reactive,onMounted} from 'vue';
 
-const props = defineProps({ users: Object, shortBy:String });
+const props = defineProps({ users: Object });
 const listData = ref({});
 listData.value = props.users;
 
@@ -212,6 +214,10 @@ onMounted(() => {
         deleteConfirm(arg1);
     });
 
+     emit.on('changeStatusConfirm', function (arg1) {
+        changeStatusConfirm(arg1);
+    });
+
 
 
 });
@@ -224,7 +230,6 @@ const fieldName = ref('');
 const sortBy = (column) => {
      shortBy.value = !shortBy.value;
     let shortByy = shortBy.value ? 'asc':'desc';
-    // console.log(shortBy);
     router.reload({
     method: 'get',
     data: {fieldName:column ,shortBy: shortByy},
@@ -242,7 +247,6 @@ const resetSearch = () => {
 
 
 const search = () => {
-    // console.log('search');
     let data = {
       name : form.searchName,
       email : form.searchEmail,
@@ -285,15 +289,20 @@ const deleteRecode = (id) => {
  sw.confirm('deleteConfirm',id);
 }
 
-
-
-
 const deleteConfirm = (id) => {
-    let data = {
-        id: id
-    }
     router.delete(`/admin/delete-user/${id}`);
 } 
+
+const changeStatus = (id) => {
+    sw.confirm('changeStatusConfirm',id,'Are you sure?',"You want to change the status!",'Yes, Change it!');
+}
+
+const changeStatusConfirm = (id) => {
+     let data = {
+        id: id
+    }
+    router.post('/admin/change-user-status', data)
+}
 
 </script>
 <style lang="">

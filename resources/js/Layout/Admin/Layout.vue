@@ -1,6 +1,7 @@
 <template lang="">
 <loading v-model:active="isLoading" :can-cancel="true" :is-full-page="true" />
-<div class="kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--minimize">
+<div class="kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed " :class="menuHideShow ? 'kt-aside--minimize':''">
+
 
 <!-- begin:: Page -->
 <!-- <x-admin-mobile-header /> -->
@@ -20,6 +21,11 @@
                 <!-- begin:: Content -->
                 <div class="kt-content  kt-grid__item kt-grid__item--fluid">
                     <!-- {{ $slot }} -->
+
+                      <!-- <div v-if="$page.props.flash.success" class="alert">
+        {{ $page.props.flash.success }}
+      </div> -->
+
                     <slot/>
                 </div>
                 <!-- end:: Content -->
@@ -69,12 +75,40 @@ import SubHeader from './SubHeader.vue';
 import MobileNav from './MobileNav.vue';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
-import { onMounted,ref } from 'vue';
+import { onMounted,onUpdated,ref } from 'vue';
 
 const isLoading = ref(true);
+const menuHideShow = ref(false);
+
+const props = defineProps(['flash']);
 onMounted(() => {
     isLoading.value = false;
+
+    emit.on('toggleSideMenu', function (arg1) {
+        menuHideShow.value = arg1;
+    });
+    
 })
+
+onUpdated(()=>{
+    if(props.flash.success){
+        toaster.success(props.flash.success)
+    }
+
+    if(props.flash.error){
+        toaster.error(props.flash.error)
+    }
+    if(props.flash.warning){
+        toaster.warning(props.flash.warning)
+    }
+
+    if(props.flash.info){
+        toaster.info(props.flash.info)
+    }
+
+})
+
+
 
 </script>
 
@@ -86,7 +120,7 @@ onMounted(() => {
 @import '../../assets/admin_asset/css/skins/brand/dark.css'; */
 @import '/public/admin_assets/vendors/general/perfect-scrollbar/css/perfect-scrollbar.min.rtl.css';
 @import '/public/admin_assets/vendors/general/bootstrap-select/dist/css/bootstrap-select.min.css';
- @import '/public/admin_assets/vendors/general/socicon/css/socicon.css';
+@import '/public/admin_assets/vendors/general/socicon/css/socicon.css';
 @import '/public/admin_assets/vendors/custom/vendors/line-awesome/css/line-awesome.css';
 @import '/public/admin_assets/vendors/custom/vendors/flaticon/flaticon.css';
 @import '/public/admin_assets/vendors/custom/vendors/flaticon2/flaticon.css';

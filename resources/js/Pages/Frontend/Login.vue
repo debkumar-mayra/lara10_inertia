@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="col-md-6 offset-md-3 mt-5">
+    <div class="col-md-4 offset-md-4 mt-5">
              <div class="card">
                 <div class="card-body">
                 <h4 class="card-title">Login</h4>

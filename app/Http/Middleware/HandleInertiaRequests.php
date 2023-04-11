@@ -41,11 +41,16 @@ class HandleInertiaRequests extends Middleware
                 'user'=> [
                     'full_name'=>auth()->user()->full_name ?? null,
                     'profile_photo_url'=>auth()->user()->profile_photo_url ?? null,
-                    
                   ]
                 ],
             'baseUrl'=>url(),
             'isLogin'=>auth()->user() ? true : false,
+            'flash' => [
+                'success' => fn () => $request->session()->get('success'),
+                'error' => fn () => $request->session()->get('error'),
+                'info' => fn () => $request->session()->get('info'),
+                'warning' => fn () => $request->session()->get('warning'),
+            ],
         ]);
     }
 }

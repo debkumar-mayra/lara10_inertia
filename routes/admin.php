@@ -21,6 +21,14 @@ Route::group(['middleware' => ['auth', 'isAdmin']], function () {
     Route::any('edit-user/{id}', [UserController::class,'editUser'])->name('admin.editUser');
     Route::delete('delete-user/{id}', [UserController::class,'deleteUser'])->name('user.delete');
     Route::post('change-user-status', [UserController::class,'changeUserStatus'])->name('user.changeUserStatus');
+
+    // Route::group(['prefix' => 'user'], function () {
+    //     Route::get('list', [UserController::class,'userlist'])->name('admin.users');
+    //     Route::any('create', [UserController::class,'createUser'])->name('admin.createUser');
+    //     Route::any('edit/{id}', [UserController::class,'editUser'])->name('admin.editUser');
+    //     Route::delete('delete/{id}', [UserController::class,'deleteUser'])->name('user.delete');
+    //     Route::post('change-status', [UserController::class,'changeUserStatus'])->name('user.changeUserStatus');
+    //     });
     
 
 });

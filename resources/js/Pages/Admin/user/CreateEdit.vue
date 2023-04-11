@@ -1,4 +1,6 @@
 <template lang="">
+  <Head title="Create User" v-if="!props.user"/>
+  <Head title="Edit User" v-if="props.user"/>
     
 <div class="kt-portlet kt-portlet--mobile">
     <div class="kt-portlet__body">
@@ -92,6 +94,7 @@ import Datepicker from '../../../components/Datepicker.vue'
 import SubmitButton from '../../../components/SubmitButton.vue'
 
 
+
 const form = useForm({
   first_name: props.user?.first_name || null,
   last_name: props.user?.last_name || null,
@@ -110,6 +113,11 @@ const props = defineProps({
  const imageUrl = ref('');
 onMounted(()=>{
   imageUrl.value = props.user?.profile_photo_url || '';
+  if(props.user){
+   emit.emit('pageName', 'User Management','Edit User');
+  }else{
+   emit.emit('pageName', 'User Management','User Create')
+  }
   // console.log(imageUrl.value);
 })
 

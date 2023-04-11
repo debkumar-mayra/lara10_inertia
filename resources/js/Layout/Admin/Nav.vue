@@ -14,7 +14,7 @@
             </a>
         </div>
         <div class="kt-aside__brand-tools">
-            <button class="kt-aside__brand-aside-toggler" id="kt_aside_toggler">
+            <button class="kt-aside__brand-aside-toggler" id="kt_aside_toggler" @click="toggleSideMenu">
                 <span>
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
                         height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
@@ -72,7 +72,7 @@
                     </i>
                 </li>
 
-                <li class="kt-menu__item " :class="{ 'kt-menu__item--active': $page.url === '/admin/users' }"
+                <li class="kt-menu__item " :class="{ 'kt-menu__item--active': $page.component.startsWith('Admin/user') }"
                     aria-haspopup="true">
                     <!-- <Link href="/admin/users" class="kt-menu__link " > -->
                     <Link href="/admin/users" class="kt-menu__link " >
@@ -125,6 +125,15 @@
 </template>
 <script setup>
 // import { useForm } from '@inertiajs/vue3'
+
+import { ref } from "vue";
+
+const hideShow = ref(false);
+
+const toggleSideMenu = () => {
+    hideShow.value = !hideShow.value;
+     emit.emit('toggleSideMenu', hideShow.value);
+}
 
 </script>
 <style lang="">

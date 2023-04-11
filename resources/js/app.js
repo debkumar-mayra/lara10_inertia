@@ -1,6 +1,6 @@
 import './bootstrap';
 import { createApp, h } from 'vue'
-import { createInertiaApp,Link } from '@inertiajs/vue3'
+import { createInertiaApp,Link,Head } from '@inertiajs/vue3'
 import FrontendLayout from './Layout/Frontend/Layout.vue';
 // const FrontendLayout = () => import('./Layout/Frontend/Layout.vue')
 import AdminLayout from './Layout/Admin/Layout.vue';
@@ -24,12 +24,12 @@ window.emit = emitter;
 
 createInertiaApp({
 
-  progress: {
-    // delay: 5,
-    color: '#29d',
-    includeCSS: true,
-    showSpinner: false,
-  },
+  // progress: {
+  //   // delay: 5,
+  //   color: '#29d',
+  //   includeCSS: true,
+  //   showSpinner: false,
+  // },
 
 
   title: title => `${title} - My App`,
@@ -60,6 +60,7 @@ createInertiaApp({
       .use(pinia)
       // .use(VueSweetalert2)
       .component('Link',Link)
+      .component('Head',Head)
       .mount(el)
   },
 })
