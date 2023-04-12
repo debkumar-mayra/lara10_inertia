@@ -59,7 +59,7 @@
             <ul class="kt-menu__nav ">
                 <li class="kt-menu__item  " :class="{ 'kt-menu__item--active': $page.url === '/admin/dashboard' }"
                     aria-haspopup="true">
-                        <Link href="/admin/dashboard" class="kt-menu__link ">
+                        <Link :href="route('admin.dashboard')" class="kt-menu__link ">
                         <i class="kt-menu__link-icon flaticon-home"></i>
                         <span class="kt-menu__link-text">Dashboard</span>
                         </Link>
@@ -75,7 +75,8 @@
                 <li class="kt-menu__item " :class="{ 'kt-menu__item--active': $page.component.startsWith('Admin/user') }"
                     aria-haspopup="true">
                     <!-- <Link href="/admin/users" class="kt-menu__link " > -->
-                    <Link href="/admin/users" class="kt-menu__link " >
+                    <!-- <Link :href="route('home')" href="/admin/users" class="kt-menu__link " > -->
+                    <Link :href="route('admin.users')" class="kt-menu__link">
                         <i class="kt-menu__link-icon fa fa-users"></i>
                         <span class="kt-menu__link-text">Users</span>
                     </Link>

@@ -1,15 +1,25 @@
 <template>
   <Head title="Dashboard"/>
 
+<div class="kt-portlet kt-portlet--mobile">
+    <div class="kt-portlet__body">
     <div class="row">
     <div class="col-md-6">
-        <Pie :data="data" :options="options" />
+      <h3>User</h3>
+        <div>
+           <Pie :data="data" :options="options" />
+        </div>
     </div>
 
     <div class="col-md-6">
+      <h3>User</h3>
+        <div>
         <Line :data="lineData" :options="options" />
+        </div>
     </div>
 
+    </div>
+    </div>
     </div>
   </template>
   <!-- Documentation: https://vue-chartjs.org/examples/#vue-3-charts -->
@@ -50,16 +60,16 @@ onMounted(()=>{
     Title,
     Tooltip,
     Legend
-  )
+  );
   
-
+const props = defineProps(['data']);
   
   const data = {
-    labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
+    labels: ['Active User', 'Inactive User'],
     datasets: [
       {
-        backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
-        data: [40, 20, 80, 10]
+        backgroundColor: ['#41B883', '#E46651'],
+        data: [props.data.active_user, props.data.inactive_user]
       }
     ]
   }

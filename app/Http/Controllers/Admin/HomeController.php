@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
@@ -36,7 +37,9 @@ class HomeController extends Controller
 
     public function dashboard(Request $request)
     {
-        return Inertia::render('Admin/Dashboard');
+        $data['active_user'] = User::where('active',1)->count();
+        $data['inactive_user'] = User::where('active',0)->count();
+        return Inertia::render('Admin/Dashboard',compact('data'));
     }
 
     

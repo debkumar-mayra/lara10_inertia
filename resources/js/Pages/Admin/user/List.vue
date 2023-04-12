@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <div id="kt_table_1_filter" class="dataTables_filter">
-                       <Link href="/admin/create-user" class="btn btn-primary">+ Add New</Link>
+                       <Link :href="route('admin.createUser')" class="btn btn-primary">+ Add New</Link>
                         <!-- {{ $search }} -->
                     </div>
                 </div>
@@ -134,12 +134,12 @@
     </a>
     <div class="dropdown-menu dropdown-menu-right">
         <!-- <a class="dropdown-item" href="edit-user/"><i class="la la-edit"></i> Edit</a> -->
-        <Link class="dropdown-item" :href="`edit-user/${user.id}`"><i class="la la-edit"></i> Edit</Link>
+        <Link class="dropdown-item" :href="route('admin.editUser',user.id)"><i class="la la-edit"></i> Edit</Link>
 
                   <!-- <a class="dropdown-item" href="#"><i class="la la-eye"></i> View</a> -->
 
                     
-                <button href="#" class="dropdown-item" @click="deleteRecode(user.id)"><i class="fa fa-trash"></i> Delete</button>
+        <button href="#" class="dropdown-item" @click="deleteRecode(user.id)"><i class="fa fa-trash"></i> Delete</button>
     </div>
     </span>
     </td>

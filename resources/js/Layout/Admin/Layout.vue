@@ -76,6 +76,7 @@ import MobileNav from './MobileNav.vue';
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
 import { onMounted,onUpdated,ref } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 
 const isLoading = ref(true);
 const menuHideShow = ref(false);
@@ -109,15 +110,36 @@ onUpdated(()=>{
 })
 
 
-
+// onMounted(() => {
+//     if(usePage().component.startsWith('Admin')){
+//         import('/public/admin_assets/vendors/general/perfect-scrollbar/css/perfect-scrollbar.min.rtl.css');
+//         import('/public/admin_assets/vendors/general/bootstrap-select/dist/css/bootstrap-select.min.css');
+//         import('/public/admin_assets/vendors/general/socicon/css/socicon.css');
+//         import('/public/admin_assets/vendors/custom/vendors/line-awesome/css/line-awesome.css');
+//         import('/public/admin_assets/vendors/custom/vendors/flaticon/flaticon.css');
+//         import('/public/admin_assets/vendors/custom/vendors/flaticon2/flaticon.css');
+//         import('/public/admin_assets/vendors/custom/vendors/fontawesome5/css/all.min.css');
+//         import('/public/admin_assets/demo/default/base/style.bundle.min.css');
+//         import('/public/admin_assets/demo/default/skins/header/base/light.css');
+//         import('/public/admin_assets/demo/default/skins/header/menu/light.css');
+//         import('/public/admin_assets/demo/default/skins/brand/dark.css');
+//         import('/public/admin_assets/demo/default/skins/aside/dark.css');
+//         import('/public/admin_assets/vendors/custom/datatables/datatables.bundle.css');
+//         import(`/public/admin_assets/custom.css`);
+//     }
+// });
 </script>
 
 <style>
+
+
 
 /* @import '../../assets/admin_asset/css/style.css';
 @import '../../assets/admin_asset/css/skins/header/base/light.css';
 @import '../../assets/admin_asset/css/skins/header/menu/light.css';
 @import '../../assets/admin_asset/css/skins/brand/dark.css'; */
+
+
 @import '/public/admin_assets/vendors/general/perfect-scrollbar/css/perfect-scrollbar.min.rtl.css';
 @import '/public/admin_assets/vendors/general/bootstrap-select/dist/css/bootstrap-select.min.css';
 @import '/public/admin_assets/vendors/general/socicon/css/socicon.css';

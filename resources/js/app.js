@@ -5,6 +5,8 @@ import FrontendLayout from './Layout/Frontend/Layout.vue';
 // const FrontendLayout = () => import('./Layout/Frontend/Layout.vue')
 import AdminLayout from './Layout/Admin/Layout.vue';
 import { createPinia } from 'pinia';
+
+import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 const pinia = createPinia();
 import { defineAsyncComponent } from 'vue'
 
@@ -19,6 +21,7 @@ window.sw = SweetAlert;
 
 import emitter from 'tiny-emitter/instance';
 window.emit = emitter;
+
 
 
 
@@ -40,6 +43,7 @@ createInertiaApp({
         
     if(name.startsWith('Admin/')){
       page.default.layout = AdminLayout;
+      // page.default.layout = './Layout/Admin/Layout.vue';
     //   page.default.layout = defineAsyncComponent(() =>
     //   import('./Layout/Admin/Layout.vue')
     // );
@@ -58,7 +62,7 @@ createInertiaApp({
     createApp({ render: () => h(App, props) })
       .use(plugin)
       .use(pinia)
-      // .use(VueSweetalert2)
+      .use(ZiggyVue, Ziggy)
       .component('Link',Link)
       .component('Head',Head)
       .mount(el)

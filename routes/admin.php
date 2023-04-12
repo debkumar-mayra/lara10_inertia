@@ -11,8 +11,8 @@ Route::get('login', [HomeController::class,'index']);
 Route::post('login', [HomeController::class,'authenticate'])->name('login');
 
 Route::group(['middleware' => ['auth', 'isAdmin']], function () {
-    Route::get('dashboard', [HomeController::class,'dashboard']);
-    Route::any('admin-profile', [HomeController::class,'adminProfile']);
+    Route::get('dashboard', [HomeController::class,'dashboard'])->name('admin.dashboard');
+    Route::any('admin-profile', [HomeController::class,'adminProfile'])->name('admin.adminProfile');
     Route::post('admin-change-password', [HomeController::class,'adminChangePassword']);
     
     Route::post('logout', [HomeController::class,'logout']);
