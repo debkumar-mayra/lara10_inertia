@@ -13,6 +13,7 @@ class UserController extends Controller
 {
     public function userlist(Request $request)
     {
+      // dd(10);
         $credentials = $request->validate([
             'fieldName' => "in:first_name,email,phone",
             'shortBy' => "in:asc,desc",
@@ -40,7 +41,7 @@ class UserController extends Controller
          $users->orderBy($request->fieldName,$request->shortBy);
        }
 
-       $perPage = 5;
+       $perPage = 1;
        if($request->perPage){
         $perPage = $request->perPage;
        }

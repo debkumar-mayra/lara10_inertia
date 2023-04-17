@@ -1,9 +1,9 @@
 import './bootstrap';
 import { createApp, h } from 'vue'
 import { createInertiaApp,Link,Head } from '@inertiajs/vue3'
-import FrontendLayout from './Layout/Frontend/Layout.vue';
+// import FrontendLayout from './Layout/Frontend/Layout.vue';
 // const FrontendLayout = () => import('./Layout/Frontend/Layout.vue')
-import AdminLayout from './Layout/Admin/Layout.vue';
+// import AdminLayout from './Layout/Admin/Layout.vue';
 import { createPinia } from 'pinia';
 
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
@@ -22,8 +22,13 @@ window.sw = SweetAlert;
 import emitter from 'tiny-emitter/instance';
 window.emit = emitter;
 
+const AdminLayout = defineAsyncComponent(() =>
+  import('./Layout/Admin/Layout.vue')
+)
 
-
+const FrontendLayout = defineAsyncComponent(() =>
+  import('./Layout/Frontend/Layout.vue')
+)
 
 createInertiaApp({
 

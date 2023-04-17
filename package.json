@@ -23,6 +23,8 @@
         "chart.js": "^4.2.1",
         "epic-spinners": "^2.0.0",
         "filepond": "^4.30.4",
+        "laravel-vue-pagination": "^4.1.0",
+        "nprogress": "^0.2.0",
         "pinia": "^2.0.32",
         "tiny-emitter": "^2.1.0",
         "vue-chartjs": "^5.2.0",

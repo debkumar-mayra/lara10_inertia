@@ -19,6 +19,7 @@ class HomeController extends Controller
 
     public function authenticate(Request $request): RedirectResponse
     {
+    //    sleep(10);
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],

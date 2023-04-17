@@ -7,25 +7,23 @@
                 <div class="card-body">
 
 
-                <h4 class="card-title">Admin Login</h4>
+                <h4 class="card-title">OTP Validations</h4>
 
                 <form @submit.prevent="submit">
                     <div class="form-group">
                       <label for="email">Email</label>
-                      <input type="email" id="email" v-model="form.email" class="form-control" placeholder="Email" >
+                      <input type="email" id="email" :value="email" class="form-control" placeholder="Email" readonly>
                       <span class="text-danger" v-if="form.errors.email">{{ form.errors.email }}</span>
                     </div>
 
+                    
                     <div class="form-group">
-                      <label for="password">Password</label>
-                      <input type="password" id="password" v-model="form.password" class="form-control" placeholder="Password">
-                      <span class="text-danger" v-if="form.errors.password">{{ form.errors.password }}</span>
+                      <label for="otp">OTP</label>
+                      <input type="text" id="otp" v-model="form.otp" class="form-control" placeholder="otp" >
+                      <span class="text-danger" v-if="form.errors.otp">{{ form.errors.otp }}</span>
                     </div>
 
-                    <Link :href="route('')">Forgot Password</Link>
-
-                    <!-- <button type="submit" class="btn btn-primary"  :disabled="form.processing">Login</button> -->
-  <submit-button :isLoading="form.processing">Login</submit-button>
+                <submit-button :isLoading="form.processing">Submit</submit-button>
 
                 </form>
    <!-- <button @click="showModal = true">Show Modal</button> -->
@@ -57,15 +55,15 @@ import SubmitButton from '../../components/SubmitButton.vue'
 
 
 const form = useForm({
-  email: null,
-  password: null,
+  email: props.email,
 })
 
-defineProps({
-  errors:Object
+const props = defineProps({
+  errors:Object,
+  email:String
 })
 
 function submit() {
-  form.post('/admin/login')
+  form.post('/forgot-password')
 }
 </script>

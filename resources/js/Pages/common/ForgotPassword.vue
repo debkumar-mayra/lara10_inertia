@@ -7,7 +7,7 @@
                 <div class="card-body">
 
 
-                <h4 class="card-title">Admin Login</h4>
+                <h4 class="card-title">Forgot Password</h4>
 
                 <form @submit.prevent="submit">
                     <div class="form-group">
@@ -16,17 +16,8 @@
                       <span class="text-danger" v-if="form.errors.email">{{ form.errors.email }}</span>
                     </div>
 
-                    <div class="form-group">
-                      <label for="password">Password</label>
-                      <input type="password" id="password" v-model="form.password" class="form-control" placeholder="Password">
-                      <span class="text-danger" v-if="form.errors.password">{{ form.errors.password }}</span>
-                    </div>
 
-                    <Link :href="route('')">Forgot Password</Link>
-
-                    <!-- <button type="submit" class="btn btn-primary"  :disabled="form.processing">Login</button> -->
-  <submit-button :isLoading="form.processing">Login</submit-button>
-
+                   <submit-button :isLoading="form.processing">Submit</submit-button>
                 </form>
    <!-- <button @click="showModal = true">Show Modal</button> -->
                 </div>
@@ -57,8 +48,7 @@ import SubmitButton from '../../components/SubmitButton.vue'
 
 
 const form = useForm({
-  email: null,
-  password: null,
+  email: '',
 })
 
 defineProps({
@@ -66,6 +56,6 @@ defineProps({
 })
 
 function submit() {
-  form.post('/admin/login')
+  form.post('/forgot-password')
 }
 </script>

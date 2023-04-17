@@ -17,7 +17,10 @@
                       <span class="text-danger" v-if="form.errors.password">{{ form.errors.password }}</span>
                     </div>
 
-                    <button type="submit" class="btn btn-primary"  :disabled="form.processing"> Login</button>
+                <submit-button :disabled="form.processing" :isLoading="form.processing">Login</submit-button>
+
+
+                    <!-- <button type="submit" class="btn btn-primary"  :disabled="form.processing"> Login</button> -->
 
                 </form>
                 
@@ -31,6 +34,7 @@
 import { reactive } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import { router } from '@inertiajs/vue3'
+import SubmitButton from '../../components/SubmitButton.vue'
 
 const form = useForm({
   email: null,
@@ -44,5 +48,9 @@ defineProps({
 function submit() {
   form.post('/login');
 }
+
+
+
+
 </script>
 

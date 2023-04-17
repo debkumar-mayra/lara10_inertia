@@ -1,12 +1,21 @@
 <template>
-   <button v-bind="$attrs" type="submit" class="btn btn-primary">
-        <template v-if="isLoading">
+   <button v-bind="$attrs" type="submit" class="btn btn-primary" :disabled="isLoading">
+
+            <template v-if="isLoading">
+                <div style="display:flex;">
+                   <semipolar-spinner  :animation-duration="2000" :size="20" color="#fff" /> <span class="ml-3"><slot> Submit</slot></span>
+                </div>
+            </template>
+        <template v-else>
+            <slot>Submit</slot>
+        </template>
+        <!-- <template v-if="isLoading">
         <semipolar-spinner :animation-duration="2000" :size="20" color="#fff" />
         </template>
         
         <template v-else>
             <slot>Submit</slot>
-        </template>
+        </template> -->
 </button>
 </template>
 

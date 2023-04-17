@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Common\CommonController;
 use App\Http\Controllers\Frontend\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,5 +27,8 @@ Route::post('/login', [HomeController::class,'authenticate'])->name('frontend.lo
 Route::get('/dashboard', [HomeController::class,'dashboard'])->middleware('auth');
 Route::get('/profile', [HomeController::class,'profile'])->middleware('auth');
 Route::post('/logout', [HomeController::class,'logout'])->middleware('auth');
+
+Route::any('/forgot-password', [CommonController::class,'forgotPassword'])->name('frontend.forgotPassword');
+Route::any('/otp-validations', [CommonController::class,'otpValidations'])->name('frontend.otpValidations');
 
 include('admin.php');
