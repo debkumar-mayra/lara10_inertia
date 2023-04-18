@@ -30,5 +30,6 @@ Route::post('/logout', [HomeController::class,'logout'])->middleware('auth');
 
 Route::any('/forgot-password', [CommonController::class,'forgotPassword'])->name('frontend.forgotPassword');
 Route::any('/otp-validations', [CommonController::class,'otpValidations'])->name('frontend.otpValidations');
+Route::any('/reset-password', [CommonController::class,'resetPassword'])->name('frontend.resetPassword');
 
 include('admin.php');

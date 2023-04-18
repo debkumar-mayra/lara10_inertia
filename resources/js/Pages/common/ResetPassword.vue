@@ -7,20 +7,20 @@
                 <div class="card-body">
 
 
-                <h4 class="card-title">OTP Validations</h4>
+                <h4 class="card-title">Reset Password</h4>
 
                 <form @submit.prevent="submit">
                     <div class="form-group">
-                      <label for="email">Email</label>
-                      <input type="email" id="email" :value="email" class="form-control" placeholder="Email" readonly>
-                      <span class="text-danger" v-if="form.errors.email">{{ form.errors.email }}</span>
+                      <label for="password">Password</label>
+                      <input type="password" id="password" class="form-control" placeholder="Password" v-model="form.password" >
+                      <span class="text-danger" v-if="form.errors.password">{{ form.errors.password }}</span>
                     </div>
 
                     
                     <div class="form-group">
-                      <label for="otp">OTP</label>
-                      <input type="text" id="otp" v-model="form.otp" class="form-control" placeholder="OTP" >
-                      <span class="text-danger" v-if="form.errors.otp">{{ form.errors.otp }}</span>
+                      <label for="confirmPassword">Confirm Password</label>
+                      <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm Password" v-model="form.confirm_password">
+                      <span class="text-danger" v-if="form.errors.confirm_password">{{ form.errors.confirm_password }}</span>
                     </div>
 
                 <submit-button :isLoading="form.processing">Submit</submit-button>
@@ -44,8 +44,8 @@ import SubmitButton from '../../components/SubmitButton.vue'
 
 
 const form = useForm({
-  email: props.email,
-  otp: '',
+  password: '',
+  confirm_password: '',
 })
 
 onMounted(()=>{
@@ -56,7 +56,7 @@ onMounted(()=>{
   if(usePage().props.flash.error){
     toaster.error(usePage().props.flash.error);
   }
-  
+
 })
 
 const props = defineProps({
@@ -65,6 +65,6 @@ const props = defineProps({
 })
 
 function submit() {
-  form.post('/otp-validations')
+  form.post('/reset-password')
 }
 </script>

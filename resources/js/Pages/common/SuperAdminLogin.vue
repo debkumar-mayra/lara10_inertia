@@ -22,10 +22,12 @@
                       <span class="text-danger" v-if="form.errors.password">{{ form.errors.password }}</span>
                     </div>
 
-                    <Link :href="route('')">Forgot Password</Link>
 
                     <!-- <button type="submit" class="btn btn-primary"  :disabled="form.processing">Login</button> -->
   <submit-button :isLoading="form.processing">Login</submit-button>
+  <div>
+        <Link :href="route('frontend.forgotPassword')" class="float-right">Forgot Password</Link>
+  </div>
 
                 </form>
    <!-- <button @click="showModal = true">Show Modal</button> -->
@@ -50,7 +52,7 @@
 // import MainModal from "../../components/MainModal.vue";
 // const showModal = ref(false);
 import { reactive, ref } from 'vue'
-import { useForm } from '@inertiajs/vue3'
+import { useForm, usePage } from '@inertiajs/vue3'
 import { router } from '@inertiajs/vue3'
 import SubmitButton from '../../components/SubmitButton.vue'
 
@@ -61,8 +63,19 @@ const form = useForm({
   password: null,
 })
 
-defineProps({
+const props = defineProps({
   errors:Object
+})
+
+onMounted(()=>{
+  if(usePage().props.flash.success){
+    toaster.success(usePage().props.flash.success);
+  }
+
+  if(usePage().props.flash.error){
+    toaster.error(usePage().props.flash.error);
+  }
+
 })
 
 function submit() {
