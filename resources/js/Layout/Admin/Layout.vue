@@ -1,4 +1,5 @@
 <template lang="">
+<div>
 <loading :active="isLoading" :can-cancel="true" :is-full-page="true" :loader="'dots'"/>
 
 <div class="kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed " :class="menuHideShow ? 'kt-aside--minimize':''">
@@ -60,6 +61,7 @@
             <Footer/>
         </div>
     </div> -->
+    </div>
 </template>
 <script setup>
 // import '/public/admin_assets/vendors/general/popper.js/dist/umd/popper.min.js';

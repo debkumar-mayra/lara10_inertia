@@ -41,7 +41,7 @@ class UserController extends Controller
          $users->orderBy($request->fieldName,$request->shortBy);
        }
 
-       $perPage = 1;
+       $perPage = 5;
        if($request->perPage){
         $perPage = $request->perPage;
        }

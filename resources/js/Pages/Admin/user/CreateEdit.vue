@@ -1,4 +1,5 @@
 <template lang="">
+<div>
   <Head title="Create User" v-if="!props.user"/>
   <Head title="Edit User" v-if="props.user"/>
     
@@ -84,7 +85,7 @@
         </form>
     </div>
 </div>
-
+</div>
 </template>
 <script setup>
 import { onMounted, reactive,ref } from 'vue'
@@ -123,9 +124,9 @@ onMounted(()=>{
 
 function submit() {
   if(props.user){
-    form.post("/admin/edit-user/"+props.user.id);
+    form.post(route('admin.editUser',props.user.id));
   }else{
-    form.post('/admin/create-user');
+    form.post(route('admin.createUser'));
   }
 }
 

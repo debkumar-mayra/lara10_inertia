@@ -94,7 +94,7 @@
                 <!-- </a> -->
                 <div class="kt-notification__custom">
                     
-                    <Link href="/admin/logout" class="btn btn-label-brand btn-sm btn-bold" method="post" as="button" type="button">Sign Out</Link>
+                    <Link :href="route('admin.logout')" class="btn btn-label-brand btn-sm btn-bold" method="post" as="button" type="button">Sign Out</Link>
                 </div>
             </div>
             <!--end: Navigation -->

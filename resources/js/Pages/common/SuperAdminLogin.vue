@@ -51,7 +51,7 @@
 <script setup>
 // import MainModal from "../../components/MainModal.vue";
 // const showModal = ref(false);
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import { useForm, usePage } from '@inertiajs/vue3'
 import { router } from '@inertiajs/vue3'
 import SubmitButton from '../../components/SubmitButton.vue'

@@ -1,4 +1,5 @@
 <template>
+<div>
    <button v-bind="$attrs" type="submit" class="btn btn-primary" :disabled="isLoading">
 
             <template v-if="isLoading">
@@ -17,6 +18,7 @@
             <slot>Submit</slot>
         </template> -->
 </button>
+</div>
 </template>
 
 <script setup>

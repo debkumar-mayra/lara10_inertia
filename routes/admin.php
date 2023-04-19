@@ -10,26 +10,18 @@ Route::group(['prefix' => 'admin'], function () {
 Route::get('login', [HomeController::class,'index']);
 Route::post('login', [HomeController::class,'authenticate'])->name('login');
 
-Route::group(['middleware' => ['auth', 'isAdmin']], function () {
-    Route::get('dashboard', [HomeController::class,'dashboard'])->name('admin.dashboard');
-    Route::any('admin-profile', [HomeController::class,'adminProfile'])->name('admin.adminProfile');
-    Route::post('admin-change-password', [HomeController::class,'adminChangePassword']);
+    Route::name('admin.')->middleware(['auth', 'isAdmin'])->group(function () {
+    Route::get('dashboard', [HomeController::class,'dashboard'])->name('dashboard');
+    Route::any('admin-profile', [HomeController::class,'adminProfile'])->name('adminProfile');
+    Route::post('admin-change-password', [HomeController::class,'adminChangePassword'])->name('changePassword');
     
-    Route::post('logout', [HomeController::class,'logout']);
-    Route::get('users', [UserController::class,'userlist'])->name('admin.users');
-    Route::any('create-user', [UserController::class,'createUser'])->name('admin.createUser');
-    Route::any('edit-user/{id}', [UserController::class,'editUser'])->name('admin.editUser');
-    Route::delete('delete-user/{id}', [UserController::class,'deleteUser'])->name('user.delete');
-    Route::post('change-user-status', [UserController::class,'changeUserStatus'])->name('user.changeUserStatus');
+    Route::post('logout', [HomeController::class,'logout'])->name('logout');
+    Route::get('users', [UserController::class,'userlist'])->name('users');
+    Route::any('create-user', [UserController::class,'createUser'])->name('createUser');
+    Route::any('edit-user/{id}', [UserController::class,'editUser'])->name('editUser');
+    Route::delete('delete-user/{id}', [UserController::class,'deleteUser'])->name('userDelete');
+    Route::post('change-user-status', [UserController::class,'changeUserStatus'])->name('changeUserStatus');
 
-    // Route::group(['prefix' => 'user'], function () {
-    //     Route::get('list', [UserController::class,'userlist'])->name('admin.users');
-    //     Route::any('create', [UserController::class,'createUser'])->name('admin.createUser');
-    //     Route::any('edit/{id}', [UserController::class,'editUser'])->name('admin.editUser');
-    //     Route::delete('delete/{id}', [UserController::class,'deleteUser'])->name('user.delete');
-    //     Route::post('change-status', [UserController::class,'changeUserStatus'])->name('user.changeUserStatus');
-    //     });
-    
 
 });
 

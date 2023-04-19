@@ -1,4 +1,6 @@
 <template lang="">
+<div>
+
   <Head title="User List"/>
     
 <div class="kt-portlet kt-portlet--mobile">
@@ -69,7 +71,7 @@
             <th>
                 <select class="form-control form-control-sm form-filter kt-input" v-model="form.searchStatus"
                     title="Select" data-col-index="2">
-                    <option value="-1">Select One</option>
+                    <option value="">Select One</option>
                     <option value="1">Active</option>
                     <option value="0">Inactive</option>
                 </select>
@@ -161,15 +163,20 @@
             </div>
             <div class="col-sm-12 col-md-7">
 
-
-                <Paginate v-if="listData.last_page > 1" :data=props.users />
+                  <div class="float-right">  <Bootstrap4Pagination
+                            :data="users"
+                            :limit=2
+                            @pagination-change-page="setPageNum"
+                        />
+                        </div>
+                <!-- <Paginate v-if="listData.last_page > 1" :data=props.users /> -->
 
                
             </div>
         </div>
     </div>
 </div>
-
+</div>
 
 
 
@@ -177,10 +184,11 @@
 
 
 <script setup>
-import Paginate from '../../../components/Paginate.vue'
+// import Paginate from '../../../components/Paginate.vue'
 import { router } from '@inertiajs/vue3'
 import { useForm } from '@inertiajs/vue3'
 import {ref,watch,reactive,onMounted} from 'vue';
+import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 
 const props = defineProps({ users: Object });
 const listData = ref({});
@@ -197,7 +205,7 @@ const form = useForm({
     searchName: null,
     searchEmail: null,
     searchPhone: null,
-    searchStatus: null
+    searchStatus: ''
 })
 
 
@@ -205,7 +213,7 @@ onMounted(() => {
     form.searchName = params.get('name') || null;
     form.searchEmail = params.get('email') || null;
     form.searchPhone = params.get('phone') || null;
-    form.searchStatus = params.get('active') || null;
+    form.searchStatus = params.get('active') || '';
     perPage.value = params.get('perPage') || 5;
 
      emit.emit('pageName', 'User Management','User List');
@@ -237,9 +245,17 @@ const sortBy = (column) => {
     });
 }
 
+function setPageNum(page) {
+    router.reload({
+    method: 'get',
+    data: {page:page},
+    replace: true,
+    });
+}
+
 
 const resetSearch = () => {
-    router.visit('/admin/users', {
+    router.visit(route('admin.users'), {
     method: 'get'
     });
 }
@@ -267,7 +283,7 @@ const search = () => {
      delete data.active
    }
  
-    router.visit('/admin/users', {
+    router.visit(route('admin.users'), {
     method: 'get',
     data: data,
     replace: false,
@@ -290,7 +306,7 @@ const deleteRecode = (id) => {
 }
 
 const deleteConfirm = (id) => {
-    router.delete(`/admin/delete-user/${id}`);
+    router.delete(route('admin.userDelete',id));
 } 
 
 const changeStatus = (id) => {
@@ -301,7 +317,7 @@ const changeStatusConfirm = (id) => {
      let data = {
         id: id
     }
-    router.post('/admin/change-user-status', data)
+    router.post(route('admin.changeUserStatus'), data)
 }
 
 </script>

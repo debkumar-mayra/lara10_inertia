@@ -92,7 +92,7 @@ onMounted(()=>{
 
 
 function submit() {
-    form.post('/admin/admin-profile');
+    form.post(route('admin.changePassword'));
 }
 
 </script>

@@ -67,7 +67,7 @@ const props = defineProps({
 })
 
 function submit() {
-    form.post('/admin/admin-change-password');
+    form.post(route('admin.changePassword'));
 }
 
 </script>
