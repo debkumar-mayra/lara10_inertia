@@ -11,16 +11,29 @@
 
                 <form @submit.prevent="submit">
                     <div class="form-group">
-                      <label for="email">Email</label>
+                      <label for="email">Email <span class="text-danger">*</span></label>
                       <input type="email" id="email" v-model="form.email" class="form-control" placeholder="Email" >
                       <span class="text-danger" v-if="form.errors.email">{{ form.errors.email }}</span>
                     </div>
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                       <label for="password">Password</label>
                       <input type="password" id="password" v-model="form.password" class="form-control" placeholder="Password">
                       <span class="text-danger" v-if="form.errors.password">{{ form.errors.password }}</span>
+                    </div> -->
+
+                    <div class="form-group">
+                    <label for="password">Password <span class="text-danger">*</span></label>
+                    <div class="password_box">  
+                        <input :type="showNewPassword ? 'text' : 'password'" id="password" v-model="form.password" class="form-control border-gray-200" placeholder="New Password">
+                        <div class="control">                        
+                            <span class="icon is-small is-right">
+                                <i @click="showNewPassword = !showNewPassword" class="fas" :class="{ 'fa-eye-slash': showNewPassword, 'fa-eye': !showNewPassword }"></i>
+                            </span>
+                        </div>
                     </div>
+                    <span class="text-danger" v-if="form.errors.password">{{ form.errors.password }}</span>
+               </div>
 
 
                     <!-- <button type="submit" class="btn btn-primary"  :disabled="form.processing">Login</button> -->
@@ -57,6 +70,7 @@ import { router } from '@inertiajs/vue3'
 import SubmitButton from '../../components/SubmitButton.vue'
 
 
+const showNewPassword = ref(false);
 
 const form = useForm({
   email: null,
@@ -82,3 +96,7 @@ function submit() {
   form.post('/admin/login')
 }
 </script>
+
+<style scoped>
+@import '/public/admin_assets/custom.css';
+</style>

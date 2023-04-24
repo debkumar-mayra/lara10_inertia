@@ -86,13 +86,15 @@ const props = defineProps({
 
 onMounted(()=>{
   imageUrl.value = props.user?.profile_photo_url || '';
-      emit.emit('pageName', 'Profile','Profile');
+    //   emit.emit('pageName', 'Profile','Profile');
+     emit.emit('pageName', 'User Management',[{title: "Profile", routeName:"admin.profile"}]);
+
 })
 
 
 
 function submit() {
-    form.post(route('admin.changePassword'));
+    form.post(route('admin.profile'));
 }
 
 </script>

@@ -44,7 +44,7 @@
 
 
 onMounted(()=>{
-     emit.emit('pageName', 'Dashboard','Dashboard');
+     emit.emit('pageName', 'Dashboard', []);
 })
 
 

@@ -115,9 +115,11 @@ const props = defineProps({
 onMounted(()=>{
   imageUrl.value = props.user?.profile_photo_url || '';
   if(props.user){
-   emit.emit('pageName', 'User Management','Edit User');
+  //  emit.emit('pageName', 'User Management','Edit User');
+     emit.emit('pageName', 'User Management',[{title: "User List", routeName:"admin.users"},{title: "Edit User", routeName:""}]);
+
   }else{
-   emit.emit('pageName', 'User Management','User Create')
+   emit.emit('pageName', 'User Management', [{title: "User List", routeName:"admin.users"},{title: "Add User", routeName:""}])
   }
   // console.log(imageUrl.value);
 })

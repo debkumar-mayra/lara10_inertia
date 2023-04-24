@@ -15,7 +15,6 @@ const previewUrl = ref('');
 
 const props = defineProps(['imageurl']);
 
-  
 
 function onFileChange (event) {
       const file = event.target.files[0]

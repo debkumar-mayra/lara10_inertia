@@ -30,6 +30,8 @@ return new class extends Migration
             $table->string('profile_photo_path', 2048)->nullable();
             $table->string('provider')->nullable();
             $table->string('provider_id')->nullable();
+            $table->string('device_token')->nullable();
+            $table->string('device_type')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();

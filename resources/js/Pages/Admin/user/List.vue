@@ -130,20 +130,21 @@
                 </td>
 
                 <td nowrap="" class="align-center">
+
+                    
     <span class="dropdown">
-    <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="true">
+    <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" aria-expanded="false">
     <i class="la la-ellipsis-h"></i>
     </a>
     <div class="dropdown-menu dropdown-menu-right">
-        <!-- <a class="dropdown-item" href="edit-user/"><i class="la la-edit"></i> Edit</a> -->
         <Link class="dropdown-item" :href="route('admin.editUser',user.id)"><i class="la la-edit"></i> Edit</Link>
-
-                  <!-- <a class="dropdown-item" href="#"><i class="la la-eye"></i> View</a> -->
-
-                    
         <button href="#" class="dropdown-item" @click="deleteRecode(user.id)"><i class="fa fa-trash"></i> Delete</button>
     </div>
     </span>
+
+
+
+    
     </td>
 
 
@@ -216,7 +217,7 @@ onMounted(() => {
     form.searchStatus = params.get('active') || '';
     perPage.value = params.get('perPage') || 5;
 
-     emit.emit('pageName', 'User Management','User List');
+     emit.emit('pageName', 'User Management',[{title: "User List", routeName:"admin.users"}]);
 
     emit.on('deleteConfirm', function (arg1) {
         deleteConfirm(arg1);

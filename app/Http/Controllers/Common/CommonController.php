@@ -6,6 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Mail\SendForgotPasswordOtp;
+use Illuminate\Support\Facades\Mail;
 
 class CommonController extends Controller
 {
@@ -26,14 +28,20 @@ class CommonController extends Controller
                 ]);
             }
 
-            $get_otp = DB::table('password_reset_tokens')->where('email',$request->email)->delete();
+             DB::table('password_reset_tokens')->where('email',$request->email)->delete();
             
 
-            $create_token = DB::table('password_reset_tokens')->insert([
+             DB::table('password_reset_tokens')->insert([
                 'email'=>$request->email,
                 'token'=>$token,
                 'created_at'=>now(),
             ]);
+
+            $data['code'] = $token;
+
+            if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+                Mail::to($request->email)->send(new SendForgotPasswordOtp($data));
+            }
 
             session()->flash('success','OTP successfully send.');
             session()->put('forgot_password_email',$request->email);
@@ -61,7 +69,7 @@ class CommonController extends Controller
                     'otp' => 'Invalid OTP',
                 ]);
             }
-
+            DB::table('password_reset_tokens')->where('email',$request->email)->delete();
 
             session()->flash('success','OTP successfully validate.');
             return to_route('frontend.resetPassword');

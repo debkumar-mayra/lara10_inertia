@@ -7,11 +7,11 @@
     <!-- begin:: Aside -->
     <div class="kt-aside__brand kt-grid__item " id="kt_aside_brand">
         <div class="kt-aside__brand-logo">
-            <a href="admin/dashboard" class="logo_text_custom">
+            <Link :href="route('admin.dashboard')" class="logo_text_custom">
                  <!-- <span>Laravel</span> -->
-                <img src="/admin_assets/logo/logo.png" alt="" width="75%"
-                    style="padding: 10px">
-            </a>
+                <img src="/admin_assets/logo/logo.png" alt="" width="100%"
+                    style="padding: 10px; width:100%;">
+            </Link>
         </div>
         <div class="kt-aside__brand-tools">
             <button class="kt-aside__brand-aside-toggler" id="kt_aside_toggler" @click="toggleSideMenu">
