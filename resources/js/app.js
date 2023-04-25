@@ -6,6 +6,10 @@ import { createInertiaApp,Link,Head } from '@inertiajs/vue3'
 // import AdminLayout from './Layout/Admin/Layout.vue';
 import { createPinia } from 'pinia';
 
+import PerfectScrollbar from 'vue3-perfect-scrollbar'
+import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
+
+
 import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 const pinia = createPinia();
 import { defineAsyncComponent } from 'vue'
@@ -67,6 +71,7 @@ createInertiaApp({
     createApp({ render: () => h(App, props) })
       .use(plugin)
       .use(pinia)
+      .use(PerfectScrollbar)
       .use(ZiggyVue, Ziggy)
       .component('Link',Link)
       .component('Head',Head)

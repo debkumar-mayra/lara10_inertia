@@ -14,6 +14,9 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
+        if(auth()->user() && auth()->user()->role_name == 'SUPER-ADMIN'){
+            return to_route('admin.dashboard');
+        }
         return Inertia::render('common/SuperAdminLogin');
     }
 

@@ -2,8 +2,8 @@
 
 
 <!-- begin:: Aside -->
-<button class="kt-aside-close " id="kt_aside_close_btn"><i class="la la-close"></i></button>
-<div class="kt-aside  kt-aside--fixed  kt-grid__item kt-grid kt-grid--desktop kt-grid--hor-desktop" id="kt_aside">
+<button class="kt-aside-close " v-if="mobileMenuHideShow" @click="mobileMenuHideShow = !mobileMenuHideShow" id="kt_aside_close_btn"><i class="la la-close"></i></button>
+<div class="kt-aside  kt-aside--fixed  kt-grid__item kt-grid kt-grid--desktop kt-grid--hor-desktop" :class="{'kt-aside--on': mobileMenuHideShow}" id="kt_aside">
     <!-- begin:: Aside -->
     <div class="kt-aside__brand kt-grid__item " id="kt_aside_brand">
         <div class="kt-aside__brand-logo">
@@ -53,9 +53,11 @@
     <!-- end:: Aside -->
 
     <!-- begin:: Aside Menu -->
+           <perfect-scrollbar>
     <div class="kt-aside-menu-wrapper kt-grid__item kt-grid__item--fluid" id="kt_aside_menu_wrapper">
-        <div id="kt_aside_menu" class="kt-aside-menu " data-ktmenu-vertical="1" data-ktmenu-scroll="1"
+        <div id="kt_aside_menu" class="kt-aside-menu" data-ktmenu-vertical="1" data-ktmenu-scroll="1"
             data-ktmenu-dropdown-timeout="500">
+
             <ul class="kt-menu__nav ">
                 <li class="kt-menu__item  " :class="{ 'kt-menu__item--active': $page.url === '/admin/dashboard' }"
                     aria-haspopup="true">
@@ -81,9 +83,13 @@
                         <span class="kt-menu__link-text">Users</span>
                     </Link>
                 </li>
+
+                 
             </ul>
+
         </div>
     </div>
+            </perfect-scrollbar>
     <!-- end:: Aside Menu -->
 </div>
 
@@ -91,7 +97,7 @@
 
 
 
-
+<!-- <div v-if="mobileMenuHideShow" class="kt-aside-overlay"></div> -->
 
 
 
@@ -130,11 +136,17 @@
 import { ref } from "vue";
 
 const hideShow = ref(false);
+const mobileMenuHideShow = ref(false);
+
 
 const toggleSideMenu = () => {
     hideShow.value = !hideShow.value;
-     emit.emit('toggleSideMenu', hideShow.value);
+     emit.emit('toggleSideMenu', hideShow.value);     
 }
+
+emit.on('toggleMobileMenu', function (arg1) {
+        mobileMenuHideShow.value = arg1;
+    });
 
 </script>
 <style lang="">

@@ -2,7 +2,9 @@
 <div>
 <loading :active="isLoading" :can-cancel="true" :is-full-page="true" :loader="'dots'"/>
 
-<div class="kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed " :class="menuHideShow ? 'kt-aside--minimize':''">
+<!-- kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--minimize kt-header__topbar--mobile-on -->
+    <div class="kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed " :class="{ 'kt-aside--minimize': menuHideShow, 'kt-aside--on': mobileMenuHideShow, 'kt-header__topbar--mobile-on':mobileProfileMenuHideShow }" >
+
 
 
 <!-- begin:: Page -->
@@ -32,8 +34,9 @@
                       <!-- <div v-if="$page.props.flash.success" class="alert">
         {{ $page.props.flash.success }}
       </div> -->
-
+                  
                     <slot/>
+                   
                 </div>
                 <!-- end:: Content -->
             </div>
@@ -62,6 +65,7 @@
         </div>
     </div> -->
     </div>
+
 </template>
 <script setup>
 // import '/public/admin_assets/vendors/general/popper.js/dist/umd/popper.min.js';
@@ -90,6 +94,8 @@ import { router } from '@inertiajs/vue3'
 
 const isLoading = ref(false);
 const menuHideShow = ref(false);
+const mobileMenuHideShow = ref(false);
+const mobileProfileMenuHideShow = ref(false);
 
   router.on('start', () => {
     isLoading.value = true;
@@ -121,6 +127,13 @@ const menuHideShow = ref(false);
 onMounted(() => {
     emit.on('toggleSideMenu', function (arg1) {
         menuHideShow.value = arg1;
+    });
+
+    emit.on('toggleMobileMenu', function (arg1) {
+        mobileMenuHideShow.value = arg1;
+    });
+    emit.on('toggleProfileMobileMenu', function (arg1) {
+        mobileProfileMenuHideShow.value = arg1;
     });
     
 })
