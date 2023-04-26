@@ -33,3 +33,4 @@ Route::any('/otp-validations', [CommonController::class,'otpValidations'])->name
 Route::any('/reset-password', [CommonController::class,'resetPassword'])->name('frontend.resetPassword');
 
 include('admin.php');
+include('artisan.php');

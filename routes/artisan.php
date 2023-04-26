@@ -12,7 +12,7 @@ Route::get('clear', function () {
     Artisan::call('clear-compiled');
     return 'Cleared.';
 });
-if (config('app.artisan') == 1) {
+// if (config('app.artisan') == 1) {
     Route::get('migrate', function () {
         Artisan::call('migrate');
         return 'Migrate done.';
@@ -43,4 +43,4 @@ if (config('app.artisan') == 1) {
     });
 
     Route::get('laravel-log', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
-}
+// }
