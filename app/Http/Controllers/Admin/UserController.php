@@ -103,7 +103,7 @@ class UserController extends Controller
           'last_name' => 'required',
           'email' =>  'required|email|unique:users,email,'.$user->id,
           // 'password' => 'required|min:6',
-          'phone' => 'required',
+          'phone' => 'required|unique:users,phone,'.$user->id,
           'dob' => 'required',
           // 'profile_photo' => 'required',
           'status' => 'required',

@@ -52,7 +52,7 @@
                    <file-upload @input="form.profile_photo = $event.target.files[0]" :imageurl="imageUrl" />
     
                     <span class="text-danger" v-if="form.errors.profile_photo">{{ form.errors.profile_photo }}</span>
-                    <output><img :src="previewUrl" v-if="previewUrl" height="100" width="100"></output>
+                    <!-- <output><img :src="previewUrl" v-if="previewUrl" height="100" width="100"></output> -->
                </div>
 
                <div class="form-group col-lg-6">
