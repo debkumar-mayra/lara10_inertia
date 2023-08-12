@@ -29,7 +29,7 @@ export default {
 
 
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, router, useForm } from '@inertiajs/vue3';
 import { useSetAndGetData } from '@/stores/SetAndGetData';
 
 const store = useSetAndGetData();
@@ -45,11 +45,41 @@ function decreCounter(){
   store.setCounter(store.counter - 1);
 }
 
-function callService(){
+const form = useForm({
+
+});
+
+async function callService(){
 // toaster.error('abccc');
 
- let res = service.getData('test');
- console.log(res);
+// let res = await fetch('test').then((ress)=>{
+//     return ress.json();
+// }
+
+// ) ;
+
+form.post('test', {
+    // wantsJson: true,
+    api: true,
+    onSuccess: (data) => {
+      console.log(data);
+        // this.$emit('success', data);
+    }
+});
+
+// let res = form.get('test');
+// console.log(res.message);
+
+// form.get('test', {
+//   onSuccess: () => form.reset('password'),
+// })
+
+
+//  let res = service.getData('test');
+
+//  res.then(function(ress){
+//    console.log(ress);
+//  });
 }
 
 

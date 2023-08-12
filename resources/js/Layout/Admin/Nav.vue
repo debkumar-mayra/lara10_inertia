@@ -84,6 +84,30 @@
                     </Link>
                 </li>
 
+
+
+                 <li class="kt-menu__section ">
+                    <h4 class="kt-menu__section-text">Content Management</h4>
+                    <i class="kt-menu__section-icon flaticon-more-v2">
+                    </i>
+                </li>
+
+                <li class="kt-menu__item" :class="{ 'kt-menu__item--active': $page.component.startsWith('Admin/cms') }"
+                    aria-haspopup="true">
+                    <Link href="/admin/cms" class="kt-menu__link " >
+                        <i class="kt-menu__link-icon flaticon-imac"></i>
+                        <span class="kt-menu__link-text">CMS Pages</span>
+                    </Link>
+                </li>
+
+                <li class="kt-menu__item" :class="{ 'kt-menu__item--active': $page.component.startsWith('Admin/faq') }"
+                    aria-haspopup="true">
+                    <Link href="/admin/faq" class="kt-menu__link " >
+                        <i class="kt-menu__link-icon fas fa-question-circle"></i>
+                        <span class="kt-menu__link-text">FAQ</span>
+                    </Link>
+                </li>
+
                  
             </ul>
 

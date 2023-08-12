@@ -22,6 +22,9 @@ class HomeController extends Controller
 
     public function test()
     {
+
+        // return Inertia::render('Frontend/Home');
+    
         return response()->json(['success'=>true, 'message'=>'get data successfully']);
     }
 

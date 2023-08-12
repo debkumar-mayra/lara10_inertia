@@ -19,9 +19,14 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+Route::get('/video-call', function(){
+    return view('video_call');
+});
+
+
 Route::get('/', [HomeController::class,'index']);
 Route::get('/about', [HomeController::class,'about']);
-Route::get('/test', [HomeController::class,'test'])->middleware('auth');
+Route::any('/test', [HomeController::class,'test']);
 Route::get('/login', [HomeController::class,'login'])->name('frontend.login');
 Route::post('/login', [HomeController::class,'authenticate'])->name('frontend.login');
 Route::get('/dashboard', [HomeController::class,'dashboard'])->middleware('auth');

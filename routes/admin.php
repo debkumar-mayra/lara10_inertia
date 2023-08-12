@@ -1,5 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CmsController;
+use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\UserController;
 
@@ -21,6 +23,12 @@ Route::post('login', [HomeController::class,'authenticate'])->name('login');
     Route::any('edit-user/{id}', [UserController::class,'editUser'])->name('editUser');
     Route::delete('delete-user/{id}', [UserController::class,'deleteUser'])->name('userDelete');
     Route::post('change-user-status', [UserController::class,'changeUserStatus'])->name('changeUserStatus');
+
+    Route::resource('faq', FaqController::class);  
+    Route::post('change-faq-status', [FaqController::class,'changeFaqStatus']);
+
+    Route::resource('cms', CmsController::class)->except(['update', 'show']);
+    Route::post('cms/{slug}', [CmsController::class,'update']);  
 
 
 });
