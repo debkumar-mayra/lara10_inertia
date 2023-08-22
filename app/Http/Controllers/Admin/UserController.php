@@ -52,6 +52,7 @@ class UserController extends Controller
 
 
 
+
     public function createUser(Request $request)
     {
       if($request->isMethod('post')){

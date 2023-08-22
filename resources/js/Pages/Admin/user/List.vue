@@ -101,7 +101,8 @@
 
 
                         </thead>
-                        <tbody>
+                        <tbody v-auto-animate >
+                        <!-- <tbody ref="scrollComponent" v-auto-animate > -->
 
            
                 <tr role="row" class="odd" v-for="user in props.users.data" :key=user.id>
@@ -188,10 +189,13 @@
 // import Paginate from '../../../components/Paginate.vue'
 import { router } from '@inertiajs/vue3'
 import { useForm } from '@inertiajs/vue3'
-import {ref,watch,reactive,onMounted} from 'vue';
+import {ref,watch,reactive,onMounted, onUnmounted} from 'vue';
 import { Bootstrap4Pagination } from 'laravel-vue-pagination';
+import service from '../../../helpers/service';
 
-const props = defineProps({ users: Object });
+const props = defineProps({ users: Array });
+
+
 const listData = ref({});
 listData.value = props.users;
 
@@ -320,6 +324,27 @@ const changeStatusConfirm = (id) => {
     }
     router.post(route('admin.changeUserStatus'), data)
 }
+
+
+// const scrollComponent = ref(null)
+
+// onMounted(() => {
+//   window.addEventListener("scroll", handleScroll)
+//  })
+
+//  onUnmounted(() => {
+//   window.removeEventListener("scroll", handleScroll)
+//  })
+
+
+// const handleScroll = async (e) => {
+//   let element = scrollComponent.value
+//   if (element.getBoundingClientRect().bottom < window.innerHeight) {
+//     console.log('loaded');
+//     // alert('ddd'+window.innerHeight);
+//   }
+// }
+
 
 </script>
 <style lang="">

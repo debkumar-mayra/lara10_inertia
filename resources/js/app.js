@@ -34,6 +34,16 @@ const FrontendLayout = defineAsyncComponent(() =>
   import('./Layout/Frontend/Layout.vue')
 )
 
+import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
+
+import { Icon } from '@iconify/vue'; // https://iconify.design/docs/icon-components/vue/
+
+
+
+
+
+
+
 createInertiaApp({
 
   // progress: {
@@ -71,10 +81,12 @@ createInertiaApp({
     createApp({ render: () => h(App, props) })
       .use(plugin)
       .use(pinia)
+      .use(autoAnimatePlugin)
       .use(PerfectScrollbar)
       .use(ZiggyVue, Ziggy)
       .component('Link',Link)
       .component('Head',Head)
+      .component('Icon',Icon)
       .mount(el)
   },
 })

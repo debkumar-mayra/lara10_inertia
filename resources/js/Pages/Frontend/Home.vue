@@ -14,7 +14,7 @@
 <br>
             <button class="btn btn-primary" @click="increCounter">+</button> {{store.getCounter}}  <button class="btn btn-danger" @click="decreCounter">-</button>
 
-            <button class="btn btn-dark" @click="callService">Call Api</button>
+            <button class="btn btn-dark" @click="callService">Call Api <Icon icon="material-symbols:star-outline" color="green" width="38" height="38" /></button>
 
             </div>
 

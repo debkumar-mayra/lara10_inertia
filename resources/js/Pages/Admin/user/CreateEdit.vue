@@ -5,8 +5,8 @@
     
 <div class="kt-portlet kt-portlet--mobile">
     <div class="kt-portlet__body">
-        <form @submit.prevent="submit">
-            <div class="form-group validated row">
+        <form @submit.prevent="submit" >
+            <div class="form-group validated row"  v-auto-animate>
                 <!-- {{ $form }} -->
 
                 <div class="form-group col-lg-6">

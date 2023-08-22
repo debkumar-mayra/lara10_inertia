@@ -1,6 +1,6 @@
 <template lang="">
 <div>
-<loading :active="isLoading" :can-cancel="true" :is-full-page="true" :loader="'dots'"/>
+<!-- <loading :active="isLoading" :can-cancel="true" :is-full-page="true" :loader="'dots'"/> -->
 
 <!-- kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--minimize kt-header__topbar--mobile-on -->
     <div class="kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed " :class="{ 'kt-aside--minimize': menuHideShow, 'kt-aside--on': mobileMenuHideShow, 'kt-header__topbar--mobile-on':mobileProfileMenuHideShow }" >
