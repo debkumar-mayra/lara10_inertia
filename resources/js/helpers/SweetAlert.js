@@ -88,6 +88,8 @@ class SweetAlert{
 
             })
     }
+
+    
 }
 
 export default SweetAlert = new SweetAlert()

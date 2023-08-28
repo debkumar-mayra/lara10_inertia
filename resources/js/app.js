@@ -23,8 +23,9 @@ window.service = Service;
 import SweetAlert from './helpers/SweetAlert';  //--for 'globally' use
 window.sw = SweetAlert;
 
-import emitter from 'tiny-emitter/instance';
+import emitter from 'tiny-emitter/instance'; //--for 'globally' use
 window.emit = emitter;
+
 
 const AdminLayout = defineAsyncComponent(() =>
   import('./Layout/Admin/Layout.vue')
@@ -37,6 +38,8 @@ const FrontendLayout = defineAsyncComponent(() =>
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 
 import { Icon } from '@iconify/vue'; // https://iconify.design/docs/icon-components/vue/
+
+import { MotionPlugin } from '@vueuse/motion'
 
 
 
@@ -83,6 +86,7 @@ createInertiaApp({
       .use(pinia)
       .use(autoAnimatePlugin)
       .use(PerfectScrollbar)
+      .use(MotionPlugin)
       .use(ZiggyVue, Ziggy)
       .component('Link',Link)
       .component('Head',Head)

@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <div id="kt_table_1_filter" class="dataTables_filter">
-                       <Link :href="route('admin.createUser')" class="btn btn-primary">+ Add New</Link>
+                       <Link :href="route('admin.createUser')" class="btn btn-button kt-btn btn-sm kt-btn--icon button-fx">+ Add New</Link>
                         <!-- {{ $search }} -->
                     </div>
                 </div>
@@ -104,8 +104,25 @@
                         <tbody v-auto-animate >
                         <!-- <tbody ref="scrollComponent" v-auto-animate > -->
 
+           <template v-for="user,index in users.data" :key="user.id">
+
+                <tr role="row" class="odd" v-motion
+  :initial="{
+    y: 100,
+    opacity: 0,
+  }"
+  :enter="{
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 250,
+      damping: 25,
+      mass: 0.5,
+    },
+  }" :delay="200">
+
            
-                <tr role="row" class="odd" v-for="user in props.users.data" :key=user.id>
                 <td class="sorting_1" tabindex="0">
                     <div class="kt-user-card-v2">
                         <div class="kt-user-card-v2__pic">
@@ -115,8 +132,7 @@
                         </div> 
                         <div class="kt-user-card-v2__details">
                             <span class="kt-user-card-v2__name">{{user.full_name}}</span>
-                            <a href="#" class="kt-user-card-v2__email kt-link">Member since
-                               {{user.created_at}}</a>
+                            <a href="#" class="kt-user-card-v2__email kt-link">Member since {{moment(user.created_at).format($page.props.dateFormat)}} </a>
                         </div>
                     </div>
                 </td>
@@ -150,6 +166,7 @@
 
 
             </tr>
+            </template>
 
 
                         </tbody>
@@ -187,17 +204,20 @@
 
 <script setup>
 // import Paginate from '../../../components/Paginate.vue'
-import { router } from '@inertiajs/vue3'
-import { useForm } from '@inertiajs/vue3'
+import { useForm,router,usePage } from '@inertiajs/vue3'
 import {ref,watch,reactive,onMounted, onUnmounted} from 'vue';
 import { Bootstrap4Pagination } from 'laravel-vue-pagination';
-import service from '../../../helpers/service';
+import moment from 'moment';  // https://momentjs.com/docs/#/parsing/string-format/
 
-const props = defineProps({ users: Array });
+
+
+
+    const {users} = defineProps({ users: Object });
+ 
 
 
 const listData = ref({});
-listData.value = props.users;
+listData.value = users;
 
 const getRandomVal = () => {
     let colors = ["success", "info", "warning", "dark", "primary"];
@@ -219,7 +239,7 @@ onMounted(() => {
     form.searchEmail = params.get('email') || null;
     form.searchPhone = params.get('phone') || null;
     form.searchStatus = params.get('active') || '';
-    perPage.value = params.get('perPage') || 5;
+    perPage.value = params.get('perPage') || usePage().props.perPage;
 
      emit.emit('pageName', 'User Management',[{title: "User List", routeName:"admin.users"}]);
 

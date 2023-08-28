@@ -71,7 +71,7 @@
                             </tr>
 
                         </thead>
-                        <tbody>      
+                        <tbody v-auto-animate>      
                             <tr role="row" class="odd" v-for="page in pages.data" :key=page.id>
                                 <td class="sorting_1" tabindex="0">
                                     {{page.title}}
@@ -113,9 +113,8 @@
 
 <script setup>
 import Paginate from '../../../components/Paginate.vue'
-import { router, useForm } from '@inertiajs/vue3'
+import { router, useForm, usePage } from '@inertiajs/vue3'
 import { ref, onMounted } from 'vue';
-import moment from 'moment';
 import Datepicker from '../../../components/Datepicker.vue'
 
 const props = defineProps({ pages: Object, shortBy: String });
@@ -136,7 +135,7 @@ const form = useForm({
 
 onMounted(() => {
     form.searchTitle = params.get('title') || null;
-    perPage.value = params.get('perPage') || 5;
+    perPage.value = params.get('perPage') || usePage().props.perPage;
 
    emit.emit('pageName', 'Content Management',[{title: "CMS List", routeName:"admin.cms.index"}]);
    

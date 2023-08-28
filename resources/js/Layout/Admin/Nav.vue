@@ -3,13 +3,13 @@
 
 <!-- begin:: Aside -->
 <button class="kt-aside-close " v-if="mobileMenuHideShow" @click="mobileMenuHideShow = !mobileMenuHideShow" id="kt_aside_close_btn"><i class="la la-close"></i></button>
-<div class="kt-aside  kt-aside--fixed  kt-grid__item kt-grid kt-grid--desktop kt-grid--hor-desktop" :class="{'kt-aside--on': mobileMenuHideShow}" id="kt_aside">
+<div class="kt-aside  kt-aside--fixed  kt-grid__item kt-grid kt-grid--desktop kt-grid--hor-desktop" :class="{'kt-aside--on': mobileMenuHideShow}" id="kt_aside" >
     <!-- begin:: Aside -->
     <div class="kt-aside__brand kt-grid__item " id="kt_aside_brand">
         <div class="kt-aside__brand-logo">
             <Link :href="route('admin.dashboard')" class="logo_text_custom">
                  <!-- <span>Laravel</span> -->
-                <img src="/admin_assets/logo/logo.png" alt="" width="100%"
+                <img :src="$page.props.logo" alt="" width="100%"
                     style="padding: 10px; width:100%;">
             </Link>
         </div>
@@ -80,7 +80,7 @@
                     <!-- <Link :href="route('home')" href="/admin/users" class="kt-menu__link " > -->
                     <Link :href="route('admin.users')" class="kt-menu__link">
                         <i class="kt-menu__link-icon fa fa-users"></i>
-                        <span class="kt-menu__link-text">Users</span>
+                        <span class="kt-menu__link-text">Users </span>
                     </Link>
                 </li>
 
@@ -107,6 +107,22 @@
                         <span class="kt-menu__link-text">FAQ</span>
                     </Link>
                 </li>
+
+                <li class="kt-menu__section ">
+                    <h4 class="kt-menu__section-text">Site Management</h4>
+                    <i class="kt-menu__section-icon flaticon-more-v2">
+                    </i>
+                </li>
+
+                <li class="kt-menu__item" :class="{ 'kt-menu__item--active': $page.component.startsWith('Admin/setting') }"
+                    aria-haspopup="true">
+                    <Link :href="route('admin.setting')" class="kt-menu__link " >
+                        <i class="kt-menu__link-icon flaticon-imac"></i>
+                        <span class="kt-menu__link-text">Setting</span>
+                    </Link>
+                </li>
+
+                
 
                  
             </ul>
@@ -173,6 +189,11 @@ emit.on('toggleMobileMenu', function (arg1) {
     });
 
 </script>
-<style lang="">
-    
+
+<style>
+    /* .kt-aside {
+    background-color: v-bind($page.props.buttonColor) !important;
+    } */
+
+
 </style>

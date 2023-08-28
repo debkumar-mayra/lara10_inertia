@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\SiteSetting;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Throwable;
@@ -63,7 +64,23 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+
+        $settings = SiteSetting::get(['key','value']);
+        $setting = [];
+        foreach($settings as $value ){
+            if($value->key == 'logo'){
+                $value->value = url()->to($value->value);
+            }
+            $setting[$value->key] = $value->value;
+        }
+        // dd($setting);
+
+
         return array_merge(parent::share($request), [
+            'appName'=>'My-app',
+            'logo'=>$setting['logo'],
+            'perPage'=>$setting['per_page'],
+            'dateFormat'=>$setting['date_format'],
             'auth'=>[
                 'user'=> [
                     'full_name'=>auth()->user()->full_name ?? null,
@@ -71,6 +88,11 @@ class HandleInertiaRequests extends Middleware
                   ]
                 ],
             'baseUrl'=>url(),
+            'theme'=>[
+                'mainColor'=>$setting['main_color'],
+                'buttonColor'=>$setting['button_color'],
+                'hoverColor'=>$setting['hover_color'],
+            ],
             'isLogin'=>auth()->user() ? true : false,
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),

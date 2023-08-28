@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CmsController;
 use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\SiteSettingController;
 use App\Http\Controllers\Admin\UserController;
 
 
@@ -29,6 +30,7 @@ Route::post('login', [HomeController::class,'authenticate'])->name('login');
 
     Route::resource('cms', CmsController::class)->except(['update', 'show']);
     Route::post('cms/{slug}', [CmsController::class,'update']);  
+    Route::any('setting', [SiteSettingController::class,'setting'])->name('setting');  
 
 
 });

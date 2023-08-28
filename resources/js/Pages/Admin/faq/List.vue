@@ -20,7 +20,7 @@
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <div id="kt_table_1_filter" class="dataTables_filter">
-                       <Link href="/admin/faq/create" class="btn btn-primary">+ Add New</Link>
+                       <Link href="/admin/faq/create" class="btn btn-button kt-btn btn-sm kt-btn--icon button-fx">+ Add New</Link>
                         <!-- {{ $search }} -->
                     </div>
                 </div>
@@ -99,13 +99,13 @@
                             </tr>
 
                         </thead>
-                        <tbody>      
+                        <tbody v-auto-animate>      
                             <tr role="row" class="odd" v-for="faq in faqs.data" :key=faq.id>
                                 <td class="sorting_1" tabindex="0">
                                     {{faq.question.substring(0,200)+".."}}
                                 </td>
                                 <td>{{faq.answer.substring(0,210)+".."}}</td>
-                                <td>{{changeDateFormat(faq.created_at)}}</td>
+                                <td>{{moment(faq.created_at).calendar()}}</td>
                                 <td class="align-center">
                                     <span @click="changeStatus(faq.id)" style="cursor: pointer;" class="kt-badge kt-badge--inline kt-badge--pill cursor-pointer"
                                     :class="(faq.active == 1) ? 'kt-badge--success':'kt-badge--warning'"
@@ -155,10 +155,20 @@
 
 <script setup>
 import Paginate from '../../../components/Paginate.vue'
-import { router, useForm } from '@inertiajs/vue3'
+import { router, useForm,usePage } from '@inertiajs/vue3'
 import { ref, onMounted } from 'vue';
 import moment from 'moment';
 import Datepicker from '../../../components/Datepicker.vue'
+
+moment.calendar = {
+    lastDay : '[Yesterday at] LT',
+    sameDay : '[Today at] LT',
+    nextDay : '[Tomorrow at] LT',
+    lastWeek : '[last] dddd [at] LT',
+    nextWeek : 'dddd [at] LT',
+    sameElse : 'L'
+};
+
 
 const props = defineProps({ faqs: Object, shortBy: String });
 const listData = ref({});
@@ -184,7 +194,7 @@ onMounted(() => {
     form.searchAnswer = params.get('title') || null;
     form.searchCreatedAt = params.get('created_at') || null;
     form.searchStatus = params.get('active') || '';
-    perPage.value = params.get('perPage') || 5;
+    perPage.value = params.get('perPage') || usePage().props.perPage;
 
      emit.emit('pageName', 'FAQ Management',[{title: "FAQ", routeName:"admin.faq.index"}]);
 
@@ -291,8 +301,5 @@ const changeStatusConfirm = (id) => {
 }
 
 
-function changeDateFormat(date) {
-    return moment(date).format('MMM DD, YYYY');
-}
 
 </script>

@@ -42,7 +42,7 @@
 
                <div class="form-group col-lg-6">
                     <label for="dob">DOB</label>
-                    <datepicker v-model="form.dob" />
+                    <datepicker v-model="form.dob" placeholder="DOB"/>
                     <!-- <input type="date" id="dob" v-model="form.dob" class="form-control border-gray-200" placeholder="DOB"> -->
                     <span class="text-danger" v-if="form.errors.dob">{{ form.errors.dob }}</span>
                </div>
@@ -74,7 +74,7 @@
                               <submit-button :disabled="form.processing" :isLoading="form.processing">Submit</submit-button>
                             </div>
                             <div class="col-lg-6 kt-align-right">
-                            <button type="reset" class="btn btn-danger">Reset</button>
+                            <button type="reset" class="btn btn-secondary kt-btn btn-sm kt-btn--icon button-fx">Reset</button>
                             </div>
 
 

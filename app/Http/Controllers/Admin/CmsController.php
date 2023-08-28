@@ -34,7 +34,7 @@ class CmsController extends Controller
             $pages->orderBy($request->fieldName,$request->shortBy);
         }
 
-        $perPage = 5;
+        $perPage = $this->per_page;
        if($request->perPage){
         $perPage = $request->perPage;
        }

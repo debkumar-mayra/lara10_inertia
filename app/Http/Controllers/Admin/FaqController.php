@@ -42,7 +42,7 @@ class FaqController extends Controller
         }
 
 
-        $perPage = 5;
+        $perPage = $this->per_page;
        if($request->perPage){
         $perPage = $request->perPage;
        }

@@ -1,6 +1,6 @@
 <template>
 <div>
-   <button v-bind="$attrs" type="submit" class="btn btn-primary" :disabled="isLoading">
+   <button v-bind="$attrs" type="submit" class="btn btn-brand kt-btn btn-sm kt-btn--icon button-fx" :disabled="isLoading">
 
             <template v-if="isLoading">
                 <div style="display:flex;">
