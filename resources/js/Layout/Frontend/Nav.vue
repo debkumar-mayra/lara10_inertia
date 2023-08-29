@@ -21,7 +21,7 @@
         <Link class="nav-link" href="/login">Login</Link>
       </li>
 
-<template v-if="$page.props.isLogin">
+<template v-if="$page.props.isLogin && $page.props.isUser">
       <li class="nav-item">
         <Link class="nav-link" href="/dashboard">Dashboard</Link>
       </li>

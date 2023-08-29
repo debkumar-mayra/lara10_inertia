@@ -94,6 +94,8 @@ class HandleInertiaRequests extends Middleware
                 'hoverColor'=>$setting['hover_color'],
             ],
             'isLogin'=>auth()->user() ? true : false,
+            'isUser'=>(auth()->user() && auth()->user()->role_name == 'USER') ? true : false,
+            'isAdmin'=>(auth()->user() &&  auth()->user()->role_name == 'SUPER-ADMIN') ? true : false,
             'flash' => [
                 'success' => fn () => $request->session()->get('success'),
                 'error' => fn () => $request->session()->get('error'),

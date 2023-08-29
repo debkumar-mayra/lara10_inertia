@@ -72,7 +72,7 @@
 
                         </thead>
                         <tbody v-auto-animate>      
-                            <tr role="row" class="odd" v-for="page in pages.data" :key=page.id>
+                            <tr role="row" class="odd" v-for="page in pages.data" :key="page.id" v-motion-slide-top>
                                 <td class="sorting_1" tabindex="0">
                                     {{page.title}}
                                 </td>

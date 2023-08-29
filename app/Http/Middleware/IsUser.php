@@ -19,6 +19,6 @@ class IsUser
         if (Auth::user()->role_name == "USER") {
             return $next($request);
         }
-        return redirect()->back();
+        return redirect()->route('frontend.login');
     }
 }

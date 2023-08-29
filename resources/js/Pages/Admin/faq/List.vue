@@ -100,7 +100,7 @@
 
                         </thead>
                         <tbody v-auto-animate>      
-                            <tr role="row" class="odd" v-for="faq in faqs.data" :key=faq.id>
+                            <tr role="row" class="odd" v-for="faq in faqs.data" :key="faq.id" v-motion-slide-top>
                                 <td class="sorting_1" tabindex="0">
                                     {{faq.question.substring(0,200)+".."}}
                                 </td>

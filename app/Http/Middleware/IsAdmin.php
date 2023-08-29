@@ -19,6 +19,7 @@ class IsAdmin
         if (Auth::user()->role_name == "SUPER-ADMIN") {
             return $next($request);
         }
-        return redirect()->back();
+        return redirect()->route('login');
+        // return redirect()->back();
     }
 }

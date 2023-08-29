@@ -106,21 +106,7 @@
 
            <template v-for="user,index in users.data" :key="user.id">
 
-                <tr role="row" class="odd" v-motion
-  :initial="{
-    y: 100,
-    opacity: 0,
-  }"
-  :enter="{
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: 'spring',
-      stiffness: 250,
-      damping: 25,
-      mass: 0.5,
-    },
-  }" :delay="200">
+                <tr role="row" class="odd" v-motion-slide-top>
 
            
                 <td class="sorting_1" tabindex="0">
