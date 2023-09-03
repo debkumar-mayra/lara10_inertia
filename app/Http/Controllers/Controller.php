@@ -14,8 +14,10 @@ class Controller extends BaseController
     public $per_page = 5;
 
     public function __construct() {
-        $get_setting = SiteSetting::where('key','per_page')->first(['value']);
-        $this->per_page = $get_setting->value ?? 5; 
+        if(auth()->check() && auth()->user()->role_name == "SUPER-ADMIN"){
+            $get_setting = SiteSetting::where('key','per_page')->first(['value']);
+            $this->per_page = $get_setting->value ?? 5; 
+        }
     }
 
     public function sendServerError($e)

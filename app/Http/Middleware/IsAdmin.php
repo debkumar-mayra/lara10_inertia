@@ -16,6 +16,7 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // dd(Auth::user()->role_name);
         if (Auth::user()->role_name == "SUPER-ADMIN") {
             return $next($request);
         }

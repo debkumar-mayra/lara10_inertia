@@ -117,7 +117,7 @@
                 <li class="kt-menu__item" :class="{ 'kt-menu__item--active': $page.component.startsWith('Admin/setting') }"
                     aria-haspopup="true">
                     <Link :href="route('admin.setting')" class="kt-menu__link " >
-                        <i class="kt-menu__link-icon flaticon-imac"></i>
+                        <Icon icon="tabler:settings-cog" color="white" width="24" height="24" class="kt-menu__link-icon" />
                         <span class="kt-menu__link-text">Setting</span>
                     </Link>
                 </li>

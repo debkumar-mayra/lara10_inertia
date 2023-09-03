@@ -39,7 +39,7 @@ import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 
 import { Icon } from '@iconify/vue'; // https://iconify.design/docs/icon-components/vue/
 
-import { MotionPlugin } from '@vueuse/motion' 
+import { MotionPlugin } from '@vueuse/motion'  // https://motion.vueuse.org/features/presets
 
 
 

@@ -57,19 +57,19 @@
          
             <tr class="filter">
             <th>
-                <input type="search" v-model="form.searchName" placeholder="" autocomplete="off"
+                <input type="search" v-model="form.name" placeholder="" autocomplete="off"
                     class="form-control-sm form-filter" />
             </th>
             <th>
-                <input type="search" v-model="form.searchEmail" placeholder="" autocomplete="off"
+                <input type="search" v-model="form.email" placeholder="" autocomplete="off"
                     class="form-control-sm form-filter" />
             </th>
             <th>
-                <input type="search" v-model="form.searchPhone" placeholder="" autocomplete="off"
+                <input type="search" v-model="form.phone" placeholder="" autocomplete="off"
                     class="form-control-sm form-filter" />
             </th>
             <th>
-                <select class="form-control form-control-sm form-filter kt-input" v-model="form.searchStatus"
+                <select class="form-control form-control-sm form-filter kt-input" v-model="form.active"
                     title="Select" data-col-index="2">
                     <option value="">Select One</option>
                     <option value="1">Active</option>
@@ -77,7 +77,7 @@
                 </select>
             </th>
             <th>
-                <div class="row justify-content-center align-items-center">
+                <!-- <div class="row justify-content-center align-items-center">
                     <div class="col-md-6">
                     <button class="btn btn-brand kt-btn btn-sm kt-btn--icon button-fx" @click="search">
                         <span>
@@ -94,7 +94,7 @@
                         </span>
                     </button>
                     </div>
-                </div>
+                </div> -->
             </th>
         </tr>
   
@@ -106,7 +106,7 @@
 
            <template v-for="user,index in users.data" :key="user.id">
 
-                <tr role="row" class="odd" v-motion-slide-top>
+                <tr role="row" class="odd">
 
            
                 <td class="sorting_1" tabindex="0">
@@ -139,7 +139,7 @@
     <a href="#" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown" >
     <i class="la la-ellipsis-h"></i>
     </a>
-    <div class="dropdown-menu dropdown-menu-right" >
+    <div class="dropdown-menu dropdown-menu-right">
         <Link class="dropdown-item" :href="route('admin.editUser',user.id)"><i class="la la-edit"></i> Edit</Link>
         <button href="#" class="dropdown-item" @click="deleteRecode(user.id)"><i class="fa fa-trash"></i> Delete</button>
     </div>
@@ -191,40 +191,34 @@
 <script setup>
 // import Paginate from '../../../components/Paginate.vue'
 import { useForm,router,usePage } from '@inertiajs/vue3'
-import {ref,watch,reactive,onMounted, onUnmounted} from 'vue';
+import {ref,watch,reactive,onMounted, onUnmounted, watchEffect} from 'vue';
 import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 import moment from 'moment';  // https://momentjs.com/docs/#/parsing/string-format/
+import {debounce,throttle,pickBy} from "lodash";
 
 
-
-
-    const {users} = defineProps({ users: Object });
+const {users,filters} = defineProps({ users: Array,filters:Object });
  
 
-
-const listData = ref({});
-listData.value = users;
+// console.log(listData.value);
 
 const getRandomVal = () => {
     let colors = ["success", "info", "warning", "dark", "primary"];
      let random = Math.floor(Math.random() * colors.length);
-     console.log('====='+random);
      return random;
 }
 
-const form = useForm({
-    searchName: null,
-    searchEmail: null,
-    searchPhone: null,
-    searchStatus: ''
+const form = reactive({
+    name: filters.name || null,
+    email: filters.email || null,
+    phone: filters.phone || null,
+    active: filters.active || '',
 })
 
+    let params = new URLSearchParams(window.location.search)
 
 onMounted(() => {
-    form.searchName = params.get('name') || null;
-    form.searchEmail = params.get('email') || null;
-    form.searchPhone = params.get('phone') || null;
-    form.searchStatus = params.get('active') || '';
+ 
     perPage.value = params.get('perPage') || usePage().props.perPage;
 
      emit.emit('pageName', 'User Management',[{title: "User List", routeName:"admin.users"}]);
@@ -236,12 +230,8 @@ onMounted(() => {
      emit.on('changeStatusConfirm', function (arg1) {
         changeStatusConfirm(arg1);
     });
-
-
-
 });
 
-let params = new URLSearchParams(window.location.search)
 
 const fieldName = ref('');
 
@@ -265,41 +255,15 @@ function setPageNum(page) {
 }
 
 
-const resetSearch = () => {
-    router.visit(route('admin.users'), {
-    method: 'get'
-    });
-}
-
-
-
-const search = () => {
-    let data = {
-      name : form.searchName,
-      email : form.searchEmail,
-      phone : form.searchPhone,
-      active : form.searchStatus,
-    };
-   if(form.searchName == '' || form.searchName == null){
-     delete data.name
-   }
-
-   if(form.searchEmail == '' || form.searchEmail == null){
-     delete data.email
-   }
-   if(form.searchPhone == '' || form.searchPhone == null){
-     delete data.phone
-   }
-   if(form.searchStatus == '' || form.searchStatus == null){
-     delete data.active
-   }
- 
+ watch(form, debounce(() => {
     router.visit(route('admin.users'), {
     method: 'get',
-    data: data,
-    replace: false,
+    data: pickBy(form),
+    preserveState: true 
     });
-}
+    }, 100));
+
+
 
 const perPage = ref(5);
 

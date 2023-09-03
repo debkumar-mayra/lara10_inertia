@@ -4,50 +4,45 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Request;
+
 
 class UserController extends Controller
 {
-    public function userlist(Request $request)
+    public function userlist()
     {
-      // dd(10);
-        $credentials = $request->validate([
-            'fieldName' => "in:first_name,email,phone",
-            'shortBy' => "in:asc,desc",
-        ]);
+      //  $users = User::filter(Request::only('name','email','phone','active'))->role('USER')->ordering(Request::only('fieldName','shortBy'))->latest()->paginate(request()->perPage ?? $this->per_page)->withQueryString()
+      //  ->through(fn ($user) => [
+      //   'id' => $user->id,
+      //   'full_name' => $user->full_name,
+      //   'email' => $user->email,
+      //   'phone' => $user->phone,
+      //   'active' => $user->active,
+      //   // 'owner' => $user->owner,
+      //   // 'photo' => $user->photo_path ? URL::route('image', ['path' => $user->photo_path, 'w' => 40, 'h' => 40, 'fit' => 'crop']) : null,
+      //   'deleted_at' => $user->deleted_at,
+      // ]);
 
-       $users = User::query();
-       if($request->name){
-            $users = $users->WhereRaw(
-                "concat(first_name,' ', last_name) like '%" . trim($request->name) . "%' "
-            );
-       }
-
-       if($request->email){
-        $users = $users->where('email',$request->email);
-      }
-
-      if($request->phone){
-        $users = $users->where('phone',$request->phone);
-      }
-      if(isset($request->active)){
-        $users = $users->where('active',$request->active);
-      }
-
-       if($request->fieldName && $request->shortBy){
-         $users->orderBy($request->fieldName,$request->shortBy);
-       }
-
-       $perPage = $this->per_page;
-       if($request->perPage){
-        $perPage = $request->perPage;
-       }
-        $users = $users->latest()->role('USER')->paginate($perPage)->withQueryString();
+      // $filters = Request::all('name','email','phone','active');
+       
+      return Inertia::render('Admin/user/List', [
+        'filters'=> Request::all('name','email','phone','active'),
+        'users' => User::filter(Request::only('name','email','phone','active'))->role('USER')->ordering(Request::only('fieldName','shortBy'))->latest()->paginate(request()->perPage ?? $this->per_page)->withQueryString()
+      ->through(fn ($user) => [
+       'id' => $user->id,
+       'full_name' => $user->full_name,
+       'email' => $user->email,
+       'phone' => $user->phone,
+       'active' => $user->active,
+       // 'owner' => $user->owner,
+       // 'photo' => $user->photo_path ? URL::route('image', ['path' => $user->photo_path, 'w' => 40, 'h' => 40, 'fit' => 'crop']) : null,
+       'deleted_at' => $user->deleted_at,
+      ]),
+     ]);
         
-        return Inertia::render('Admin/user/List',['users'=>$users]);
     }
 
 

@@ -28,6 +28,7 @@
         "epic-spinners": "^2.0.0",
         "filepond": "^4.30.4",
         "laravel-vue-pagination": "^4.1.0",
+        "lodash": "^4.17.21",
         "moment": "^2.29.4",
         "nprogress": "^0.2.0",
         "pinia": "^2.0.32",

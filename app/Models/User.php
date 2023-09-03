@@ -41,11 +41,12 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'active' => 'string',
     ];
 
 
     protected $appends = [
-        'full_name', 'role_name','profile_photo_url'
+         'profile_photo_url'
     ];
 
 
@@ -76,4 +77,33 @@ class User extends Authenticatable
     {
        return ("{$this->profile_photo_path}") ? url()->to('storage/profile_photo/'."{$this->profile_photo_path}") : '';
     }
+
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['name'] ?? null, function ($query, $search) {
+            $query->WhereRaw("concat(first_name,' ', last_name) like '%" . trim($search) . "%' ");
+        });
+
+        $query->when($filters['email'] ?? null, function ($query, $search) {
+            $query->where('email','like', "%" . trim($search) . "%");
+        });
+
+        $query->when($filters['phone'] ?? null, function ($query, $search) {
+            $query->where('phone','like', "%" . trim($search) . "%");
+        });
+
+        $query->when(isset($filters['active']) ?? null, function ($query, $search) use($filters){
+            $query->where('active',$filters['active']);
+        });
+    }
+
+    public function scopeOrdering($query, array $filters)
+    {
+        $query->when($filters['fieldName'] ?? null, function ($query, $search) use($filters){
+            // dd($filters['shortBy']);
+            $query->orderBy($search,$filters['shortBy']);
+        });
+    }
+
 }

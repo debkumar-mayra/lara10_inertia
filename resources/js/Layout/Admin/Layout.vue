@@ -175,7 +175,7 @@ onMounted(() => {
 @import '/public/admin_assets/demo/default/skins/brand/dark.css';
 @import '/public/admin_assets/demo/default/skins/aside/dark.css';
 @import '/public/admin_assets/vendors/custom/datatables/datatables.bundle.css';
-@import '/public/admin_assets/custom.css';
+/* @import '/public/admin_assets/custom.css'; */
 
 /* @import '../../assets/admin_asset/js/bundle/app.bundle.js'; */
 /* @import './css/style.css'; */
