@@ -125,20 +125,11 @@ const mobileProfileMenuHideShow = ref(false);
     });
 
 
-const mainColor = ref('');
-const hoverColor = ref('');
-const buttonColor = ref('');
 
 const theme = computed(() => usePage().props.theme)
-console.log(theme.value.mainColor);
 
 onMounted(() => {
-    mainColor.value = usePage().props.theme.mainColor;
-    hoverColor.value = usePage().props.theme.hoverColor;
-    buttonColor.value = usePage().props.theme.buttonColor;
-
-// console.log('-------------'+mainColor.value);
-
+    
     emit.on('toggleSideMenu', function (arg1) {
         menuHideShow.value = arg1;
     });
