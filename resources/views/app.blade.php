@@ -14,6 +14,7 @@
         {{-- <link rel="stylesheet" href="{{ asset('admin_assets/vendors/general/select2/dist/css/select2new.min.css') }}" > --}}
         @routes
     @vite('resources/js/app.js')
+    @vite('resources/css/app.css')
     @inertiaHead
   </head>
   <body>

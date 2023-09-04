@@ -21,7 +21,7 @@ Route::post('login', [HomeController::class,'authenticate'])->name('login');
     Route::post('logout', [HomeController::class,'logout'])->name('logout');
     Route::get('users', [UserController::class,'userlist'])->name('users');
     Route::any('create-user', [UserController::class,'createUser'])->name('createUser');
-    Route::any('edit-user/{id}', [UserController::class,'editUser'])->name('editUser');
+    Route::any('edit-user/{user}', [UserController::class,'editUser'])->name('editUser');
     Route::delete('delete-user/{id}', [UserController::class,'deleteUser'])->name('userDelete');
     Route::post('change-user-status', [UserController::class,'changeUserStatus'])->name('changeUserStatus');
 

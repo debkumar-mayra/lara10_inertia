@@ -6,39 +6,22 @@
 <div class="kt-portlet kt-portlet--mobile">
     <div class="kt-portlet__body">
         <form @submit.prevent="submit" >
-            <div class="form-group validated row"  v-auto-animate>
-                <!-- {{ $form }} -->
+            <div class="form-group validated row">
 
-                <div class="form-group col-lg-6">
-                    <label for="first_name">First name</label>
-                    <input type="text" id="first_name" v-model="form.first_name" class="form-control border-gray-200" placeholder="First name">
-                    <span class="text-danger" v-if="form.errors.first_name">{{ form.errors.first_name }}</span>
-               </div>
+                 <text-input v-model="form.first_name" :error="form.errors.first_name" label="First name" placeholder="First name"/>
 
-               <div class="form-group col-lg-6">
-                    <label for="last_name">Last name</label>
-                    <input type="text" id="last_name" v-model="form.last_name" class="form-control border-gray-200" placeholder="Last name">
-                    <span class="text-danger" v-if="form.errors.last_name">{{ form.errors.last_name }}</span>
-               </div>
+               <text-input v-model="form.last_name" :error="form.errors.last_name" label="Last name" placeholder="Last name"/>
 
 
-               <div class="form-group col-lg-6">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" v-model="form.email" class="form-control border-gray-200" placeholder="Email">
-                    <span class="text-danger" v-if="form.errors.email">{{ form.errors.email }}</span>
-               </div>
+              <text-input type="email" v-model="form.email" :error="form.errors.email" label="Email" placeholder="Email"/>
 
-               <div class="form-group col-lg-6">
-                    <label for="phone">Phone</label>
-                    <input type="number" id="phone" v-model="form.phone" class="form-control border-gray-200" placeholder="Phone">
-                    <span class="text-danger" v-if="form.errors.phone">{{ form.errors.phone }}</span>
-               </div>
+               <text-input type="number" v-model="form.phone" :error="form.errors.phone" label="Phone" placeholder="Phone"/>
 
-               <div class="form-group col-lg-6" v-if="!props.user">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" v-model="form.password" class="form-control border-gray-200" placeholder="Password">
-                    <span class="text-danger" v-if="form.errors.password">{{ form.errors.password }}</span>
-               </div>
+
+             <text-input type="password" v-model="form.password" :error="form.errors.password" label="Password" placeholder="Password"/>
+
+
+             
 
                <div class="form-group col-lg-6">
                     <label for="dob">DOB</label>
@@ -47,16 +30,18 @@
                     <span class="text-danger" v-if="form.errors.dob">{{ form.errors.dob }}</span>
                </div>
 
-               <div class="form-group col-lg-6">                   
+               <!-- <div class="form-group col-lg-6">                   
                    <label for="profile_photo">Profile Photo</label>
                    <file-upload @input="form.profile_photo = $event.target.files[0]" :imageurl="imageUrl" />
     
                     <span class="text-danger" v-if="form.errors.profile_photo">{{ form.errors.profile_photo }}</span>
-                    <!-- <output><img :src="previewUrl" v-if="previewUrl" height="100" width="100"></output> -->
-               </div>
+                </div> -->
+<file-input v-model="form.profile_photo" :error="form.errors.profile_photo" class="pb-8 pr-6 w-full lg:w-1/2" type="file" accept="image/*" label="profile photo" />
+
+               
 
                <div class="form-group col-lg-6">
-                    <label for="status">Status</label>
+                    <label for="status" class="underline">Status</label>
                     <select id="status" class="form-control border-gray-200" v-model="form.status">
                         <option value="">Select Status</option>
                         <option value="1">Active</option>
@@ -93,6 +78,9 @@ import { useForm,router } from '@inertiajs/vue3'
 import FileUpload from '../../../components/FileUpload.vue'
 import Datepicker from '../../../components/Datepicker.vue'
 import SubmitButton from '../../../components/SubmitButton.vue'
+import FileInput from '../../../components/FileInput.vue'
+import TextInput from '../../../components/admin/TextInput.vue'
+
 
 
 
@@ -113,7 +101,7 @@ const props = defineProps({
 })
  const imageUrl = ref('');
 onMounted(()=>{
-  imageUrl.value = props.user?.profile_photo_url || '';
+  imageUrl.value = props.user?.profile_photo || '';
   if(props.user){
   //  emit.emit('pageName', 'User Management','Edit User');
      emit.emit('pageName', 'User Management',[{title: "User List", routeName:"admin.users"},{title: "Edit User", routeName:""}]);

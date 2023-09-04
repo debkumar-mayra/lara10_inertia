@@ -1,8 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+// use Intervention\Image\Facades\Image;
+use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\Common\CommonController;
 use App\Http\Controllers\Frontend\HomeController;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +38,16 @@ Route::post('/logout', [HomeController::class,'logout'])->middleware(['auth','is
 Route::any('/forgot-password', [CommonController::class,'forgotPassword'])->name('frontend.forgotPassword');
 Route::any('/otp-validations', [CommonController::class,'otpValidations'])->name('frontend.otpValidations');
 Route::any('/reset-password', [CommonController::class,'resetPassword'])->name('frontend.resetPassword');
+
+// Route::get('/image', function() {
+//     set_time_limit(0);
+//     return $img = Image::make('abc.png')->resize(50, 50)->response('jpg');
+// });
+
+// Images
+Route::get('/img/{path}', [ImagesController::class, 'show'])
+    ->where('path', '.*')
+    ->name('image');
 
 include('admin.php');
 include('artisan.php');

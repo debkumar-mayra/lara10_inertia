@@ -113,7 +113,8 @@
                     <div class="kt-user-card-v2">
                         <div class="kt-user-card-v2__pic">
                             <div class="kt-badge kt-badge--xl kt-badge--success" getRandomVal>
-                                <span>{{ user.full_name.substr(0,1) }}</span>
+                                <img v-if="user.profile_photo != null" :src="user.profile_photo"/>
+                                <span v-if="user.profile_photo == null">{{ user.full_name.substr(0,1) }}</span>
                             </div>
                         </div> 
                         <div class="kt-user-card-v2__details">

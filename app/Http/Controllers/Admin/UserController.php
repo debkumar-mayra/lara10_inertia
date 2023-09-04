@@ -4,55 +4,47 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Inertia\Inertia;
-use App\Http\Controllers\Controller;
-use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\URL;
+use App\Http\Controllers\Controller;
+use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 
 
 class UserController extends Controller
 {
     public function userlist()
     {
-      //  $users = User::filter(Request::only('name','email','phone','active'))->role('USER')->ordering(Request::only('fieldName','shortBy'))->latest()->paginate(request()->perPage ?? $this->per_page)->withQueryString()
-      //  ->through(fn ($user) => [
-      //   'id' => $user->id,
-      //   'full_name' => $user->full_name,
-      //   'email' => $user->email,
-      //   'phone' => $user->phone,
-      //   'active' => $user->active,
-      //   // 'owner' => $user->owner,
-      //   // 'photo' => $user->photo_path ? URL::route('image', ['path' => $user->photo_path, 'w' => 40, 'h' => 40, 'fit' => 'crop']) : null,
-      //   'deleted_at' => $user->deleted_at,
-      // ]);
+      $users = User::filter(Request::only('name','email','phone','active'))->role('USER')->ordering(Request::only('fieldName','shortBy'))->latest()->paginate(request()->perPage ?? $this->per_page)->withQueryString()
+       ->through(fn ($user) => [
+        'id' => $user->id,
+        'full_name' => $user->full_name,
+        'email' => $user->email,
+        'phone' => $user->phone,
+        'active' => $user->active,
+        // 'owner' => $user->owner,
+        // 'photo' => $user->profile_photo_path ? Image::make(storage_path($user->profile_photo_path))->resize(50, 50)->response('jpg') : null,
 
-      // $filters = Request::all('name','email','phone','active');
+        'profile_photo' => $user->profile_photo_path ? URL::route('image', ['path' => $user->profile_photo_path, 'w' => 40, 'h' => 40, 'fit' => 'crop']) : null,
+
+        'deleted_at' => $user->deleted_at,
+      ]);
+
+      $filters = Request::all('name','email','phone','active');
        
-      return Inertia::render('Admin/user/List', [
-        'filters'=> Request::all('name','email','phone','active'),
-        'users' => User::filter(Request::only('name','email','phone','active'))->role('USER')->ordering(Request::only('fieldName','shortBy'))->latest()->paginate(request()->perPage ?? $this->per_page)->withQueryString()
-      ->through(fn ($user) => [
-       'id' => $user->id,
-       'full_name' => $user->full_name,
-       'email' => $user->email,
-       'phone' => $user->phone,
-       'active' => $user->active,
-       // 'owner' => $user->owner,
-       // 'photo' => $user->photo_path ? URL::route('image', ['path' => $user->photo_path, 'w' => 40, 'h' => 40, 'fit' => 'crop']) : null,
-       'deleted_at' => $user->deleted_at,
-      ]),
-     ]);
+      return Inertia::render('Admin/user/List', compact('filters','users'));
         
     }
 
 
 
 
-    public function createUser(Request $request)
+    public function createUser()
     {
-      if($request->isMethod('post')){
+      if(request()->isMethod('post')){
       
-        $credentials = $request->validate([
+       request()->validate([
           'first_name' => 'required',
           'last_name' => 'required',
           'email' => 'required|email|unique:users,email',
@@ -65,19 +57,14 @@ class UserController extends Controller
 
        
         $user = new User;
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->email = $request->email;
-        $user->password = $request->password;
-        $user->phone = $request->phone;
-        $user->dob = date('Y-m-d', strtotime($request->dob));
-        $user->active = $request->status ?? 1;
-
-        if ($request->hasFile('profile_photo')) {
-               $filename = time() . '-' . rand(1000, 9999) . '.' . $request->profile_photo->extension();
-               $request->file('profile_photo')->storeAs('public/profile_photo/', $filename);
-               $user->profile_photo_path = $filename;
-           }
+        $user->first_name = request()->first_name;
+        $user->last_name = request()->last_name;
+        $user->email = request()->email;
+        $user->password = request()->password;
+        $user->phone = request()->phone;
+        $user->dob = date('Y-m-d', strtotime(request()->dob));
+        $user->active = request()->status ?? 1;
+        $user->profile_photo_path = Request::file('profile_photo') ? Request::file('profile_photo')->store('profile_photo') : null;
         $user->save();
         $user->assignRole('USER');
         session()->flash('success', 'User successfully created');
@@ -89,40 +76,38 @@ class UserController extends Controller
 
 
 
-    public function editUser(Request $request, $id)
+    public function editUser(User $user)
     {
-      $user = User::find($id);
+
       if(request()->isMethod('post')){
 
-        $credentials = $request->validate([
+        $credentials = request()->validate([
           'first_name' => 'required',
           'last_name' => 'required',
           'email' =>  'required|email|unique:users,email,'.$user->id,
-          // 'password' => 'required|min:6',
           'phone' => 'required|unique:users,phone,'.$user->id,
           'dob' => 'required',
-          // 'profile_photo' => 'required',
           'status' => 'required',
         ]);
 
-        $user->first_name = $request->first_name;
-        $user->last_name = $request->last_name;
-        $user->email = $request->email;
-        // $user->password = $request->password;
-        $user->phone = $request->phone;
-        $user->dob = date('Y-m-d', strtotime($request->dob));
-        $user->active = $request->status ?? 1;
-
-        if ($request->hasFile('profile_photo')) {
-               $filename = time() . '-' . rand(1000, 9999) . '.' . $request->profile_photo->extension();
-               $request->file('profile_photo')->storeAs('public/profile_photo/', $filename);
-               $user->profile_photo_path = $filename;
-           }
+        $user->first_name = request()->first_name;
+        $user->last_name = request()->last_name;
+        $user->email = request()->email;
+        // $user->password = request()->password;
+        $user->phone = request()->phone;
+        $user->dob = date('Y-m-d', strtotime(request()->dob));
+        $user->active = request()->status ?? 1;
+        $user->profile_photo_path = Request::file('profile_photo') ? Request::file('profile_photo')->store('profile_photo') : $user->profile_photo_path;
         $user->save();
 
         session()->flash('success', 'User successfully updated');
         return redirect()->route('admin.users');
       }
+
+       $user->profile_photo = $user->profile_photo_path ? URL::route('image', [
+        'path' => $user->profile_photo_path ]) : null;
+    
+
       return Inertia::render('Admin/user/CreateEdit',compact('user'));
     }
 
