@@ -198,7 +198,7 @@ import moment from 'moment';  // https://momentjs.com/docs/#/parsing/string-form
 import {debounce,throttle,pickBy} from "lodash";
 
 
-const {users,filters} = defineProps({ users: Array,filters:Object });
+const {users,filters} = defineProps({ users: Object,filters:Object });
  
 
 // console.log(listData.value);

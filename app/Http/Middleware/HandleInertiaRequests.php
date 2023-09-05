@@ -2,11 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\SiteSetting;
-use Illuminate\Http\Request;
-use Inertia\Middleware;
 use Throwable;
 use Inertia\Inertia;
+use Inertia\Middleware;
+use App\Models\SiteSetting;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -69,7 +70,7 @@ class HandleInertiaRequests extends Middleware
         $setting = [];
         foreach($settings as $value ){
             if($value->key == 'logo'){
-                $value->value = url()->to($value->value);
+                $value->value = $value->value ? URL::route('image', ['path' => $value->value, 'w' => 100, 'h' => 45, 'fit' => 'stretch']) : null;
             }
             $setting[$value->key] = $value->value;
         }

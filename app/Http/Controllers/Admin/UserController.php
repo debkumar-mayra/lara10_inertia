@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Request;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -97,7 +98,10 @@ class UserController extends Controller
         $user->phone = request()->phone;
         $user->dob = date('Y-m-d', strtotime(request()->dob));
         $user->active = request()->status ?? 1;
-        $user->profile_photo_path = Request::file('profile_photo') ? Request::file('profile_photo')->store('profile_photo') : $user->profile_photo_path;
+        if(Request::file('profile_photo')){
+          File::delete(storage_path('app/'.$user->profile_photo_path));
+          $user->profile_photo_path = Request::file('profile_photo')->store('profile_photo');
+        }
         $user->save();
 
         session()->flash('success', 'User successfully updated');
@@ -111,10 +115,9 @@ class UserController extends Controller
       return Inertia::render('Admin/user/CreateEdit',compact('user'));
     }
 
-    public function deleteUser($id)
+    public function deleteUser(User $user)
     {
-      // dd($id);
-      $user = User::find($id);
+      File::delete(storage_path('app/'.$user->profile_photo_path));
       $user->delete();
       session()->flash('success', 'User successfully deleted');
       return back();

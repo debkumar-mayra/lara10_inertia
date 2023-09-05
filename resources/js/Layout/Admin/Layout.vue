@@ -126,7 +126,9 @@ const mobileProfileMenuHideShow = ref(false);
 
 
 
-const theme = computed(() => usePage().props.theme)
+const mainColor = computed(() => usePage().props.theme.mainColor)
+const hoverColor = computed(() => usePage().props.theme.hoverColor)
+const buttonColor = computed(() => usePage().props.theme.buttonColor)
 
 onMounted(() => {
     
@@ -170,18 +172,14 @@ onMounted(() => {
 @import '/public/admin_assets/demo/default/skins/brand/dark.css';
 @import '/public/admin_assets/demo/default/skins/aside/dark.css';
 @import '/public/admin_assets/vendors/custom/datatables/datatables.bundle.css';
-/* @import '/public/admin_assets/custom.css'; */
-
-/* @import '../../assets/admin_asset/js/bundle/app.bundle.js'; */
-/* @import './css/style.css'; */
 
 
  .kt-aside__brand {
-    background-color: v-bind(theme.mainColor);
+    background-color: v-bind(mainColor);
 }
 
 .kt-aside-menu {
-    background-color: v-bind(theme.mainColor);
+    background-color: v-bind(mainColor);
 }
 
 .kt-aside-menu .kt-menu__nav {
@@ -193,7 +191,7 @@ onMounted(() => {
 }
 
 .kt-aside-menu .kt-menu__nav>.kt-menu__item.kt-menu__item--active>.kt-menu__link {
-    background-color: v-bind(theme.hoverColor);
+    background-color: v-bind(hoverColor);
 }
 
 .kt-aside-menu .kt-menu__nav>.kt-menu__section .kt-menu__section-text {
@@ -207,7 +205,7 @@ onMounted(() => {
 
 .kt-aside-menu .kt-menu__nav>.kt-menu__item:not(.kt-menu__item--parent):not(.kt-menu__item--open):not(.kt-menu__item--here):not(.kt-menu__item--active):hover>.kt-menu__heading,
 .kt-aside-menu .kt-menu__nav>.kt-menu__item:not(.kt-menu__item--parent):not(.kt-menu__item--open):not(.kt-menu__item--here):not(.kt-menu__item--active):hover>.kt-menu__link {
-    background-color: v-bind(theme.hoverColor);
+    background-color: v-bind(hoverColor);
 }
 
 .kt-aside-menu .kt-menu__nav>.kt-menu__item:not(.kt-menu__item--parent):not(.kt-menu__item--open):not(.kt-menu__item--here):not(.kt-menu__item--active):hover>.kt-menu__heading .kt-menu__link-icon,
@@ -221,19 +219,19 @@ onMounted(() => {
 }
 
 .kt-notification-item-padding-x {
-    background: v-bind(theme.mainColor) !important;
+    background: v-bind(mainColor) !important;
 }
 
 .btn-success {
     color: #fff;
-    background-color: v-bind(theme.mainColor);
-    border-color: v-bind(theme.mainColor);
+    background-color: v-bind(mainColor);
+    border-color: v-bind(mainColor);
 }
 
 .btn-secondary {
     /* color: #fff;
-    background-color: v-bind(theme.hoverColor);
-    border-color: v-bind(theme.hoverColor); */
+    background-color: v-bind(hoverColor);
+    border-color: v-bind(hoverColor); */
     background-color: transparent !important;
     border: 1px solid #ebedf2 !important;
     color: #6c7293 !important;
@@ -246,60 +244,60 @@ onMounted(() => {
 
 .btn-primary {
     color: #fff;
-    background-color: v-bind(theme.mainColor) !important;
-    border-color: v-bind(theme.mainColor);
+    background-color: v-bind(mainColor) !important;
+    border-color: v-bind(mainColor);
 }
 
 .btn-button {
     color: #fff;
-    background-color: v-bind(theme.buttonColor) !important;
-    border-color: v-bind(theme.mainColor);
+    background-color: v-bind(buttonColor) !important;
+    border-color: v-bind(mainColor);
 }
 
 .btn-button:hover {
     color: #fff !important;
-    background-color: v-bind(theme.hoverColor) !important;
-    border-color: v-bind(theme.hoverColor) ;
+    background-color: v-bind(hoverColor) !important;
+    border-color: v-bind(hoverColor) ;
 }
 
 .btn-primary:hover {
-    border-color: v-bind(theme.hoverColor);
+    border-color: v-bind(hoverColor);
 }
 
 
 
 .btn-brand {
     color: #fff;
-    background-color: v-bind(theme.mainColor);
-    border-color: v-bind(theme.mainColor);
+    background-color: v-bind(mainColor);
+    border-color: v-bind(mainColor);
 }
 
 .btn-brand:not(:disabled):not(.disabled):active,
 .btn-brand:not(:disabled):not(.disabled).active,
 .show>.btn-brand.dropdown-toggle {
     color: #fff;
-    background-color: v-bind(theme.mainColor);
-    border-color: v-bind(theme.mainColor);
+    background-color: v-bind(mainColor);
+    border-color: v-bind(mainColor);
 }
 
 .btn-brand:hover {
     color: #fff !important;
-    background-color: v-bind(theme.hoverColor);
-    border-color: v-bind(theme.hoverColor);
+    background-color: v-bind(hoverColor);
+    border-color: v-bind(hoverColor);
 }
 
 .page-item.active .page-link {
     color: #fff;
-    background-color: v-bind(theme.hoverColor);
-    border-color: v-bind(theme.hoverColor);
+    background-color: v-bind(hoverColor);
+    border-color: v-bind(hoverColor);
 }
 
 .page-link:hover {
-    color: v-bind(theme.hoverColor);
+    color: v-bind(hoverColor);
 }
 
 .page-link {
-    color: v-bind(theme.mainColor);
+    color: v-bind(mainColor);
 }
 
 .btn.btn-label-brand {
@@ -317,80 +315,80 @@ button.btn.btn-label-brand.active,
 input.btn.btn-label-brand:focus,
 input.btn.btn-label-brand:hover,
 input.btn.btn-label-brand.active {
-    background-color: v-bind(theme.hoverColor);
+    background-color: v-bind(hoverColor);
     color: #fff !important;
-    border-color: v-bind(theme.hoverColor);
+    border-color: v-bind(hoverColor);
 }
 
 .btn-success {
     color: #fff;
-    background-color: v-bind(theme.mainColor) !important;
-    border-color: v-bind(theme.mainColor);
+    background-color: v-bind(mainColor) !important;
+    border-color: v-bind(mainColor);
 }
 
 .btn-success:hover {
     color: #fff;
-    background-color: v-bind(theme.hoverColor) !important;
-    border-color: v-bind(theme.hoverColor);
+    background-color: v-bind(hoverColor) !important;
+    border-color: v-bind(hoverColor);
 }
 
 .min-h-screen button {
     color: #fff;
-    background-color: v-bind(theme.mainColor);
-    border-color: v-bind(theme.mainColor);
+    background-color: v-bind(mainColor);
+    border-color: v-bind(mainColor);
 }
 
 .min-h-screen button:hover {
     color: #fff;
-    background-color: v-bind(theme.hoverColor);
-    border-color: v-bind(theme.hoverColor);
+    background-color: v-bind(hoverColor);
+    border-color: v-bind(hoverColor);
 }
 
 .min-h-screen {
-    background-color: v-bind(theme.mainColor);
+    background-color: v-bind(mainColor);
 }
 
 .kt-header-mobile {
-    background-color: v-bind(theme.mainColor) !important;
+    background-color: v-bind(mainColor) !important;
 }
 
 
 .btn-primary:hover {
-    background-color: v-bind(theme.hoverColor);
+    background-color: v-bind(hoverColor);
     color: #fff !important;
 }
 
 .kt-scrolltop {
-    background: v-bind(theme.hoverColor);
+    background: v-bind(hoverColor);
 }
 
 .kt-content button {
-    background-color: v-bind(theme.buttonColor);
-    border-color: v-bind(theme.buttonColor);
+    background-color: v-bind(buttonColor);
+    border-color: v-bind(buttonColor);
 }
 
 .kt-content button:hover {
-    background: v-bind(theme.hoverColor);
+    background: v-bind(hoverColor);
 }
 
 a:hover {
-    color: v-bind(theme.hoverColor) !important;
+    color: v-bind(hoverColor) !important;
 }
 
 .kt-notification .kt-notification__item .kt-notification__item-details .kt-notification__item-title:hover {
-    color: v-bind(theme.hoverColor) !important;
+    color: v-bind(hoverColor) !important;
 }
 
 .kt-notification .kt-notification__item .kt-notification__item-details .kt-notification__item-title:active {
-    color: v-bind(theme.hoverColor) !important;
+    color: v-bind(hoverColor) !important;
 }
 
 .kt-header .kt-header-menu .kt-menu__nav>.kt-menu__item.kt-menu__item--active>.kt-menu__link .kt-menu__link-text {
-    color: v-bind(theme.hoverColor) !important;
+    color: v-bind(hoverColor) !important;
 }
 
 .kt-aside-close i {
-    color: v-bind(theme.hoverColor) !important;
+    color: v-bind(hoverColor) !important;
 }
 
 .kt-aside-menu .kt-menu__nav>.kt-menu__item>.kt-menu__link .kt-menu__link-icon {
@@ -406,7 +404,7 @@ a:hover {
 }
 
 .kt-font-success {
-    color: v-bind(theme.hoverColor) !important;
+    color: v-bind(hoverColor) !important;
 }
 
 .page-item button {
@@ -417,7 +415,7 @@ a:hover {
 
 .page-item button:hover {
     color: #fff !important;
-    background-color: v-bind(theme.hoverColor);
+    background-color: v-bind(hoverColor);
     border-color: #eee;
 }
 
@@ -425,7 +423,7 @@ a:hover {
 .dropdown-item:active {
     color: #fff;
     text-decoration: none;
-    background-color: v-bind(theme.hoverColor);
+    background-color: v-bind(hoverColor);
 }
 
 
@@ -442,11 +440,11 @@ a:hover {
 .dropdown-item:focus {
     color: #fff !important;
     text-decoration: none;
-    background-color: v-bind(theme.hoverColor) !important;
+    background-color: v-bind(hoverColor) !important;
 }
 
 .kt-aside {
-    background-color: v-bind(theme.mainColor);
+    background-color: v-bind(mainColor);
 }
 
 .table-responsive thead tr th .row {
@@ -469,20 +467,20 @@ a:hover {
 /* start media query */
 @media (max-width:767px) {
     .kt-header-menu-wrapper-close>i {
-        color: v-bind(theme.hoverColor);
+        color: v-bind(hoverColor);
     }
 
     .kt-header-menu-wrapper {
-        background: v-bind(theme.mainColor);
+        background: v-bind(mainColor);
     }
 
     .kt-header-mobile .kt-header-mobile__toolbar .kt-header-mobile__topbar-toggler.kt-header-mobile__topbar-toggler--active i,
     .kt-header-mobile .kt-header-mobile__toolbar .kt-header-mobile__topbar-toggler:hover i {
-        color: v-bind(theme.hoverColor);
+        color: v-bind(hoverColor);
     }
 
     .kt-header-menu-mobile {
-        background-color: v-bind(theme.mainColor);
+        background-color: v-bind(mainColor);
     }
 
     .kt-aside-menu .kt-menu__nav {
@@ -491,7 +489,7 @@ a:hover {
 
     .kt-header-menu-mobile .kt-menu__nav>.kt-menu__item.kt-menu__item--active>.kt-menu__heading,
     .kt-header-menu-mobile .kt-menu__nav>.kt-menu__item.kt-menu__item--active>.kt-menu__link {
-        background-color: v-bind(theme.hoverColor);
+        background-color: v-bind(hoverColor);
     }
 
     .kt-header .kt-header-menu .kt-menu__nav>.kt-menu__item.kt-menu__item--active>.kt-menu__link .kt-menu__link-text {
@@ -550,7 +548,7 @@ a:hover {
     color: #fff !important;
 }
 .kt-content button:hover {
-    background: v-bind(theme.hoverColor) !important;
+    background: v-bind(hoverColor) !important;
     color: #fff;
 }
 .kt-aside-menu .kt-menu__nav>.kt-menu__item>.kt-menu__link {
@@ -558,7 +556,7 @@ a:hover {
 }
 
 .page-link {
-    color: v-bind(theme.mainColor);
+    color: v-bind(mainColor);
     transition: .5s all;
 }
 .btn.btn-label-brand {
@@ -569,7 +567,7 @@ a:hover {
 }
 .form-filter:focus,
   .form-filter:focus-visible {
-      border-color: v-bind(theme.hoverColor);
+      border-color: v-bind(hoverColor);
       box-shadow: none;
       outline: none;
   }
