@@ -16,7 +16,7 @@
                     <!-- <input type="text" id="date_format" class="form-control border-gray-200" placeholder="Date Format" v-model="form.date_format"/> -->
 
                     <select id="date_format" class="form-control border-gray-200" placeholder="Per page" v-model="form.date_format">
-                        <option value="L">local</option>
+                        <option value="L">LOCAL</option>
                         <option value="DD/MM/YYYY">DD/MM/YYYY</option>
                         <option value="MM/DD/YYY">MM/DD/YYY</option>
                         <option value="YYYY/MM/DD">YYYY/MM/DD</option>
