@@ -41,6 +41,7 @@ class SiteSettingController extends Controller
             SiteSetting::where('key','button_color')->update(['value'=>request()->button_color]);
             
             if(request()->file('logo')){
+                // dd(request()->file('logo'));
                 File::delete(storage_path('app/'.SiteSetting::where('key','logo')->pluck('value')->first()));
                 SiteSetting::where('key','logo')->update(['value'=>request()->file('logo')->store('logo')]);
             }

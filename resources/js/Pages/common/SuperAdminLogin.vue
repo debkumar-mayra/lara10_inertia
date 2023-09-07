@@ -98,7 +98,7 @@ function submit() {
 </script>
 
 <style scoped>
-@import '/public/admin_assets/custom.css';
+/* @import '/public/admin_assets/custom.css'; */
  .kt-aside__brand {
     background-color: v-bind(mainColor);
 }

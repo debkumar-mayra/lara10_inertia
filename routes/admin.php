@@ -19,19 +19,23 @@ Route::post('login', [HomeController::class,'authenticate'])->name('login');
     Route::post('admin-change-password', [HomeController::class,'adminChangePassword'])->name('changePassword');
     Route::post('logout', [HomeController::class,'logout'])->name('logout');
 
-
+    // user module
     Route::get('users', [UserController::class,'userlist'])->name('users');
     Route::any('create-user', [UserController::class,'createUser'])->name('createUser');
     Route::any('edit-user/{user}', [UserController::class,'editUser'])->name('editUser');
     Route::delete('delete-user/{user}', [UserController::class,'deleteUser'])->name('userDelete');
-    Route::post('change-user-status', [UserController::class,'changeUserStatus'])->name('changeUserStatus');
-
+    Route::post('change-user-status/{user}', [UserController::class,'changeUserStatus'])->name('changeUserStatus');
+    
+    // faq module
     Route::resource('faq', FaqController::class);  
-    Route::post('change-faq-status', [FaqController::class,'changeFaqStatus']);
+    Route::post('faq/change-status/{faq}', [FaqController::class,'changeFaqStatus'])->name('faq.changeFaqStatus');
 
+    // cms module
     Route::resource('cms', CmsController::class)->except(['update', 'show']);
     Route::post('cms/{slug}', [CmsController::class,'update']);  
-    Route::any('setting', [SiteSettingController::class,'setting'])->name('setting');  
+
+    // setting module
+    Route::any('setting', [SiteSettingController::class,'setting'])->name('setting'); 
 
 
 });

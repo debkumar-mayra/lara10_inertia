@@ -6,7 +6,7 @@
                 <div class="col-sm-12 col-md-6">
                     <div class="dataTables_length" id="kt_table_1_length">
                         <label>Show
-                            <select class="form-control border-gray-200 custom-select custom-select-sm form-control form-control-sm" v-model="perPage" @change="setPage">
+                            <select class="form-control border-gray-200 custom-select custom-select-sm form-control form-control-sm" v-model="perPage" @change="ListHelper.setPerPage($event.target.value)">
                         
                                 <option value="5"> 5</option>  
                                 <option value="10"> 10</option> 
@@ -36,17 +36,17 @@
                             <tr role="row">
                             <th tabindex="0" aria-controls="kt_table_1" rowspan="1" colspan="1" style="width: 30%;"
                             aria-sort="ascending" aria-label="Agent: activate to sort column descending">Question <i
-                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="sortBy('question')"></i>
+                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="ListHelper.sortBy('question')"></i>
                             </th>
 
                             <th tabindex="0" aria-controls="kt_table_1" rowspan="1" colspan="1" style="width: 30%;"
                             aria-sort="ascending" aria-label="Agent: activate to sort column descending">Answer <i
-                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="sortBy('answer')"></i>
+                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="ListHelper.sortBy('answer')"></i>
                             </th>
 
                             <th tabindex="0" aria-controls="kt_table_1" rowspan="1" colspan="1" style="width: 20%;"
                             aria-label="Short Description: activate to sort column ascending">Created At <i
-                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="sortBy('created_at')"></i>
+                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="ListHelper.sortBy('created_at')"></i>
                             </th>     
                             
                             <th class="align-center" tabindex="0" aria-controls="kt_table_1" rowspan="1" colspan="1"
@@ -58,18 +58,18 @@
          
                             <tr class="filter">
                                 <th>
-                                    <input type="search" v-model="form.searchQuestion" placeholder="" autocomplete="off"
+                                    <input type="search" v-model="form.question" placeholder="" autocomplete="off"
                                         class="form-control-sm form-filter" />
                                 </th>
                                 <th>
-                                    <input type="search" v-model="form.searchAnswer" placeholder="" autocomplete="off"
+                                    <input type="search" v-model="form.answer" placeholder="" autocomplete="off"
                                         class="form-control-sm form-filter" />
                                 </th>
                                 <th>
-                                    <datepicker v-model="form.searchCreatedAt" />
+                                    <datepicker v-model="form.created_at" />
                                 </th>
                                 <th>
-                                    <select class="form-control form-control-sm form-filter kt-input" v-model="form.searchStatus"
+                                    <select class="form-control form-control-sm form-filter kt-input" v-model="form.status"
                                         title="Select" data-col-index="2">
                                         <option value="">Select One</option>
                                         <option value="1">Active</option>
@@ -78,22 +78,7 @@
                                 </th>
                                 <th>
                                     <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-6">
-                                        <button class="btn btn-brand kt-btn btn-sm kt-btn--icon button-fx" @click="search">
-                                            <span>
-                                                <i class="la la-search"></i>
-                                                <span>Search</span>
-                                            </span>
-                                        </button>
-                                        </div>
-                                        <div class="col-md-6">
-                                        <button class="btn btn-secondary kt-btn btn-sm kt-btn--icon button-fx" @click="resetSearch">
-                                            <span>
-                                                <i class="la la-close"></i>
-                                                <span>Reset</span>
-                                            </span>
-                                        </button>
-                                        </div>
+                                        
                                     </div>
                                 </th>
                             </tr>
@@ -104,8 +89,8 @@
                                 <td class="sorting_1" tabindex="0">
                                     {{faq.question.substring(0,200)+".."}}
                                 </td>
-                                <td>{{faq.answer.substring(0,210)+".."}}</td>
-                                <td>{{moment(faq.created_at).calendar()}}</td>
+                                <td>{{ faq.answer?.substring(0,210)+".." }}</td>
+                                <td>{{ListHelper.dateFormat(faq.created_at)}}</td>
                                 <td class="align-center">
                                     <span @click="changeStatus(faq.id)" style="cursor: pointer;" class="kt-badge kt-badge--inline kt-badge--pill cursor-pointer"
                                     :class="(faq.active == 1) ? 'kt-badge--success':'kt-badge--warning'"
@@ -141,7 +126,13 @@
                 </div>
             </div>
             <div class="col-sm-12 col-md-7">
-                <Paginate v-if="listData.last_page > 1" :data=faqs />               
+                  <div class="float-right"> 
+                     <Bootstrap4Pagination
+                            :data="faqs"
+                            :limit=2
+                            @pagination-change-page="ListHelper.setPageNum"
+                        />
+                        </div>          
             </div>
         </div>
     </div>
@@ -156,45 +147,34 @@
 <script setup>
 import Paginate from '../../../components/Paginate.vue'
 import { router, useForm,usePage } from '@inertiajs/vue3'
-import { ref, onMounted } from 'vue';
-import moment from 'moment';
+import { ref, onMounted, reactive, watch } from 'vue';
 import Datepicker from '../../../components/Datepicker.vue'
-
-moment.calendar = {
-    lastDay : '[Yesterday at] LT',
-    sameDay : '[Today at] LT',
-    nextDay : '[Tomorrow at] LT',
-    lastWeek : '[last] dddd [at] LT',
-    nextWeek : 'dddd [at] LT',
-    sameElse : 'L'
-};
+import ListHelper from '../../../helpers/ListHelper';
+import { Bootstrap4Pagination } from 'laravel-vue-pagination';
+import {debounce,throttle,pickBy} from "lodash";
 
 
-const props = defineProps({ faqs: Object, shortBy: String });
-const listData = ref({});
-listData.value = props.faqs;
 
-const getRandomVal = () => {
-    let colors = ["success", "info", "warning", "dark", "primary"];
-    let random = Math.floor(Math.random() * colors.length);
-    console.log('=====' + random);
-    return random;
-}
+const {faqs,filters} = defineProps({ faqs: Object, filters: Object});
 
-const form = useForm({
-    searchQuestion: null,
-    searchAnswer: null,
-    searchCreatedAt: null,
-    searchStatus: null
+const form = reactive({
+    question: filters.question || null,
+    answer: filters.answer || null,
+    created_at: filters.created_at ? new Date(filters.created_at) : null,
+    status: filters.status || ''
 })
+
+watch(form, debounce(() => {
+    router.visit(route('admin.faq.index'), {
+    method: 'get',
+    data: pickBy(form),
+    preserveState: true 
+    });
+    }, 100));
 
 
 onMounted(() => {
-    form.searchQuestion = params.get('title') || null;
-    form.searchAnswer = params.get('title') || null;
-    form.searchCreatedAt = params.get('created_at') || null;
-    form.searchStatus = params.get('active') || '';
-    perPage.value = params.get('perPage') || usePage().props.perPage;
+    perPage.value = urlParams.get('perPage') || usePage().props.perPage;
 
      emit.emit('pageName', 'FAQ Management',[{title: "FAQ", routeName:"admin.faq.index"}]);
 
@@ -207,79 +187,14 @@ onMounted(() => {
     });
 });
 
-let params = new URLSearchParams(window.location.search)
 
-const fieldName = ref('');
-
-const shortBy = ref(false);
-const sortBy = (column) => {
-    shortBy.value = !shortBy.value;
-    let shortByy = shortBy.value ? 'asc' : 'desc';
-    // console.log(shortBy);
-    router.reload({
-        method: 'get',
-        data: { fieldName: column, shortBy: shortByy },
-        replace: true,
-    });
-}
-
-
-const resetSearch = () => {
-    router.visit('/admin/faq', {
-        method: 'get'
-    });
-}
-
-
-
-const search = () => {
-    // console.log(form);
-    let data = {
-        question: form.searchQuestion,
-        answer: form.searchAnswer,
-        created_at: form.searchCreatedAt,
-        active: form.searchStatus,
-    };
-    if (form.searchQuestion == '' || form.searchQuestion == null) {
-        delete data.question
-    }
-
-    if (form.searchAnswer == '' || form.searchAnswer == null) {
-        delete data.answer
-    }
-
-    if (form.searchStatus == '' || form.searchStatus == null) {
-        delete data.active
-    }
-
-    if (form.searchCreatedAt == '' || form.searchCreatedAt == null) {
-        delete data.created_at
-    }
-
-    router.visit('/admin/faq', {
-        method: 'get',
-        data: data,
-        replace: false,
-    });
-}
 
 const perPage = ref(5);
-
-const setPage = () => {
-    router.reload({
-        method: 'get',
-        data: { perPage: perPage.value },
-        replace: false,
-    });
-}
 
 
 const deleteRecode = (id) => {
     sw.confirm('deleteConfirm', id);
 }
-
-
-
 
 const deleteConfirm = (id) => {
     let data = {
@@ -294,10 +209,7 @@ const changeStatus = (id) => {
 }
 
 const changeStatusConfirm = (id) => {
-     let data = {
-        id: id
-    }
-    router.post('/admin/change-faq-status', data)
+    router.post(route('admin.faq.changeFaqStatus',id))
 }
 
 

@@ -21,13 +21,13 @@ format.value = format.value.toLowerCase().split('/');
 let newDateformat = format.value.map((item)=>{
   if(item == 'mm'){
     item.toUpperCase();
-    console.log('hhhhh'+item);
+    // console.log('hhhhh'+item);
   }
 
   // return item;
-console.log(item);
+// console.log(item);
 })
-console.log(newDateformat);
+// console.log(newDateformat);
 
 </script>
 

@@ -6,7 +6,7 @@
                 <div class="col-sm-12 col-md-6">
                     <div class="dataTables_length" id="kt_table_1_length">
                         <label>Show
-                            <select class="form-control border-gray-200 custom-select custom-select-sm form-control form-control-sm" v-model="perPage" @change="setPage">
+                            <select class="form-control border-gray-200 custom-select custom-select-sm form-control form-control-sm" v-model="perPage" @change="ListHelper.setPerPage($event.target.value)">
                         
                                 <option value="5"> 5</option>  
                                 <option value="10"> 10</option> 
@@ -36,7 +36,7 @@
                             <tr role="row">
                             <th tabindex="0" aria-controls="kt_table_1" rowspan="1" colspan="1" style="width: 80%;"
                             aria-sort="ascending" aria-label="Agent: activate to sort column descending">Page Name <i
-                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="sortBy('title')"></i>
+                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="ListHelper.sortBy('title')"></i>
                             </th>
 
                             <th class="align-center" rowspan="1" colspan="1" style="width: 20%;" aria-label="Actions">Actions</th>
@@ -45,34 +45,18 @@
          
                             <tr class="filter">
                                 <th>
-                                    <input type="search" v-model="form.searchTitle" placeholder="" autocomplete="off"
+                                    <input type="search" v-model="form.title" placeholder="" autocomplete="off"
                                         class="form-control-sm form-filter" />
                                 </th>                                
                                 <th>
                                     <div class="row justify-content-center align-items-center">
-                                        <div class="col-md-6">
-                                        <button class="btn btn-brand kt-btn btn-sm kt-btn--icon button-fx" @click="search">
-                                            <span>
-                                                <i class="la la-search"></i>
-                                                <span>Search</span>
-                                            </span>
-                                        </button>
-                                        </div>
-                                        <div class="col-md-6">
-                                        <button class="btn btn-secondary kt-btn btn-sm kt-btn--icon button-fx" @click="resetSearch">
-                                            <span>
-                                                <i class="la la-close"></i>
-                                                <span>Reset</span>
-                                            </span>
-                                        </button>
-                                        </div>
                                     </div>
                                 </th>
                             </tr>
 
                         </thead>
                         <tbody v-auto-animate>      
-                            <tr role="row" class="odd" v-for="page in pages.data" :key="page.id" v-motion-slide-top>
+                            <tr role="row" class="odd" v-for="page in pages.data" :key="page.id">
                                 <td class="sorting_1" tabindex="0">
                                     {{page.title}}
                                 </td>
@@ -99,7 +83,14 @@
                 </div>
             </div>
             <div class="col-sm-12 col-md-7">
-                <Paginate v-if="listData.last_page > 1" :data=pages />               
+
+                  <div class="float-right"> 
+                     <Bootstrap4Pagination
+                            :data="pages"
+                            :limit=2
+                            @pagination-change-page="ListHelper.setPageNum"
+                        />
+                        </div>
             </div>
         </div>
     </div>
@@ -112,84 +103,38 @@
 
 
 <script setup>
+import { Bootstrap4Pagination } from 'laravel-vue-pagination';
 import Paginate from '../../../components/Paginate.vue'
 import { router, useForm, usePage } from '@inertiajs/vue3'
-import { ref, onMounted } from 'vue';
-import Datepicker from '../../../components/Datepicker.vue'
+import { ref, onMounted, watch, reactive } from 'vue';
+import {debounce,throttle,pickBy} from "lodash";
+import ListHelper from '../../../helpers/ListHelper';
 
-const props = defineProps({ pages: Object, shortBy: String });
-const listData = ref({});
-listData.value = props.pages;
 
-const getRandomVal = () => {
-    let colors = ["success", "info", "warning", "dark", "primary"];
-    let random = Math.floor(Math.random() * colors.length);
-    console.log('=====' + random);
-    return random;
-}
 
-const form = useForm({
-    searchTitle: null,
+const {pages, filters} = defineProps({ pages: Object, filters: Object });
+
+const form = reactive({
+    title: filters.title || null,
 })
 
-
-onMounted(() => {
-    form.searchTitle = params.get('title') || null;
-    perPage.value = params.get('perPage') || usePage().props.perPage;
-
-   emit.emit('pageName', 'Content Management',[{title: "CMS List", routeName:"admin.cms.index"}]);
-   
-});
-
-let params = new URLSearchParams(window.location.search)
-
-const fieldName = ref('');
-
-const shortBy = ref(false);
-const sortBy = (column) => {
-    shortBy.value = !shortBy.value;
-    let shortByy = shortBy.value ? 'asc' : 'desc';
-    // console.log(shortBy);
-    router.reload({
-        method: 'get',
-        data: { fieldName: column, shortBy: shortByy },
-        replace: true,
+watch(form, debounce(() => {
+    router.visit(route('admin.cms.index'), {
+    method: 'get',
+    data: pickBy(form),
+    preserveState: true 
     });
-}
+    }, 100));
 
 
-const resetSearch = () => {
-    router.visit('/admin/cms', {
-        method: 'get'
-    });
-}
-
-
-
-const search = () => {
-    // console.log(form);
-    let data = {
-        title: form.searchTitle,
-    };
-    if (form.searchTitle == '' || form.searchTitle == null) {
-        delete data.title
-    }
-
-    router.visit('/admin/cms', {
-        method: 'get',
-        data: data,
-        replace: false,
-    });
-}
 
 const perPage = ref(5);
+onMounted(() => {
+    perPage.value = urlParams.get('perPage') || usePage().props.perPage;
+   emit.emit('pageName', 'Content Management',[{title: "CMS List", routeName:"admin.cms.index"}]);
+});
 
-const setPage = () => {
-    router.reload({
-        method: 'get',
-        data: { perPage: perPage.value },
-        replace: false,
-    });
-}
+
+
 
 </script>

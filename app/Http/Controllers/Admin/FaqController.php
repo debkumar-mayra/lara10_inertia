@@ -18,37 +18,19 @@ class FaqController extends Controller
      */
     public function index(Request $request)
     {
-        $faq = Faq::query();
+        try {
+        $filters = request()->all('question','answer','created_at','active');
 
-        if($request->question){            
-            $faq = $faq->where('question','like', '%'.$request->question.'%');
+       $faqs = Faq::filter(request()->only('question','answer','created_at','active'))
+            ->ordering(request()->only('fieldName','shortBy'))
+            ->orderBy('id','desc')
+            ->paginate(request()->perPage ?? $this->per_page)->withQueryString();
+
+        return Inertia::render('Admin/faq/List',compact('faqs','filters'));
+        } catch (\Throwable $e) {
+            Log::error(" :: EXCEPTION :: " . $e->getMessage() . "\n" . $e->getTraceAsString());
+            return back()->with('error','Server Error');
         }
-
-        if($request->answer){            
-            $faq = $faq->where('answer','like', '%'.$request->answer.'%');
-        }
-
-        if($request->created_at){
-            $date = date('Y-m-d',strtotime($request->created_at));
-            $faq = $faq->whereDate('created_at', '=', $date);
-        }
-
-        if(isset($request->active)){   
-        $faq = $faq->where('active',$request->active);
-        }
-
-        if($request->fieldName && $request->shortBy){
-            $faq->orderBy($request->fieldName,$request->shortBy);
-        }
-
-
-        $perPage = $this->per_page;
-       if($request->perPage){
-        $perPage = $request->perPage;
-       }
-
-        $faqs = $faq->orderBy('id','desc')->paginate($perPage)->withQueryString();
-        return Inertia::render('Admin/faq/List',['faqs'=>$faqs]);
     }
 
     /**
@@ -62,7 +44,7 @@ class FaqController extends Controller
             return Inertia::render('Admin/faq/CreateEdit');
         } catch (\Throwable $e) {
             Log::error(" :: EXCEPTION :: " . $e->getMessage() . "\n" . $e->getTraceAsString());
-            abort(500);
+            return back()->with('error','Server Error');
         }
     }
 
@@ -88,6 +70,7 @@ class FaqController extends Controller
         $faq->save();
         session()->flash('success', 'FAQ created successfully');
         return redirect()->route('admin.faq.index');
+        
     }
 
     /**
@@ -104,7 +87,7 @@ class FaqController extends Controller
 
         } catch (\Throwable $e) {
             Log::error(" :: EXCEPTION :: " . $e->getMessage() . "\n" . $e->getTraceAsString());
-            abort(500);
+            return back()->with('error','Server Error');
         }
     }
 
@@ -125,18 +108,11 @@ class FaqController extends Controller
         [   
             'active.required'    => 'The status field is required',
         ]);
-
-        try {
             $faq = Faq::find($id);
             $faq->fill($request->all());            
             $faq->save();
             session()->flash('success', 'Faq updated successfully');
-            return redirect()->route('faq.index');
-            
-        } catch (\Throwable $e) {
-            Log::error(" :: EXCEPTION :: " . $e->getMessage() . "\n" . $e->getTraceAsString());
-            abort(500);
-        }
+            return redirect()->route('faq.index');      
     }
 
     /**
@@ -154,23 +130,30 @@ class FaqController extends Controller
 
         } catch (\Throwable $e) {
             Log::error(" :: EXCEPTION :: " . $e->getMessage() . "\n" . $e->getTraceAsString());
-            abort(500);
+            return back()->with('error','Server Error');
         }
     }
 
 
-    public function changeFaqStatus(Request $request)
+   
+
+
+
+    public function changeFaqStatus(Faq $faq)
     {
         try {
-            $faq = Faq::find($request->id);
-            $faq->active = ($faq->active == 1) ? 0 : 1 ;
+            $faq->active = ($faq->active == 1) ? 0 : 1;
             $faq->save();
             session()->flash('success', 'FAQ status successfully changed');
             return back();
 
         } catch (\Throwable $e) {
             Log::error(" :: EXCEPTION :: " . $e->getMessage() . "\n" . $e->getTraceAsString());
-            abort(500);
+           return back()->with('error','Server Error');
         }
     }
+
+
+
+
 }

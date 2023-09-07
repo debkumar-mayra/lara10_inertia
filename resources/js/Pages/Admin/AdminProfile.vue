@@ -31,10 +31,10 @@
 
                <div class="form-group col-lg-6">                   
                    <label for="profile_photo">Profile Photo</label>
-                   <file-upload @input="form.profile_photo = $event.target.files[0]" :imageurl="imageUrl" />
-    
+                   <!-- <file-upload @input="form.profile_photo = $event.target.files[0]" :imageurl="imageUrl" /> -->
+                   <FilePond v-model="form.profile_photo" :myFile="user?.profile_photo"/>
                     <span class="text-danger" v-if="form.errors.profile_photo">{{ form.errors.profile_photo }}</span>
-                    <output><img :src="previewUrl" v-if="previewUrl" height="100" width="100"></output>
+                   
                </div>
 
 
@@ -46,7 +46,7 @@
                               <submit-button :disabled="form.processing" :isLoading="form.processing">Submit</submit-button>
                             </div>
                             <div class="col-lg-6 kt-align-right">
-                            <button type="reset" class="btn btn-danger">Reset</button>
+                             <Link href="/admin/dashboard" class="btn btn-secondary kt-btn btn-sm kt-btn--icon button-fx" as="button" type="button">Cancel</Link>
                             </div>
 
 
@@ -68,6 +68,7 @@ import { onMounted, reactive,ref } from 'vue'
 import { useForm,router } from '@inertiajs/vue3'
 import FileUpload from '../../components/FileUpload.vue'
 import SubmitButton from '../../components/SubmitButton.vue'
+import FilePond from '../../components/FilePond.vue'
 import AdminChangePassword from './AdminChangePassword.vue'
 
 
@@ -82,16 +83,10 @@ const props = defineProps({
    errors:Object,
    user:Object
 })
- const imageUrl = ref('');
 
 onMounted(()=>{
-  imageUrl.value = props.user?.profile_photo_url || '';
-    //   emit.emit('pageName', 'Profile','Profile');
      emit.emit('pageName', 'User Management',[{title: "Profile", routeName:"admin.profile"}]);
-
 })
-
-
 
 function submit() {
     form.post(route('admin.profile'));

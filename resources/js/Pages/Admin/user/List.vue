@@ -10,7 +10,7 @@
                 <div class="col-sm-12 col-md-6">
                     <div class="dataTables_length" id="kt_table_1_length">
                         <label>Show
-            <select class="form-control border-gray-200 custom-select custom-select-sm form-control form-control-sm" v-model="perPage" @change="setPage">
+            <select class="form-control border-gray-200 custom-select custom-select-sm form-control form-control-sm" v-model="perPage" @change="ListHelper.setPerPage($event.target.value)">
     
             <option value="5"> 5</option>
             <option value="10"> 10</option>
@@ -39,17 +39,17 @@
 
                             <tr role="row">
                             <th tabindex="0" aria-controls="kt_table_1" rowspan="1" colspan="1" style="width: 20%;" aria-sort="ascending" aria-label="Agent: activate to sort column descending">Name <i
-                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="sortBy('first_name')"></i>
+                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="ListHelper.sortBy('first_name')"></i>
                             </th>
                             <th tabindex="0" aria-controls="kt_table_1" rowspan="1" colspan="1" style="width: 20%;"
                             aria-label="Company Email: activate to sort column ascending">Email <i
-                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="sortBy('email')"></i></th>
+                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="ListHelper.sortBy('email')"></i></th>
                             <th tabindex="0" aria-controls="kt_table_1" rowspan="1" colspan="1" style="width: 20%;"
                             aria-label="Company Agent: activate to sort column ascending">Phone <i
-                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="sortBy('phone')"></i></th>
+                            class="fa fa-fw fa-sort pull-right" style="cursor: pointer;" @click="ListHelper.sortBy('phone')"></i></th>
                             <th class="align-center" tabindex="0" aria-controls="kt_table_1" rowspan="1" colspan="1"
                             style="width: 15%;" aria-label="Status: activate to sort column ascending">Status</th>
-                            <th class="align-center" rowspan="1" colspan="1" style="width: 25%;" aria-label="Actions">Actions</th>
+                            <th class="align-center" rowspan="1" colspan="1" style="width: 10%;" aria-label="Actions">Actions</th>
                             </tr>
 
 
@@ -112,14 +112,15 @@
                 <td class="sorting_1" tabindex="0">
                     <div class="kt-user-card-v2">
                         <div class="kt-user-card-v2__pic">
-                            <div class="kt-badge kt-badge--xl kt-badge--success" getRandomVal>
+                            <div class="kt-badge kt-badge--xl" :class="ListHelper.getRandomVal()">
+                                
                                 <img v-if="user.profile_photo != null" :src="user.profile_photo"/>
                                 <span v-if="user.profile_photo == null">{{ user.full_name.substr(0,1) }}</span>
                             </div>
                         </div> 
                         <div class="kt-user-card-v2__details">
                             <span class="kt-user-card-v2__name">{{user.full_name}}</span>
-                            <a href="#" class="kt-user-card-v2__email kt-link">Member since {{moment(user.created_at).format($page.props.dateFormat)}} </a>
+                            <a href="#" class="kt-user-card-v2__email kt-link">Member since {{ListHelper.dateFormat(user.created_at)}} </a>
                         </div>
                     </div>
                 </td>
@@ -172,12 +173,9 @@
                   <div class="float-right">  <Bootstrap4Pagination
                             :data="users"
                             :limit=2
-                            @pagination-change-page="setPageNum"
+                            @pagination-change-page="ListHelper.setPageNum"
                         />
                         </div>
-                <!-- <Paginate v-if="listData.last_page > 1" :data=props.users /> -->
-
-               
             </div>
         </div>
     </div>
@@ -190,24 +188,14 @@
 
 
 <script setup>
-// import Paginate from '../../../components/Paginate.vue'
 import { useForm,router,usePage } from '@inertiajs/vue3'
 import {ref,watch,reactive,onMounted, onUnmounted, watchEffect} from 'vue';
 import { Bootstrap4Pagination } from 'laravel-vue-pagination';
-import moment from 'moment';  // https://momentjs.com/docs/#/parsing/string-format/
 import {debounce,throttle,pickBy} from "lodash";
-
+import ListHelper from '../../../helpers/ListHelper';
 
 const {users,filters} = defineProps({ users: Object,filters:Object });
  
-
-// console.log(listData.value);
-
-const getRandomVal = () => {
-    let colors = ["success", "info", "warning", "dark", "primary"];
-     let random = Math.floor(Math.random() * colors.length);
-     return random;
-}
 
 const form = reactive({
     name: filters.name || null,
@@ -215,13 +203,10 @@ const form = reactive({
     phone: filters.phone || null,
     active: filters.active || '',
 })
-
-    let params = new URLSearchParams(window.location.search)
-
+    const perPage = ref(5);
+    
 onMounted(() => {
- 
-    perPage.value = params.get('perPage') || usePage().props.perPage;
-
+    perPage.value = urlParams.get('perPage') || usePage().props.perPage;
      emit.emit('pageName', 'User Management',[{title: "User List", routeName:"admin.users"}]);
 
     emit.on('deleteConfirm', function (arg1) {
@@ -234,27 +219,6 @@ onMounted(() => {
 });
 
 
-const fieldName = ref('');
-
- const shortBy = ref(false);
-const sortBy = (column) => {
-     shortBy.value = !shortBy.value;
-    let shortByy = shortBy.value ? 'asc':'desc';
-    router.reload({
-    method: 'get',
-    data: {fieldName:column ,shortBy: shortByy},
-    replace: true,
-    });
-}
-
-function setPageNum(page) {
-    router.reload({
-    method: 'get',
-    data: {page:page},
-    replace: true,
-    });
-}
-
 
  watch(form, debounce(() => {
     router.visit(route('admin.users'), {
@@ -264,17 +228,6 @@ function setPageNum(page) {
     });
     }, 100));
 
-
-
-const perPage = ref(5);
-
-const setPage = () => {
-    router.reload({
-    method: 'get',
-    data: {perPage:perPage.value},
-    replace: false,
-    });
-}
 
 
 const deleteRecode = (id) => {
@@ -290,10 +243,7 @@ const changeStatus = (id) => {
 }
 
 const changeStatusConfirm = (id) => {
-     let data = {
-        id: id
-    }
-    router.post(route('admin.changeUserStatus'), data)
+    router.post(route('admin.changeUserStatus',id))
 }
 
 

@@ -30,13 +30,13 @@
                     <span class="text-danger" v-if="form.errors.dob">{{ form.errors.dob }}</span>
                </div>
 
-               <!-- <div class="form-group col-lg-6">                   
+               <div class="form-group col-lg-6">                   
                    <label for="profile_photo">Profile Photo</label>
-                   <file-upload @input="form.profile_photo = $event.target.files[0]" :imageurl="imageUrl" />
-    
+                   <FilePond v-model="form.profile_photo" :myFile="props.user?.profile_photo"/>
                     <span class="text-danger" v-if="form.errors.profile_photo">{{ form.errors.profile_photo }}</span>
-                </div> -->
-<file-input v-model="form.profile_photo" :error="form.errors.profile_photo" class="pb-8 pr-6 w-full lg:w-1/2" type="file" accept="image/*" label="profile photo" />
+                </div>
+
+
 
                
 
@@ -80,7 +80,7 @@ import Datepicker from '../../../components/Datepicker.vue'
 import SubmitButton from '../../../components/SubmitButton.vue'
 import FileInput from '../../../components/FileInput.vue'
 import TextInput from '../../../components/admin/TextInput.vue'
-
+import FilePond from '../../../components/FilePond.vue'
 
 
 

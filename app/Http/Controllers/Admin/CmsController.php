@@ -21,30 +21,24 @@ class CmsController extends Controller
      * @return view
      * @author Gourab
      */
-    public function index(Request $request)
+    public function index()
     {
         try {
-            $pages = Cms::query();
-
-        if($request->title){            
-            $pages = $pages->where('title','like', '%'.$request->title.'%');
-        }
-
-        if($request->fieldName && $request->shortBy){
-            $pages->orderBy($request->fieldName,$request->shortBy);
-        }
-
-        $perPage = $this->per_page;
-       if($request->perPage){
-        $perPage = $request->perPage;
-       }
-
-        $pages = $pages->orderBy('id','desc')->paginate($perPage)->withQueryString();
-        return Inertia::render('Admin/cms/List',['pages'=>$pages]);
+            $filters = request()->all('title');
+            $pages = Cms::filter(request()->only('title'))
+            ->ordering(request()->only('fieldName','shortBy'))
+            ->orderBy('id','desc')
+            ->paginate(request()->perPage ?? $this->per_page)
+            ->withQueryString()->through(fn ($user) => [
+                'id' => $user->id,
+                'title' => $user->title,
+                'slug' => $user->slug,
+            ]);
+            return Inertia::render('Admin/cms/List',compact('pages','filters'));
 
         } catch (\Exception $e) {
             Log::error(" :: EXCEPTION :: " . $e->getMessage() . "\n" . $e->getTraceAsString());
-            abort(500);
+            return back()->with('error','Server error');
         }
     }
 
@@ -65,8 +59,7 @@ class CmsController extends Controller
 
         } catch (\Exception $e) {
             Log::error(" :: EXCEPTION :: " . $e->getMessage() . "\n" . $e->getTraceAsString());
-            //return redirect()->back()->with('error', "Something went wrong, please try again!");
-            abort(500);
+            return back()->with('error','Server error');
         }
     }
 
@@ -80,13 +73,18 @@ class CmsController extends Controller
      */
     public function update(Request $request, $slug)
     { 
-        // dd($slug);
+        try{
             $page = Cms::find($slug);
             $page->title = $request->title;
             $page->text_content = $request->content;
             $page->save();
 
             return redirect()->route('admin.cms.index')->with('success', $page->title . ' has been updated');
+            
+        } catch (\Exception $e) {
+            Log::error(" :: EXCEPTION :: " . $e->getMessage() . "\n" . $e->getTraceAsString());
+            return back()->with('error','Server error');
+        }
         
     }
 }

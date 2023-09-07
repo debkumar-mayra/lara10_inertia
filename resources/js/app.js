@@ -26,6 +26,9 @@ window.sw = SweetAlert;
 import emitter from 'tiny-emitter/instance'; //--for 'globally' use
 window.emit = emitter;
 
+const urlParams = new URLSearchParams(window.location.search)
+window.urlParams = urlParams;
+
 
 const AdminLayout = defineAsyncComponent(() =>
   import('./Layout/Admin/Layout.vue')

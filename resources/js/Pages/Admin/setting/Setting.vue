@@ -6,16 +6,26 @@
 
                 <div class="form-group col-lg-6">                   
                    <label for="logo">Logo</label>
-                   <file-upload id="logo" @input="form.logo = $event.target.files[0]" :imageurl="imageUrl" accept="image/png, image/gif, image/jpeg, image/jpg"/>
-    
+                   <FilePond v-model="form.logo" :myFile="setting.logo" />
                     <span class="text-danger" v-if="form.errors.logo">{{ form.errors.logo }}</span>
                </div>
 
 
                 <div class="form-group col-lg-6">
                     <label for="date_format">Date Format<span class="text-danger">*</span></label>
-                    <input type="text" id="date_format" class="form-control border-gray-200" placeholder="Date Format" v-model="form.date_format"/>
+                    <!-- <input type="text" id="date_format" class="form-control border-gray-200" placeholder="Date Format" v-model="form.date_format"/> -->
+
+                    <select id="date_format" class="form-control border-gray-200" placeholder="Per page" v-model="form.date_format">
+                        <option value="L">local</option>
+                        <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                        <option value="MM/DD/YYY">MM/DD/YYY</option>
+                        <option value="YYYY/MM/DD">YYYY/MM/DD</option>
+                        <option value="100">100</option>
+                    </select>
+
                     <span class="text-danger" v-if="form.errors.date_format">{{ form.errors.date_format }}</span>
+
+                    
                </div>
 
                <div class="form-group col-lg-3">
@@ -77,6 +87,7 @@ import { onMounted, ref } from 'vue'
 import { useForm,router } from '@inertiajs/vue3'
 import FileUpload from '../../../components/FileUpload.vue'
 import SubmitButton from '../../../components/SubmitButton.vue'
+import FilePond from '../../../components/FilePond.vue'
 
 const {setting,errors} = defineProps({
    errors:Object,
@@ -87,22 +98,17 @@ const imageUrl = ref(null);
 onMounted(()=>{
     imageUrl.value = setting.logo;
 })
+   
 
 
 const form = useForm({
-  logo: null,
+  logo: [],
   date_format: setting.date_format || null,
   per_page: setting.per_page || null,
   main_color: setting.main_color || null,
   hover_color: setting.hover_color || null,
   button_color: setting.button_color || null,
 })
-
-
-
-
-console.log(imageUrl.value);
-
 
 function submit() {
   form.post(route('admin.setting'));

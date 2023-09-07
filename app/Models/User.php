@@ -44,10 +44,7 @@ class User extends Authenticatable
         'active' => 'string',
     ];
 
-
-    protected $appends = [
-         'profile_photo_url'
-    ];
+    // protected $append = ['role_name'];
 
 
     public function setPasswordAttribute($password)
@@ -73,11 +70,6 @@ class User extends Authenticatable
         return $val ? date('m-d-Y', strtotime($val)) : null;
     }
 
-    public function getProfilePhotoUrlAttribute()
-    {
-       return ("{$this->profile_photo_path}") ? url()->to('storage/profile_photo/'."{$this->profile_photo_path}") : '';
-    }
-
 
     public function scopeFilter($query, array $filters)
     {
@@ -101,7 +93,6 @@ class User extends Authenticatable
     public function scopeOrdering($query, array $filters)
     {
         $query->when($filters['fieldName'] ?? null, function ($query, $search) use($filters){
-            // dd($filters['shortBy']);
             $query->orderBy($search,$filters['shortBy']);
         });
     }

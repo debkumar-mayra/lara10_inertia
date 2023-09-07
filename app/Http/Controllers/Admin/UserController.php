@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
@@ -17,24 +18,26 @@ class UserController extends Controller
 {
     public function userlist()
     {
-      $users = User::filter(Request::only('name','email','phone','active'))->role('USER')->ordering(Request::only('fieldName','shortBy'))->latest()->paginate(request()->perPage ?? $this->per_page)->withQueryString()
+      try {
+      $users = User::filter(Request::only('name','email','phone','active'))->role('USER')->ordering(Request::only('fieldName','shortBy'))->orderBy('id','desc')->paginate(request()->perPage ?? $this->per_page)->withQueryString()
        ->through(fn ($user) => [
         'id' => $user->id,
         'full_name' => $user->full_name,
         'email' => $user->email,
         'phone' => $user->phone,
         'active' => $user->active,
-        // 'owner' => $user->owner,
-        // 'photo' => $user->profile_photo_path ? Image::make(storage_path($user->profile_photo_path))->resize(50, 50)->response('jpg') : null,
-
         'profile_photo' => $user->profile_photo_path ? URL::route('image', ['path' => $user->profile_photo_path, 'w' => 40, 'h' => 40, 'fit' => 'crop']) : null,
-
         'deleted_at' => $user->deleted_at,
       ]);
 
       $filters = Request::all('name','email','phone','active');
        
       return Inertia::render('Admin/user/List', compact('filters','users'));
+
+    } catch (\Exception $e) {
+      Log::error(" :: EXCEPTION :: " . $e->getMessage() . "\n" . $e->getTraceAsString());
+      return back()->with('error','Server error');
+   }
         
     }
 
@@ -51,7 +54,7 @@ class UserController extends Controller
           'email' => 'required|email|unique:users,email',
           'password' => 'required|min:6',
           'phone' => 'required',
-          'dob' => 'required',
+          'dob' => 'required|before:before:5 years ago',
           'profile_photo' => 'required',
           'status' => 'required',
         ]);
@@ -73,13 +76,16 @@ class UserController extends Controller
       }
 
       return Inertia::render('Admin/user/CreateEdit');
+
+   
+
     }
 
 
 
     public function editUser(User $user)
     {
-
+    
       if(request()->isMethod('post')){
 
         $credentials = request()->validate([
@@ -87,7 +93,7 @@ class UserController extends Controller
           'last_name' => 'required',
           'email' =>  'required|email|unique:users,email,'.$user->id,
           'phone' => 'required|unique:users,phone,'.$user->id,
-          'dob' => 'required',
+          'dob' => 'required|before:before:5 years ago',
           'status' => 'required',
         ]);
 
@@ -117,18 +123,29 @@ class UserController extends Controller
 
     public function deleteUser(User $user)
     {
+      try{
       File::delete(storage_path('app/'.$user->profile_photo_path));
       $user->delete();
       session()->flash('success', 'User successfully deleted');
       return back();
+      } catch (\Exception $e) {
+        Log::error(" :: EXCEPTION :: " . $e->getMessage() . "\n" . $e->getTraceAsString());
+        return back()->with('error','Server error');
+    }
     }
 
-    public function changeUserStatus(Request $request)
+    public function changeUserStatus(User $user)
     {
-      $user = User::find($request->id);
+      try{
       $user->active = ($user->active == 1) ? 0 : 1 ;
       $user->save();
       session()->flash('success', 'User status successfully changed');
       return back();
+    } catch (\Exception $e) {
+      Log::error(" :: EXCEPTION :: " . $e->getMessage() . "\n" . $e->getTraceAsString());
+      return back()->with('error','Server error');
+  }
+
+
     }
 }

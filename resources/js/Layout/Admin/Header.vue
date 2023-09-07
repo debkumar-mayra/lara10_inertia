@@ -45,11 +45,11 @@
                 <span
                     class="kt-header__topbar-username kt-hidden-mobile">{{$page.props.auth.user.full_name}}</span>
                 <img class="" alt="Pic"
-                    :src="$page.props.auth.user?.profile_photo_url" />
+                    :src="$page.props.auth.user?.profile_photo" />
 
                 <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
                 <span
-                    class=" kt-hidden kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold">AA</span>
+                    class=" kt-hidden kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold"></span>
             </div>
         </div>
         <div
@@ -59,7 +59,7 @@
             <div class="kt-user-card kt-user-card--skin-dark kt-notification-item-padding-x"
                 style="background-image:admin_assets/media/misc/bg-1.jpg">
                 <div class="kt-user-card__avatar">
-                    <img class="" alt="Pic" :src="$page.props.auth.user?.profile_photo_url" />
+                    <img class="" alt="Pic" :src="$page.props.auth.user?.profile_photo" />
 
                     <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
                     <span

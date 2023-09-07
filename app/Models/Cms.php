@@ -28,4 +28,19 @@ class Cms extends Model
             ->generateSlugsFrom('title')
             ->saveSlugsTo('slug');
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['title'] ?? null, function ($query, $search) {
+            $query->where('title','like', "%" . trim($search) . "%");
+        });
+    }
+
+    public function scopeOrdering($query, array $filters)
+    {
+        $query->when($filters['fieldName'] ?? null, function ($query, $search) use($filters){
+            $query->orderBy($search,$filters['shortBy']);
+        });
+    }
+    
 }

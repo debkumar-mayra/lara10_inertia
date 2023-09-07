@@ -85,7 +85,7 @@ class HandleInertiaRequests extends Middleware
             'auth'=>[
                 'user'=> [
                     'full_name'=>auth()->user()->full_name ?? null,
-                    'profile_photo_url'=>auth()->user()->profile_photo_url ?? null,
+                    'profile_photo'=>  isset(auth()->user()->profile_photo_path) ? URL::route('image', ['path' => auth()->user()->profile_photo_path, 'w' => 80, 'h' => 80, 'fit' => 'stretch']) : null,
                   ]
                 ],
             'baseUrl'=>url(),

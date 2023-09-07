@@ -56,7 +56,7 @@
                               <submit-button :disabled="form.processing" :isLoading="form.processing">Submit</submit-button>
                             </div>
                             <div class="col-6 kt-align-right">
-                                <Link href="/admin/dashboard" class="btn btn-secondary">Cancel</Link>
+                               <Link href="/admin/dashboard" class="btn btn-secondary kt-btn btn-sm kt-btn--icon button-fx" as="button" type="button">Cancel</Link>
                             </div>
 
 
