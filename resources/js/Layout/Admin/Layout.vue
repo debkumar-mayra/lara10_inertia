@@ -69,8 +69,9 @@
 
 </template>
 <script setup>
-// import '/public/admin_assets/vendors/general/popper.js/dist/umd/popper.min.js';
 import '/public/admin_assets/vendors/general/bootstrap/dist/js/bootstrap.min.js';
+
+// import '/public/admin_assets/vendors/general/popper.js/dist/umd/popper.min.js';
 // import '/public/admin_assets/vendors/general/tooltip.js/dist/umd/tooltip.min.js';
 // import '/public/admin_assets/vendors/general/perfect-scrollbar/dist/perfect-scrollbar.min.js';
 // import '/public/admin_assets/vendors/general/sticky-js/dist/sticky.min.js';
@@ -78,9 +79,7 @@ import '/public/admin_assets/vendors/general/bootstrap/dist/js/bootstrap.min.js'
 // import '/public/admin_assets/app/bundle/app.bundle.min.js';
 // import '/public/admin_assets/custom/js/custom.js';
 
-
-
-
+import { loadScript } from "vue-plugin-load-script";
 import Nav from './Nav.vue';
 import Footer from './Footer.vue';
 import Header from './Header.vue';
@@ -92,6 +91,7 @@ import { computed, onBeforeMount, onBeforeUpdate, onMounted,onUnmounted,onUpdate
 import { usePage } from '@inertiajs/vue3';
 import NProgress from 'nprogress'
 import { router } from '@inertiajs/vue3'
+loadScript('https://cdn.jsdelivr.net/npm/sweetalert2@11');
 
 const isLoading = ref(false);
 const menuHideShow = ref(false);

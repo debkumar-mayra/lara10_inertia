@@ -112,7 +112,7 @@ class FaqController extends Controller
             $faq->fill($request->all());            
             $faq->save();
             session()->flash('success', 'Faq updated successfully');
-            return redirect()->route('faq.index');      
+            return redirect()->route('admin.faq.index');      
     }
 
     /**

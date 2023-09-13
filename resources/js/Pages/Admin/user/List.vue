@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-sm-12 col-md-6">
                     <div class="dataTables_length" id="kt_table_1_length">
-                        <label>Show
+        <label>Show
             <select class="form-control border-gray-200 custom-select custom-select-sm form-control form-control-sm" v-model="perPage" @change="ListHelper.setPerPage($event.target.value)">
     
             <option value="5"> 5</option>
@@ -170,7 +170,8 @@
             </div>
             <div class="col-sm-12 col-md-7">
 
-                  <div class="float-right">  <Bootstrap4Pagination
+                  <div class="float-right">  
+                    <Bootstrap4Pagination
                             :data="users"
                             :limit=2
                             @pagination-change-page="ListHelper.setPageNum"

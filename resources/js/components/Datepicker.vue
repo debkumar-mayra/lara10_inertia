@@ -1,36 +1,37 @@
 <template>
-<div>
-  <datepicker
-    class="form-control border-gray-200" placeholder="Date"
-    v-bind="$attrs"
-    :clearable="false"
-    :inputFormat="'MM-dd-yyyy'"
-  />
-  </div>
+<VueDatePicker :format="'MM/dd/yyyy'" :model-value="date" @update:model-value="handleDate" auto-apply  @cleared="clearData" />
 </template>
 
 <script setup>
-import { usePage } from '@inertiajs/vue3'
 import { ref } from 'vue';
-import Datepicker from 'vue3-datepicker'
+import VueDatePicker from '@vuepic/vue-datepicker'; // https://vue3datepicker.com/props/modes/
+import '@vuepic/vue-datepicker/dist/main.css'
 
-const format = ref(usePage().props.dateFormat);
-format.value = format.value.replace('.','/');
-format.value = format.value.replace('-','/');
-format.value = format.value.toLowerCase().split('/');
-let newDateformat = format.value.map((item)=>{
-  if(item == 'mm'){
-    item.toUpperCase();
-    // console.log('hhhhh'+item);
-  }
 
-  // return item;
-// console.log(item);
-})
-// console.log(newDateformat);
+const {modelValue } = defineProps(['modelValue'])
+const emit = defineEmits(['update:modelValue']);
+
+
+const date = ref();
+const format = (date) => {
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+  return `${day}-${month}-${year}`;
+}
+
+const handleDate = (modelData) => {
+  // alert(date.value);
+if(modelData){
+  date.value = format(modelData);
+}
+  emit('update:modelValue', date.value)
+  // do something else with the data
+}
+
+const clearData = () => {
+  // alert('fff');
+  emit('update:modelValue', '');
+}
 
 </script>
-
-<style>
-
-</style>

@@ -18,25 +18,25 @@ class HomeController extends Controller
         if(auth()->user() && auth()->user()->role_name == 'SUPER-ADMIN'){
             return to_route('admin.dashboard');
         }
-        return Inertia::render('common/SuperAdminLogin');
-    }
 
-    public function authenticate(): RedirectResponse
-    {
-    //    sleep(10);
-        $credentials = request()->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required'],
-        ]);
- 
-        if (Auth::attempt($credentials) && Auth::user()->role_name == 'SUPER-ADMIN') {
-            request()->session()->regenerate();
-            return redirect()->intended('/admin/dashboard');
+         if(request()->isMethod('post')){
+            $credentials = request()->validate([
+                'email' => ['required', 'email'],
+                'password' => ['required'],
+            ]);
+     
+            if (Auth::attempt($credentials) && Auth::user()->role_name == 'SUPER-ADMIN') {
+                request()->session()->regenerate();
+                return redirect()->intended(route('admin.dashboard'));
+            }
+     
+            return back()->withErrors([
+                'email' => 'The provided credentials do not match our records.',
+            ])->onlyInput('email');
         }
- 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->onlyInput('email');
+
+
+        return Inertia::render('common/SuperAdminLogin');
     }
 
 
@@ -51,8 +51,7 @@ class HomeController extends Controller
     function adminProfile()
     {
         $user = auth()->user();
-        $user->profile_photo = $user->profile_photo_path ? url()->route('image', ['path' => $user->profile_photo_path]) : null;
-
+        
         if(request()->isMethod('post')){
 
             $credentials = request()->validate([
@@ -71,6 +70,7 @@ class HomeController extends Controller
                 $user->profile_photo_path = request()->file('profile_photo')->store('profile_photo');
               }
             $user->save();
+            $user->profile_photo = $user->profile_photo_path ? url()->route('image', ['path' => $user->profile_photo_path]) : null;
     
             session()->flash('success', 'Profile successfully updated');
             // return redirect('admin/admin-profile');
@@ -104,7 +104,13 @@ class HomeController extends Controller
 
     public function logout()
     {
-       Auth::logout();
-       return redirect('/admin/login');
+    //    Auth::logout();
+       Auth::guard('web')->logout();
+
+       request()->session()->invalidate();
+
+       request()->session()->regenerateToken();
+
+       return to_route('admin.login');
     }
 }

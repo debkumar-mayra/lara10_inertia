@@ -12,9 +12,9 @@
             <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
 <br>
 <br>
-            <button class="btn btn-primary" @click="increCounter">+</button> {{store.getCounter}}  <button class="btn btn-danger" @click="decreCounter">-</button>
+            <!-- <button class="btn btn-primary" @click="increCounter">+</button> {{store.getCounter}}  <button class="btn btn-danger" @click="decreCounter">-</button>
 
-            <button class="btn btn-dark" @click="callService">Call Api <Icon icon="material-symbols:star-outline" color="green" width="38" height="38" /></button>
+            <button class="btn btn-dark" @click="callService">Call Api <Icon icon="material-symbols:star-outline" color="green" width="38" height="38" /></button> -->
 
             </div>
 
@@ -30,20 +30,20 @@ export default {
 
 <script setup>
 import { Head, router, useForm } from '@inertiajs/vue3';
-import { useSetAndGetData } from '@/stores/SetAndGetData';
+// import { useSetAndGetData } from '@/stores/SetAndGetData';
 
-const store = useSetAndGetData();
+// const store = useSetAndGetData();
 
-function increCounter(){
-  console.log('increCounter');
-  store.setCounter(store.counter + 1);
-}
+// function increCounter(){
+//   console.log('increCounter');
+//   store.setCounter(store.counter + 1);
+// }
 
-function decreCounter(){
-  console.log('decreCounter');
+// function decreCounter(){
+//   console.log('decreCounter');
 
-  store.setCounter(store.counter - 1);
-}
+//   store.setCounter(store.counter - 1);
+// }
 
 const form = useForm({
 

@@ -15,7 +15,7 @@
 
 <script setup>
 import { v4 as uuid } from 'uuid'
-import { ref, defineProps, defineEmits } from 'vue'
+import { ref } from 'vue'
 
 const { id, type, error, label, modelValue } = defineProps(['id', 'type', 'error', 'label', 'modelValue'])
 const emit = defineEmits(['update:modelValue']);

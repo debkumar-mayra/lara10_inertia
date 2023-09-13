@@ -11,9 +11,11 @@
                     <span class="text-danger" v-if="form.errors.title">{{ form.errors.title }}</span>
                </div>
 
-               <div class="form-group col-lg-6">
+
+               <div class="form-group col-lg-12">
                     <label for="content">Content <span class="text-danger">*</span></label>
-                    <textarea id="content" v-model="form.content" class="form-control border-gray-200" placeholder="Content"></textarea>
+
+                    <CKeditor v-model="form.content" />
                     <span class="text-danger" v-if="form.errors.content">{{ form.errors.content }}</span>
                </div>
              
@@ -38,19 +40,21 @@
 
 </template>
 <script setup>
-import { onMounted, reactive,ref } from 'vue'
+import { onMounted } from 'vue'
 import { useForm,router } from '@inertiajs/vue3'
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import FileUpload from '../../../components/FileUpload.vue'
 import Datepicker from '../../../components/Datepicker.vue'
 import SubmitButton from '../../../components/SubmitButton.vue'
+import CKeditor from '../../../components/Ckeditor.vue'
 
-const editor = ClassicEditor
 
 const form = useForm({
   title: props.cms?.title || null,
-  content: props.cms?.text_content || null
+  content: props.cms?.text_content || null,
 })
+
+
+
 
 onMounted(()=>{
    emit.emit('pageName', 'CMS Management',[{title: "CMS", routeName:"admin.cms.index"},{title: "Edit", routeName:""}]);

@@ -78,9 +78,9 @@
                     aria-haspopup="true">
                     <!-- <Link href="/admin/users" class="kt-menu__link " > -->
                     <!-- <Link :href="route('home')" href="/admin/users" class="kt-menu__link " > -->
-                    <Link :href="route('admin.users')" class="kt-menu__link">
+                    <Link :href="route('admin.users')" class="kt-menu__link" >
                         <i class="kt-menu__link-icon fa fa-users"></i>
-                        <span class="kt-menu__link-text">Users </span>
+                        <span class="kt-menu__link-text" >Users </span>
                     </Link>
                 </li>
 
@@ -121,6 +121,7 @@
                         <span class="kt-menu__link-text">Setting</span>
                     </Link>
                 </li>
+
 
                 
 

@@ -72,7 +72,9 @@ class CmsController extends Controller
      * @author Gourab
      */
     public function update(Request $request, $slug)
-    { 
+    {
+        dd($request->all());
+        
         try{
             $page = Cms::find($slug);
             $page->title = $request->title;

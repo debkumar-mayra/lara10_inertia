@@ -4,8 +4,6 @@
             name="file"
             ref="pond"
             class-name="my-pond"
-            label-idle="Drop files here..."
-            allowMultiple="false"
             :accepted-file-types="types"
             :files="myFile"
             @addfile="handleFilePondInit"

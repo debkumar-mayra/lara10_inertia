@@ -78,7 +78,7 @@ class HandleInertiaRequests extends Middleware
 
 
         return array_merge(parent::share($request), [
-            'appName'=>'My-app',
+            'appName'=>config('app.name'),
             'logo'=>$setting['logo'],
             'perPage'=>$setting['per_page'],
             'dateFormat'=>$setting['date_format'],
