@@ -22,7 +22,6 @@ const adminFormat = computed(() => usePage().props.dateFormat);
   const format = ref('MM/dd/yyyy');
 
 onMounted(()=>{
-  // console.log(adminFormat.value);
 if(adminFormat.value == 'DD/MM/YYYY'){
   format.value = 'dd/MM/yyyy';
 }
@@ -45,8 +44,10 @@ if(adminFormat.value == 'YYYY/MM/DD'){
 
 const handleDate = (modelData) => {
   // alert(date.value);
+  let returnFormat = ''
 if(modelData){
-  date.value = moment(modelData).format(format.value.toUpperCase());
+  date.value = moment(modelData).format('yyyy-MM-DD');
+  // date.value = moment(modelData).format(format.value.toUpperCase().replace(/\//g,'-'));
 }
   emit('update:modelValue', date.value)
   // do something else with the data

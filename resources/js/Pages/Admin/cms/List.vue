@@ -59,6 +59,9 @@
                                     </span>
                                 </td>
                             </tr>
+                             <tr role="row" v-if="Object.keys(pages.data).length == 0" class="odd text-center">
+                                <td colspan="3" >No data Found</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

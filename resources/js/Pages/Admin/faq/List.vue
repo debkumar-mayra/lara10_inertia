@@ -99,12 +99,13 @@
                                     </span>
                                 </td>
                             </tr>
+                            <tr role="row" v-if="Object.keys(faqs.data).length == 0" class="odd text-center">
+                                <td colspan="5" >No data Found</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="col-sm-12" v-if="faqs.total == 0">
-                    <div class="no_data text-center"><h3>No data Found</h3></div>
-                </div>
+                   
             </div>
         </div>
         <div class="row">

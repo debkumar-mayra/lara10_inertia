@@ -147,6 +147,10 @@
             </tr>
             </template>
 
+                        <tr role="row" v-if="Object.keys(users.data).length == 0" class="odd text-center">
+                                <td colspan="5" >No data Found</td>
+                        </tr>
+
 
                         </tbody>
                     </table>
