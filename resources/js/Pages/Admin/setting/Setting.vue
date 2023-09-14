@@ -20,7 +20,6 @@
                         <option value="DD/MM/YYYY">DD/MM/YYYY</option>
                         <option value="MM/DD/YYY">MM/DD/YYY</option>
                         <option value="YYYY/MM/DD">YYYY/MM/DD</option>
-                        <option value="100">100</option>
                     </select>
 
                     <span class="text-danger" v-if="form.errors.date_format">{{ form.errors.date_format }}</span>

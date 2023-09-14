@@ -4,19 +4,7 @@
         <div id="kt_table_1_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
             <div class="row">
                 <div class="col-sm-12 col-md-6">
-                    <div class="dataTables_length" id="kt_table_1_length">
-                        <label>Show
-                            <select class="form-control border-gray-200 custom-select custom-select-sm form-control form-control-sm" v-model="perPage" @change="ListHelper.setPerPage($event.target.value)">
-                        
-                                <option value="5"> 5</option>  
-                                <option value="10"> 10</option> 
-                                <option value="20"> 20</option>  
-                                <option value="50"> 50</option>
-                                <option value="100"> 100</option>
-                            </select> entries
-                        </label>
-                        
-                    </div>
+                     <perPageDropdown/>
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <div id="kt_table_1_filter" class="dataTables_filter">
@@ -104,11 +92,12 @@
 
 <script setup>
 import { Bootstrap4Pagination } from 'laravel-vue-pagination';
-import Paginate from '../../../components/Paginate.vue'
+import Paginate from '@/components/Paginate.vue'
 import { router, useForm, usePage } from '@inertiajs/vue3'
 import { ref, onMounted, watch, reactive } from 'vue';
 import {debounce,throttle,pickBy} from "lodash";
-import ListHelper from '../../../helpers/ListHelper';
+import ListHelper from '@/helpers/ListHelper';
+import perPageDropdown from '@/components/admin/PerpageDropdown.vue';
 
 
 
@@ -126,11 +115,7 @@ watch(form, debounce(() => {
     });
     }, 100));
 
-
-
-const perPage = ref(5);
 onMounted(() => {
-    perPage.value = urlParams.get('perPage') || usePage().props.perPage;
    emit.emit('pageName', 'Content Management',[{title: "CMS List", routeName:"admin.cms.index"}]);
 });
 
