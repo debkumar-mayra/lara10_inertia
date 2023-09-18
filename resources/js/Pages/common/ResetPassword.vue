@@ -1,7 +1,7 @@
 <template lang="">
     <div class="col-md-4 offset-md-4" style="margin-top:90px;">
       <div  class="d-flex justify-content-center">
-               <img src="/admin_assets/logo/logo.png" alt="" style="height: 100px; width:100px; content">
+                <img :src="$page.props.logo" alt="" style="height: 100px; width:100px; content">
       </div>
              <div class="card">
                 <div class="card-body">
@@ -23,10 +23,11 @@
                       <span class="text-danger" v-if="form.errors.confirm_password">{{ form.errors.confirm_password }}</span>
                     </div>
 
-                <submit-button :isLoading="form.processing">Submit</submit-button>
+                <button type="submit" class="btn btn-primary"  :disabled="form.processing">
+                        <div :class="{'spinner-border':form.processing, 'spinner-border-sm':form.processing}" role="status"></div>
+                        Submit</button>
 
                 </form>
-   <!-- <button @click="showModal = true">Show Modal</button> -->
                 </div>
             </div>
     </div>
@@ -39,7 +40,6 @@
 import { onMounted, reactive, ref } from 'vue'
 import { useForm, usePage } from '@inertiajs/vue3'
 import { router } from '@inertiajs/vue3'
-import SubmitButton from '../../components/SubmitButton.vue'
 
 
 
@@ -65,6 +65,6 @@ const props = defineProps({
 })
 
 function submit() {
-  form.post('/reset-password')
+  form.post(route('frontend.resetPassword'))
 }
 </script>

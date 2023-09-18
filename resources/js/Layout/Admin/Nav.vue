@@ -59,10 +59,10 @@
             data-ktmenu-dropdown-timeout="500">
 
             <ul class="kt-menu__nav ">
-                <li class="kt-menu__item  " :class="{ 'kt-menu__item--active': $page.url === '/admin/dashboard' }"
+               <li class="kt-menu__item  " :class="{ 'kt-menu__item--active': $page.url === '/admin/dashboard' }"
                     aria-haspopup="true">
                         <Link :href="route('admin.dashboard')" class="kt-menu__link ">
-                        <i class="kt-menu__link-icon flaticon-home"></i>
+                       <Icon icon="material-symbols:dashboard-outline" color="white" width="20" height="20" class="kt-menu__link-icon mr-3"/>
                         <span class="kt-menu__link-text">Dashboard</span>
                         </Link>
                 </li>
@@ -76,10 +76,8 @@
 
                 <li class="kt-menu__item " :class="{ 'kt-menu__item--active': $page.component.startsWith('Admin/user') }"
                     aria-haspopup="true">
-                    <!-- <Link href="/admin/users" class="kt-menu__link " > -->
-                    <!-- <Link :href="route('home')" href="/admin/users" class="kt-menu__link " > -->
                     <Link :href="route('admin.users')" class="kt-menu__link" >
-                        <i class="kt-menu__link-icon fa fa-users"></i>
+                                                <Icon icon="fa-solid:users" color="white" width="20" height="20" class="kt-menu__link-icon mr-3"/>
                         <span class="kt-menu__link-text" >Users </span>
                     </Link>
                 </li>
@@ -94,16 +92,16 @@
 
                 <li class="kt-menu__item" :class="{ 'kt-menu__item--active': $page.component.startsWith('Admin/cms') }"
                     aria-haspopup="true">
-                    <Link href="/admin/cms" class="kt-menu__link " >
-                        <i class="kt-menu__link-icon flaticon-imac"></i>
+                    <Link :href="route('admin.cms.index')" class="kt-menu__link" >
+                       <Icon icon="fluent:content-view-20-regular" color="white" width="26" height="26" class="kt-menu__link-icon mr-3"/>
                         <span class="kt-menu__link-text">CMS Pages</span>
                     </Link>
                 </li>
 
                 <li class="kt-menu__item" :class="{ 'kt-menu__item--active': $page.component.startsWith('Admin/faq') }"
                     aria-haspopup="true">
-                    <Link href="/admin/faq" class="kt-menu__link " >
-                        <i class="kt-menu__link-icon fas fa-question-circle"></i>
+                   <Link :href="route('admin.faq.index')" class="kt-menu__link " >
+                        <Icon icon="wpf:faq"  color="white" width="24" height="24" class="kt-menu__link-icon mr-3"/>
                         <span class="kt-menu__link-text">FAQ</span>
                     </Link>
                 </li>

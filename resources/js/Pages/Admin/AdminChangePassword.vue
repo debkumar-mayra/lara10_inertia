@@ -8,22 +8,22 @@
                 <!-- {{ $form }} -->
 
                 <div class="form-group col-lg-6">
-                    <label for="current_password">Current Password <span class="text-danger">*</span></label>                  
+                    <label for="old_password">Old Password <span class="text-danger">*</span></label>                  
                     <div class="password_box">    
-                        <input :type="showCurrentPassword ? 'text' : 'password'" id="current_password" v-model="form.current_password" class="form-control border-gray-200" placeholder="Current Password">
+                        <input :type="showCurrentPassword ? 'text' : 'password'" id="old_password" v-model="form.old_password" class="form-control border-gray-200" placeholder="Current Password">
                         <div class="control">                        
                             <span class="icon is-small is-right">
                                 <i @click="showCurrentPassword = !showCurrentPassword" class="fas" :class="{ 'fa-eye-slash': showCurrentPassword, 'fa-eye': !showCurrentPassword }"></i>
                             </span>
                         </div>
                     </div>
-                    <span class="text-danger" v-if="form.errors.current_password">{{ form.errors.current_password }}</span>
+                    <span class="text-danger" v-if="form.errors.old_password">{{ form.errors.old_password }}</span>
                </div>
 
               <div class="form-group col-lg-6">
                     <label for="new_password">New password <span class="text-danger">*</span></label>
                     <div class="password_box">  
-                        <input :type="showNewPassword ? 'text' : 'password'" id="new_password" v-model="form.new_password" class="form-control border-gray-200" placeholder="New Password">
+                        <input :type="showNewPassword ? 'text' : 'password'" id="new_password" v-model="form.new_password" class="form-control border-gray-200" placeholder="New Password" ref="newPassword">
                         <div class="control">                        
                             <span class="icon is-small is-right">
                                 <i @click="showNewPassword = !showNewPassword" class="fas" :class="{ 'fa-eye-slash': showNewPassword, 'fa-eye': !showNewPassword }"></i>
@@ -77,7 +77,7 @@ import SubmitButton from '../../components/SubmitButton.vue'
 
 
 const form = useForm({
-    current_password: null,
+    old_password: null,
     new_password: null,
     confirm_password: null,
 })
@@ -91,9 +91,16 @@ const showNewPassword = ref(false);
 const showConfirmPassword = ref(false);
 
 
-
+const newPassword = ref();
 function submit() {
-    form.post(route('admin.changePassword'));
+    
+    form.post(route('admin.changePassword'),{
+        preserveScroll: true,
+        // onError: (errors) => {
+        //     newPassword.value.focus();
+        //     console.log(errors);
+        // },
+     });
 }
 
 </script>

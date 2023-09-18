@@ -23,8 +23,13 @@
                     <!-- <button type="submit" class="btn btn-primary"  :disabled="form.processing"> Login</button> -->
 
                 </form>
+
+                <GoogleLogin/>
                 
                 </div>
+
+
+
             </div>
     </div>
    
@@ -35,6 +40,7 @@ import { reactive } from 'vue'
 import { useForm } from '@inertiajs/vue3'
 import { router } from '@inertiajs/vue3'
 import SubmitButton from '../../components/SubmitButton.vue'
+import GoogleLogin from '../../components/GoogleLogin.vue'
 
 const form = useForm({
   email: null,

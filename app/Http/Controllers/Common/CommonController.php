@@ -100,7 +100,13 @@ class CommonController extends Controller
              }
           
              $request->session()->forget('forgot_password_email');
-             return to_route('frontend.login');
+             if($user->role_name == 'SUPER-ADMIN'){
+                return to_route('admin.login');
+             }
+
+             if($user->role_name == 'USER'){
+                return to_route('frontend.login');
+             }
 
         }
 

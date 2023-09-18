@@ -7,6 +7,7 @@ use App\Models\SiteSetting;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SiteSettingController extends Controller
 {
@@ -51,5 +52,36 @@ class SiteSettingController extends Controller
         }
 
         return Inertia::render('Admin/setting/Setting',compact('setting'));
+    }
+
+
+    public function chunkedUpload()
+    {
+
+        if(request()->isMethod('post')){
+        $file = request()->file('file');
+
+        $path = Storage::disk('local')->path("chunks/{$file->getClientOriginalName()}");
+
+        File::append($path, $file->get());
+
+        if (request()->has('is_last') && request()->boolean('is_last')) {
+            $name = basename($path, '.part');
+            // request()->file($name)->store('avatars');
+            
+        //  Storage::put('avatars', $name);
+        // Storage::putFileAs('photos', new File('/path/to/photo'), $name);
+
+            // request()->file('logo')->store('logo')
+            File::move($path, base_path()."/public/upload/{$name}");
+        }
+
+
+        return response()->json(['uploaded' => true]);
+      }
+
+      return Inertia::render('Admin/setting/ChunkedUpload');
+
+
     }
 }

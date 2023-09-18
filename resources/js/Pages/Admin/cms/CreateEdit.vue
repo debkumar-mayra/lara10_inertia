@@ -42,10 +42,10 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useForm,router } from '@inertiajs/vue3'
-import FileUpload from '../../../components/FileUpload.vue'
-import Datepicker from '../../../components/Datepicker.vue'
-import SubmitButton from '../../../components/SubmitButton.vue'
-import CKeditor from '../../../components/Ckeditor.vue'
+import FileUpload from '@/components/FileUpload.vue'
+import Datepicker from '@/components/Datepicker.vue'
+import SubmitButton from '@/components/SubmitButton.vue'
+import CKeditor from '@/components/Ckeditor.vue'
 
 
 const form = useForm({

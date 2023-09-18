@@ -89,7 +89,7 @@ onMounted(()=>{
 })
 
 function submit() {
-    form.post(route('admin.profile'));
+    form.post(route('admin.profile'),{preserveState: true });
 }
 
 </script>

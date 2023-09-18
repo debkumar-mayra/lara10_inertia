@@ -84,9 +84,9 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useForm,router } from '@inertiajs/vue3'
-import FileUpload from '../../../components/FileUpload.vue'
-import SubmitButton from '../../../components/SubmitButton.vue'
-import FilePond from '../../../components/FilePond.vue'
+import FileUpload from '@/components/FileUpload.vue'
+import SubmitButton from '@/components/SubmitButton.vue'
+import FilePond from '@/components/FilePond.vue'
 
 const {setting,errors} = defineProps({
    errors:Object,

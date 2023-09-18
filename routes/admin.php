@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\UserController;
 
 Route::redirect('/admin', 'admin/login');
 Route::group(['prefix' => 'admin'], function () {
-Route::match(['get','post'],'login', [HomeController::class,'index'])->name('admin.login')->middleware('guest');
+Route::match(['get','post'],'login', [HomeController::class,'index'])->name('admin.login');
 
     Route::name('admin.')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('dashboard', [HomeController::class,'dashboard'])->name('dashboard');
@@ -34,6 +34,7 @@ Route::match(['get','post'],'login', [HomeController::class,'index'])->name('adm
 
     // setting module
     Route::any('setting', [SiteSettingController::class,'setting'])->name('setting'); 
+    Route::any('chunked-upload', [SiteSettingController::class,'chunkedUpload'])->name('chunkedUpload'); 
 
 
 });

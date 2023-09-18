@@ -42,6 +42,7 @@ import { Icon } from '@iconify/vue'; // https://iconify.design/docs/icon-compone
 
 // import { MotionPlugin } from '@vueuse/motion'  // https://motion.vueuse.org/features/presets
 
+import GoogleSignInPlugin from "vue3-google-signin"
 
 
 
@@ -77,6 +78,9 @@ createInertiaApp({
       .use(plugin)
       // .use(pinia)
       .use(autoAnimatePlugin)
+      .use(GoogleSignInPlugin, {
+        clientId: '337839940049-vttb62h20o9ngsfigvriolp61q860c0t.apps.googleusercontent.com',
+      })
       // .use(MotionPlugin)
       .use(PerfectScrollbar)
       .use(CKEditor)
