@@ -70,7 +70,7 @@ class HomeController extends Controller
             $credentials = request()->validate([
               'first_name' => 'required',
               'last_name' => 'required',
-              'email' =>  'required|email|unique:users,email,'.$user->id,
+              'email' =>  'required|email:rfc,dns|unique:users,email,'.$user->id,
               // 'profile_photo' => 'required',
             ]);
     
@@ -110,7 +110,8 @@ class HomeController extends Controller
             }
               $user->password = request()->new_password;
               $user->save();
-              return to_route('admin.profile')->with('success', "Password changed");
+              Auth::logout();
+              return to_route('admin.login')->with('success', "Password changed successfully");
   
     }
 

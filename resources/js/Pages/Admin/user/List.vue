@@ -215,6 +215,11 @@ onMounted(() => {
     });
 });
 
+onUnmounted(() => {
+    emit.off("changeStatusConfirm");
+    emit.off("deleteConfirm");
+});
+
 
 
  watch(form, debounce(() => {

@@ -91,7 +91,7 @@
 
 <script setup>
 import { router, useForm,usePage } from '@inertiajs/vue3'
-import { ref, onMounted, reactive, watch } from 'vue';
+import { ref, onMounted, reactive, watch,onUnmounted } from 'vue';
 import Datepicker from '@/components/Datepicker.vue'
 import ListHelper from '@/helpers/ListHelper';
 import {debounce,throttle,pickBy} from "lodash";
@@ -131,6 +131,11 @@ onMounted(() => {
     });
 });
 
+
+onUnmounted(() => {
+    emit.off("changeStatusConfirm");
+    emit.off("deleteConfirm");
+});
 
 
 const deleteRecode = (id) => {

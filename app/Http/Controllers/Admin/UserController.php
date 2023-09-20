@@ -49,9 +49,9 @@ class UserController extends Controller
       if(request()->isMethod('post')){
       
        request()->validate([
-          'first_name' => 'required',
-          'last_name' => 'required',
-          'email' => 'required|email|unique:users,email',
+          'first_name' => 'required|max:40',
+          'last_name' => 'required|max:40',
+          'email' => 'required|email:rfc,dns|unique:users,email',
           'password' => 'required|min:6',
           'phone' => 'required',
           'dob' => 'required|before:before:5 years ago',
@@ -89,9 +89,9 @@ class UserController extends Controller
       if(request()->isMethod('post')){
 
         $credentials = request()->validate([
-          'first_name' => 'required',
-          'last_name' => 'required',
-          'email' =>  'required|email|unique:users,email,'.$user->id,
+          'first_name' => 'required|max:40',
+          'last_name' => 'required|max:40',
+          'email' =>  'required|email:rfc,dns|unique:users,email,'.$user->id,
           'phone' => 'required|unique:users,phone,'.$user->id,
           'dob' => 'required|before:before:5 years ago',
           'status' => 'required',
