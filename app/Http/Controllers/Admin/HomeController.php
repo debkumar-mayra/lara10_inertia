@@ -100,8 +100,10 @@ class HomeController extends Controller
             'old_password' => 'required',
             'new_password' => 'required|min:6',
             'confirm_password' => 'required|same:new_password',
+          ],
+          [
+            'confirm_password.same'=> 'New password & confirm password must be same'
           ]);
-          // dd(request()->all());
   
 
           $user = auth()->user();

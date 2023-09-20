@@ -93,9 +93,10 @@ const {setting,errors} = defineProps({
    setting:Object,
 })
 
-const imageUrl = ref(null);
 onMounted(()=>{
-    imageUrl.value = setting.logo;
+    emit.emit("pageName", "Settings Management", [
+        { title: "Settings", routeName: "" },
+    ]);
 })
    
 
