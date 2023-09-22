@@ -237,7 +237,9 @@ const deleteRecode = (id) => {
 }
 
 const deleteConfirm = (id) => {
-    router.delete(route('admin.userDelete',id));
+    router.delete(route('admin.userDelete',id), {
+        preserveScroll: true,
+    });
 } 
 
 const changeStatus = (id) => {
@@ -245,7 +247,9 @@ const changeStatus = (id) => {
 }
 
 const changeStatusConfirm = (id) => {
-    router.post(route('admin.changeUserStatus',id))
+    router.post(route('admin.changeUserStatus',id), {
+        preserveScroll: true,
+    })
 }
 
 

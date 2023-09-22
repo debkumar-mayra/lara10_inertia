@@ -34,7 +34,6 @@ Route::match(['get','post'],'login', [HomeController::class,'index'])->name('adm
 
     // setting module
     Route::any('setting', [SiteSettingController::class,'setting'])->name('setting'); 
-    Route::any('chunked-upload', [SiteSettingController::class,'chunkedUpload'])->name('chunkedUpload'); 
 
 
 });

@@ -3,10 +3,12 @@
             
             
             <div class="row">
-                <div class="col-sm-12 col-md-6">
-                     <slot name="perpage">
+                <div class="col-sm-12 col-md-6 d-flex flex-row">
+                       <div class="dataTables_length" id="kt_table_1_length">
+                        <slot name="perpage">
+                        </slot>
+                       </div>
                        <perPageDropdown/>
-                     </slot>
                 </div>
                 <div class="col-sm-12 col-md-6">
                     <div id="kt_table_1_filter" class="dataTables_filter">

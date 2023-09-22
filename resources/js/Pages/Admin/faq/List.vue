@@ -4,12 +4,22 @@
 
         <Table :ListData="faqs">
 
+             <template #perpage>
+                <Icon v-if="selectedId.length" @click="multipleDelete" icon="material-symbols:delete" color="red" width="30" height="30" style="cursor: pointer; margin-right:10px;"/>
+                <!-- <button class="btn-danger" v-if="selectedId.length" @click="multipleDelete"><Icon icon="material-symbols:delete" color="white" width="30" height="30" /></button> -->
+             </template>
+
             <template #TableButton>
                 <Link href="/admin/faq/create" class="btn btn-button kt-btn btn-sm kt-btn--icon button-fx">+ Add New</Link>
             </template>
 
             <template #TableHead>
-                <TableTh @click="ListHelper.sortBy('question')">Question</TableTh>
+                <TableTh @click="ListHelper.sortBy('question')">
+                <!-- <TableTh > -->
+                            <input class="mr-2" type="checkbox" @click.stop="checkedAll = !checkedAll"/>
+                           
+                     
+                    Question</TableTh>
                 <TableTh @click="ListHelper.sortBy('answer')">Answer</TableTh>
                 <TableTh @click="ListHelper.sortBy('created_at')">Created at</TableTh>
                 <TableTh :sorting=false>Status</TableTh>
@@ -50,6 +60,7 @@
 
                 <tr role="row" class="odd" v-for="faq in faqs.data" :key="faq.id" >
                                 <td class="sorting_1" tabindex="0">
+                                    <input type="checkbox" class="kt-checkbox" v-model="selectedId" :value="faq.id" />
                                     {{faq.question.substring(0,200)+".."}}
                                 </td>
                                 <td>{{ faq.answer?.substring(0,210)+".." }}</td>
@@ -100,6 +111,8 @@ import TableTh from '@/components/admin/TableTh.vue';
 
 
 
+
+
 const {faqs,filters} = defineProps({ faqs: Object, filters: Object});
 
 const form = reactive({
@@ -144,6 +157,8 @@ const deleteRecode = (id) => {
 
 const deleteConfirm = (id) => {
     router.delete(`/admin/faq/${id}`);
+    selectedId.value =[];
+
 }
 
 
@@ -155,6 +170,23 @@ const changeStatusConfirm = (id) => {
     router.post(route('admin.faq.changeFaqStatus',id))
 }
 
+const selectedId = ref([]);
+const checkedAll = ref(false);
+
+watch(checkedAll, (newVal)=>{
+    selectedId.value = [];
+    if(newVal){
+        faqs.data.map((item)=>{
+            selectedId.value.push(item.id);
+        })
+    }
+
+    
+});
+
+const multipleDelete = () =>{
+    deleteRecode(selectedId.value);
+}
 
 
 </script>

@@ -124,7 +124,8 @@ class FaqController extends Controller
     public function destroy($id)
     {
         try {
-            Faq::where('id',$id)->delete();
+            $id = explode(',',$id);
+            Faq::whereIn('id',$id)->delete();
             session()->flash('success', 'FAQ deleted successfully');
             return back();
 
