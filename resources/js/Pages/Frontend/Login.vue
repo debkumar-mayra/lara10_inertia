@@ -24,8 +24,19 @@
 
                 </form>
 
-                <GoogleLogin/>
-                
+                <!-- <GoogleLogin/> -->
+
+              <div class="d-flex">
+                <a href="/auth/google">
+                    <img src="https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png" style="margin-left: 10px; width: 160px;height: 39px;">
+                </a>
+
+                <a href="/auth/facebook">
+                <img src="https://i.stack.imgur.com/YgWxV.png" style="margin-left: 10px; width: 160px;height: 39px;" >
+                </a>
+               </div>
+
+
                 </div>
 
 
