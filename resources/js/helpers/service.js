@@ -5,7 +5,7 @@ const token = null;
 
 class Service{
 
-    async getData (endPoint = '', params = {}, is_token = true) {
+    async getData (endPoint = '', params = {}) {
         try{
             let url = endPoint;
                
@@ -30,7 +30,7 @@ class Service{
     }
 
 
-   async postData (endPoint = '', params = {}, is_token = true) {
+   async postData (endPoint = '', params = {}) {
         try{
             let url = endPoint;
                 var options = {
