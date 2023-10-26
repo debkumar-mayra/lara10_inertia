@@ -10,7 +10,7 @@
              </template>
 
             <template #TableButton>
-                <Link :href="route('admin..faq.create')" class="btn btn-button kt-btn btn-sm kt-btn--icon button-fx">+ Add New</Link>
+                <Link :href="route('admin.faq.create')" class="btn btn-button kt-btn btn-sm kt-btn--icon button-fx">+ Add New</Link>
             </template>
 
             <template #TableHead>

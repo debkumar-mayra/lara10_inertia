@@ -75,10 +75,8 @@
 <script setup>
 import { onMounted, reactive,ref } from 'vue'
 import { useForm,router } from '@inertiajs/vue3'
-import FileUpload from '../../../components/FileUpload.vue'
 import Datepicker from '../../../components/Datepicker.vue'
 import SubmitButton from '../../../components/SubmitButton.vue'
-import FileInput from '../../../components/FileInput.vue'
 import TextInput from '../../../components/admin/TextInput.vue'
 import FilePond from '../../../components/FilePond.vue'
 
