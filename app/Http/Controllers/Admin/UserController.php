@@ -54,7 +54,7 @@ class UserController extends Controller
           'email' => 'required|email:rfc,dns|unique:users,email',
           'password' => 'required|min:6',
           'phone' => 'required',
-          'dob' => 'required|before:before:5 years ago',
+          'dob' => 'required|before:5 years ago',
           'profile_photo' => 'required',
           'status' => 'required',
         ]);
@@ -93,7 +93,7 @@ class UserController extends Controller
           'last_name' => 'required|max:40',
           'email' =>  'required|email:rfc,dns|unique:users,email,'.$user->id,
           'phone' => 'required|unique:users,phone,'.$user->id,
-          'dob' => 'required|before:before:5 years ago',
+          'dob' => 'required|before:5 years ago',
           'status' => 'required',
         ]);
 
