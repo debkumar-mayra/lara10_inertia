@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Request;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Validation\Rules\Password;
 
 
 class UserController extends Controller
@@ -52,7 +53,11 @@ class UserController extends Controller
           'first_name' => 'required|max:40',
           'last_name' => 'required|max:40',
           'email' => 'required|email:rfc,dns|unique:users,email',
-          'password' => 'required|min:6',
+          'password' => ['required','string',Password::min(8)
+          ->mixedCase()
+          ->numbers()
+          ->symbols()
+          ->uncompromised()],
           'phone' => 'required',
           'dob' => 'required|before:before:5 years ago',
           'profile_photo' => 'required',
