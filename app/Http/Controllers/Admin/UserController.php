@@ -58,7 +58,7 @@ class UserController extends Controller
           ->numbers()
           ->symbols()
           ->uncompromised()],
-          'phone' => 'required',
+          'phone' => 'required|numeric',
           'dob' => 'required|before:before:5 years ago',
           'profile_photo' => 'required',
           'status' => 'required',
