@@ -98,7 +98,7 @@ class UserController extends Controller
           'last_name' => 'required|max:40',
           'email' =>  'required|email:rfc,dns|unique:users,email,'.$user->id,
           'phone' => 'required|unique:users,phone,'.$user->id,
-          'dob' => 'required|before:before:5 years ago',
+          'dob' => 'required|before:5 years ago',
           'status' => 'required',
         ]);
 

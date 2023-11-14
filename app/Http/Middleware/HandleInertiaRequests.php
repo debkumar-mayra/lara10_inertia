@@ -1,9 +1,6 @@
 <?php
 
 namespace App\Http\Middleware;
-
-use Throwable;
-use Inertia\Inertia;
 use Inertia\Middleware;
 use App\Models\SiteSetting;
 use Illuminate\Http\Request;
@@ -32,29 +29,6 @@ class HandleInertiaRequests extends Middleware
 
         // Inertia::version(fn () => $version); /
     }
-
-
-// public function render($request, Throwable $e)
-// {
-//     $response = parent::render($request, $e);
-
-//     if (! app()->environment(['local', 'testing']) && in_array($response->status(), [500, 503, 404, 403])) {
-
-//         // return back()->with([
-//         //     'error' => 'The page expired, please try again.',
-//         // ]);
-
-//         // return Inertia::render('Error', ['status' => $response->status()])
-//         //     ->toResponse($request)
-//         //     ->setStatusCode($response->status());
-//     } elseif ($response->status() === 419) {
-//         return back()->with([
-//             'error' => 'The page expired, please try again.',
-//         ]);
-//     }
-
-//     return $response;
-// }
 
     /**
      * Defines the props that are shared by default.
