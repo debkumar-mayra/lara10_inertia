@@ -76,7 +76,7 @@ class CommonController extends Controller
 
         }
 
-        return inertia('Common/OtpValidation')->with('email',session()->get('forgot_password_email'));
+        return inertia('common/OtpValidation')->with('email',session()->get('forgot_password_email'));
     }
 
 
