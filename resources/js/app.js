@@ -1,6 +1,6 @@
 import "./bootstrap";
 import { createSSRApp, h } from "vue";
-import { createInertiaApp, Link, Head, usePage } from "@inertiajs/vue3";
+import { createInertiaApp, Link, Head, usePage, router } from "@inertiajs/vue3";
 // import { createPinia } from 'pinia';
 
 import PerfectScrollbar from "vue3-perfect-scrollbar";
@@ -44,6 +44,23 @@ import { Icon } from "@iconify/vue"; // https://iconify.design/docs/icon-compone
 import GoogleSignInPlugin from "vue3-google-signin";
 
 const myPlugin = ["PerfectScrollbar"];
+
+router.on("finish", () => {
+    if (usePage().props.flash.success) {
+        toaster.success(usePage().props.flash.success);
+    }
+
+    if (usePage().props.flash.error) {
+        toaster.error(usePage().props.flash.error);
+    }
+    if (usePage().props.flash.warning) {
+        toaster.warning(usePage().props.flash.warning);
+    }
+
+    if (usePage().props.flash.info) {
+        toaster.info(usePage().props.flash.info);
+    }
+});
 
 createInertiaApp({
     // progress: {

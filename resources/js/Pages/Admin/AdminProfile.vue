@@ -106,16 +106,16 @@ import SubmitButton from "../../components/SubmitButton.vue";
 import FilePond from "../../components/FilePond.vue";
 import AdminChangePassword from "./AdminChangePassword.vue";
 
+const props = defineProps({
+    errors: Object,
+    user: Object,
+});
+
 const form = useForm({
     first_name: props.user?.first_name || null,
     last_name: props.user?.last_name || null,
     email: props.user?.email || null,
     profile_photo: null,
-});
-
-const props = defineProps({
-    errors: Object,
-    user: Object,
 });
 
 onMounted(() => {

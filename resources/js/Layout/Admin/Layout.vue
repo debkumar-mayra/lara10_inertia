@@ -118,24 +118,6 @@ router.on("start", () => {
 
 router.on("finish", () => {
     isLoading.value = false;
-    if (usePage().props.flash.success) {
-        toaster.success(usePage().props.flash.success);
-    }
-
-    if (usePage().props.flash.error) {
-        toaster.error(usePage().props.flash.error);
-    }
-    if (usePage().props.flash.warning) {
-        toaster.warning(usePage().props.flash.warning);
-    }
-
-    if (usePage().props.flash.info) {
-        toaster.info(usePage().props.flash.info);
-    }
-});
-
-const flash = computed(() => {
-    return usePage().props.flash;
 });
 
 const mainColor = computed(() => usePage().props.theme.mainColor);
