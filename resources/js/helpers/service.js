@@ -44,7 +44,7 @@ class Service{
                 };
                      
             let response = await axios(options);
-            return await response.data;
+            return response.data;
 
         } catch (error) {
             console.log(error);
